@@ -28,6 +28,35 @@ interface HistoryState {
   activityId: string | null;
 }
 
+// 輔助函式：自多種 URL 參數形式精準比對活動 (支援 notion-act-01、act-01、純數字編號或活動標題)
+function findActivityByParam(list: Activity[], param: string | null): Activity | null {
+  if (!param) return null;
+  const cleanParam = decodeURIComponent(param).trim().toLowerCase();
+  
+  // 1. 完全比對 ID
+  let found = list.find((a) => a.id.toLowerCase() === cleanParam);
+  if (found) return found;
+
+  // 2. 去除 activity- 或 notion- 前綴後比對
+  const strippedParam = cleanParam.replace(/^(activity-|notion-)/, '');
+  found = list.find((a) => a.id.toLowerCase().replace(/^(activity-|notion-)/, '') === strippedParam);
+  if (found) return found;
+
+  // 3. 提取數字編號 (例如 "1", "01" 對應 "notion-act-01")
+  const num = parseInt(cleanParam.replace(/\D/g, ''), 10);
+  if (!isNaN(num)) {
+    found = list.find((a) => {
+      const aNum = parseInt(a.id.replace(/\D/g, ''), 10);
+      return aNum === num;
+    });
+    if (found) return found;
+  }
+
+  // 4. 比對標題
+  found = list.find((a) => a.title.toLowerCase() === cleanParam);
+  return found || null;
+}
+
 export default function App() {
   // 活動資料庫狀態：以 NOTION_ACTIVITIES（30 項真實教案）為唯一真實來源，徹底清除舊版快取
   const [activities] = useState<Activity[]>(() => {
@@ -42,13 +71,28 @@ export default function App() {
     return NOTION_ACTIVITIES;
   });
 
-  // 從目前 URL Hash 或預設值解析初始視圖與活動
+  // 從目前 URL (Hash 或 Search Query) 解析初始視圖與欲開啟的活動
   const getInitialRoute = (): { initialView: AppView; initialActId: string | null } => {
     if (typeof window === 'undefined') return { initialView: 'home', initialActId: null };
+
+    // 支援 query 參數: ?activity=... 或 ?act=...
+    try {
+      const searchParams = new URLSearchParams(window.location.search);
+      const queryAct = searchParams.get('activity') || searchParams.get('act');
+      if (queryAct) {
+        return { initialView: 'activities', initialActId: queryAct };
+      }
+    } catch {
+      // ignore
+    }
+
     const hash = window.location.hash.replace(/^#\/?/, '');
     if (hash.startsWith('activity-')) {
       const actId = hash.replace('activity-', '');
       return { initialView: 'activities', initialActId: actId };
+    }
+    if (hash.startsWith('notion-act-')) {
+      return { initialView: 'activities', initialActId: hash };
     }
     if (['home', 'inquiry', 'materials', 'activities', 'about'].includes(hash)) {
       return { initialView: hash as AppView, initialActId: null };
@@ -67,10 +111,10 @@ export default function App() {
   // 首頁搜尋欄傳入的即時搜尋關鍵字
   const [homeSearchQuery, setHomeSearchQuery] = useState('');
 
-  // 當前正在檢視詳情的活動
+  // 當前正在檢視詳情的活動 (若有初始活動連結則立即打開)
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(() => {
     if (!initialActId) return null;
-    return activities.find((a) => a.id === initialActId) || null;
+    return findActivityByParam(activities, initialActId);
   });
 
   // 提示 Toast
@@ -83,7 +127,7 @@ export default function App() {
     }, 2400);
   };
 
-  // 4. 瀏覽器上一頁 / 下一頁 (popstate) 支援：確保各裝置返回上一動作時完全同步
+  // 4. 瀏覽器上一頁 / 下一頁 (popstate & hashchange) 支援：確保外部連結或返回上一動作時完全同步
   useEffect(() => {
     // 首次載入時寫入基準 state
     const currentHash = window.location.hash || `#${currentView}`;
@@ -93,27 +137,44 @@ export default function App() {
       currentHash
     );
 
-    const handlePopState = (e: PopStateEvent) => {
-      const state = e.state as HistoryState | null;
+    const handleRouteSync = (e?: PopStateEvent) => {
+      const state = e?.state as HistoryState | null;
       const hash = window.location.hash.replace(/^#\/?/, '');
 
       let targetView: AppView = 'home';
       let targetActId: string | null = null;
 
-      if (state && state.view) {
-        targetView = state.view;
-        targetActId = state.activityId || null;
-      } else if (hash.startsWith('activity-')) {
-        targetActId = hash.replace('activity-', '');
-        targetView = 'activities';
-      } else if (['home', 'inquiry', 'materials', 'activities', 'about'].includes(hash)) {
-        targetView = hash as AppView;
+      // 優先檢查 query 參數
+      try {
+        const searchParams = new URLSearchParams(window.location.search);
+        const queryAct = searchParams.get('activity') || searchParams.get('act');
+        if (queryAct) {
+          targetActId = queryAct;
+          targetView = 'activities';
+        }
+      } catch {
+        // ignore
+      }
+
+      if (!targetActId) {
+        if (state && state.view) {
+          targetView = state.view;
+          targetActId = state.activityId || null;
+        } else if (hash.startsWith('activity-')) {
+          targetActId = hash.replace('activity-', '');
+          targetView = 'activities';
+        } else if (hash.startsWith('notion-act-')) {
+          targetActId = hash;
+          targetView = 'activities';
+        } else if (['home', 'inquiry', 'materials', 'activities', 'about'].includes(hash)) {
+          targetView = hash as AppView;
+        }
       }
 
       setCurrentView(targetView);
 
       if (targetActId) {
-        const found = activities.find((a) => a.id === targetActId);
+        const found = findActivityByParam(activities, targetActId);
         setSelectedActivity(found || null);
       } else {
         setSelectedActivity(null);
@@ -123,8 +184,12 @@ export default function App() {
       setIsSidebarOpen(false);
     };
 
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    window.addEventListener('popstate', handleRouteSync);
+    window.addEventListener('hashchange', () => handleRouteSync());
+    return () => {
+      window.removeEventListener('popstate', handleRouteSync);
+      window.removeEventListener('hashchange', () => handleRouteSync());
+    };
   }, [activities, currentView, selectedActivity]);
 
   // 頁面導航切換函式 (推入瀏覽器歷史，保留上一動作)
@@ -579,6 +644,7 @@ export default function App() {
         onNext={handleNextActivity}
         hasPrevious={hasPrevious}
         hasNext={hasNext}
+        onToast={showToast}
       />
 
       {/* 全域輕量 Toast 提示訊息 */}

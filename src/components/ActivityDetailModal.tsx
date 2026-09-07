@@ -9,7 +9,6 @@ import {
   Box, 
   ChevronLeft, 
   ChevronRight, 
-  Copy, 
   Check, 
   Share2,
   Flame,
@@ -19,6 +18,8 @@ import {
 } from 'lucide-react';
 import { Activity } from '../types';
 import { CATEGORY_THEMES } from '../data/activities';
+import { ImagePlaceholder } from './ImagePlaceholder';
+import { getAssetUrl } from '../utils/assets';
 
 interface ActivityDetailModalProps {
   activity: Activity | null;
@@ -28,6 +29,7 @@ interface ActivityDetailModalProps {
   onNext?: () => void;
   hasPrevious?: boolean;
   hasNext?: boolean;
+  onToast?: (message: string) => void;
 }
 
 function renderGameplayContent(gameplay?: string, steps?: Activity['steps']) {
@@ -227,8 +229,9 @@ export const ActivityDetailModal: React.FC<ActivityDetailModalProps> = ({
   onNext,
   hasPrevious = false,
   hasNext = false,
+  onToast,
 }) => {
-  const [copied, setCopied] = React.useState(false);
+  const [linkCopied, setLinkCopied] = React.useState(false);
 
   // 鍵盤監聽（Esc 關閉、左右方向鍵切換前後活動）
   useEffect(() => {
@@ -251,19 +254,53 @@ export const ActivityDetailModal: React.FC<ActivityDetailModalProps> = ({
     accent: '#4A443B',
   };
 
-  // 複製活動步驟與說明至剪貼簿
-  const handleCopyContent = () => {
-    const gameplayText = activity.gameplay || activity.steps.map((s) => `${s.stepNumber}. ${s.title}: ${s.description}`).join('\n');
-    const notesText = activity.notes ? `\n\n[備註與變形玩法]\n${activity.notes}` : '';
-    const questionsText = (activity.reflectionQuestions && activity.reflectionQuestions.length > 0)
-      ? `\n\n[延伸思考]\n${activity.reflectionQuestions.map((q, i) => `${i + 1}、${q}`).join('\n')}`
-      : '';
+  const actNum = parseInt(activity.id.replace(/\D/g, ''), 10) || 1;
+  const friendlyFilename = `activity-${actNum}.jpg`;
+  const reservedImgPath = getAssetUrl(activity.coverImage || `assets/activities/${friendlyFilename}`);
 
-    const fullText = `【${activity.title}】\n類別：${activity.category} | 一句話亮點：${activity.summary}\n人數：${activity.groupSize} | 強度：${activity.intensity} | 深度：${activity.depth} | 時間：${activity.duration}\n\n[必備材料與道具]\n${activity.materials.join('、')}\n\n[進行方式]\n${gameplayText}${notesText}${questionsText}`;
+  // 分享活動：複製該活動的直接跳轉連結至剪貼簿
+  const handleShareActivity = async () => {
+    let shareUrl = '';
+    try {
+      const url = new URL(window.location.href);
+      url.hash = `activity-${activity.id}`;
+      shareUrl = `${url.origin}${url.pathname}${url.hash}`;
+    } catch (e) {
+      shareUrl = `${window.location.origin}${window.location.pathname}#activity-${activity.id}`;
+    }
 
-    navigator.clipboard.writeText(fullText);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2200);
+    let success = false;
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        success = true;
+      } catch (err) {
+        success = false;
+      }
+    }
+
+    if (!success) {
+      try {
+        const textArea = document.createElement('textarea');
+        textArea.value = shareUrl;
+        textArea.style.position = 'fixed';
+        textArea.style.opacity = '0';
+        textArea.style.left = '-9999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        success = document.execCommand('copy');
+        textArea.remove();
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    setLinkCopied(true);
+    if (onToast) {
+      onToast('已複製活動分享連結！其他人點選即可直達此活動。');
+    }
+    setTimeout(() => setLinkCopied(false), 2400);
   };
 
   return (
@@ -316,15 +353,28 @@ export const ActivityDetailModal: React.FC<ActivityDetailModalProps> = ({
               </button>
             </div>
 
-            {/* 複製活動內容 */}
+            {/* 分享活動 (點選複製專屬連結) */}
             <button
               type="button"
-              onClick={handleCopyContent}
-              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-[#E2DDD5] bg-[#FAF8F5] hover:bg-[#F3EFEA] text-xs font-medium text-[#4A443B] transition-colors"
-              title="複製完整教案文字"
+              onClick={handleShareActivity}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold transition-all duration-200 cursor-pointer shadow-2xs ${
+                linkCopied
+                  ? 'border-emerald-400 bg-emerald-50 text-emerald-700 ring-2 ring-emerald-400/20'
+                  : 'border-[#E2DDD5] bg-[#FAF8F5] hover:bg-[#F3EFEA] text-[#3D3830] active:scale-95'
+              }`}
+              title="複製活動專屬連結以分享給他人"
             >
-              {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-              <span className="hidden sm:inline">{copied ? '已複製' : '複製教案'}</span>
+              {linkCopied ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-600 animate-in zoom-in-50 duration-150" />
+                  <span>已複製連結</span>
+                </>
+              ) : (
+                <>
+                  <Share2 className="w-3.5 h-3.5 text-[#E07A5F]" />
+                  <span>分享活動</span>
+                </>
+              )}
             </button>
 
             {/* 關閉按鈕 */}
@@ -332,7 +382,7 @@ export const ActivityDetailModal: React.FC<ActivityDetailModalProps> = ({
               type="button"
               aria-label="關閉視窗"
               onClick={onClose}
-              className="p-1.5 sm:p-2 rounded-lg bg-[#FAF8F5] hover:bg-[#F3EFEA] text-[#736E65] border border-[#E2DDD5] transition-colors"
+              className="p-1.5 sm:p-2 rounded-lg bg-[#FAF8F5] hover:bg-[#F3EFEA] text-[#736E65] border border-[#E2DDD5] transition-colors cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
@@ -342,7 +392,28 @@ export const ActivityDetailModal: React.FC<ActivityDetailModalProps> = ({
         {/* 滾動內容本體 */}
         <div className="overflow-y-auto p-5 sm:p-8 space-y-6 sm:space-y-7 flex-1">
           
-          {/* 標題與一句話簡介 (內頁不展示封面圖片，無須上下引號) */}
+          {/* 活動封面預覽縮圖 / 示意圖 */}
+          <div className="relative w-full aspect-16/9 sm:aspect-21/9 rounded-2xl overflow-hidden border border-[#EAE6DF] bg-[#EFECE6] shadow-xs">
+            <ImagePlaceholder
+              src={reservedImgPath}
+              alt={activity.title}
+              aspectRatio="auto"
+              className="w-full h-full object-cover"
+              reservedFilename={friendlyFilename}
+              hint={`支援 activity-${actNum}.jpg 或 activity-notion-act-${String(actNum).padStart(2, '0')}.jpg`}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent pointer-events-none" />
+
+            {/* 右下角時間標籤 */}
+            <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 flex items-center gap-2 pointer-events-none">
+              <span className="text-white text-xs font-medium px-2.5 py-1 rounded-full bg-black/45 backdrop-blur-md border border-white/20 flex items-center gap-1 shadow-xs">
+                <Clock className="w-3 h-3 text-[#E07A5F]" />
+                <span>{activity.duration}</span>
+              </span>
+            </div>
+          </div>
+
+          {/* 標題與一句話簡介 */}
           <div className="space-y-2.5">
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#1F2421] tracking-tight">
               {activity.title}
