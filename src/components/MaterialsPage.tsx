@@ -5,7 +5,6 @@ import {
   Search, 
   Sparkles, 
   Layers, 
-  ShieldCheck, 
   Compass, 
   ExternalLink,
   BookOpen,
@@ -182,35 +181,6 @@ export const MaterialsPage: React.FC<MaterialsPageProps> = ({
             </div>
           </div>
         ))}
-      </div>
-
-      {/* 媒材心理特質概念小指南 */}
-      <div className="rounded-3xl bg-[#FAF8F5] border border-[#E2DDD5] p-6 sm:p-8 space-y-4">
-        <h3 className="font-serif font-bold text-lg text-[#1F2421] flex items-center gap-2">
-          <ShieldCheck className="w-5 h-5 text-[#4D6A56]" />
-          帶領者媒材安全光譜與選擇心法
-        </h3>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-[#5C554B]">
-          <div className="p-4 rounded-2xl bg-white border border-[#EAE6DF] space-y-1.5">
-            <span className="font-bold text-[#1F2421]">1. 高控制度媒材（安全、防衛）</span>
-            <p className="leading-relaxed text-[#7A7368]">
-              如色筆、彩色原子筆、剪刀雜誌。適合剛開始建立信任感的團體，能給予安全邊界與預測感，不易引發失控焦慮。
-            </p>
-          </div>
-          <div className="p-4 rounded-2xl bg-white border border-[#EAE6DF] space-y-1.5">
-            <span className="font-bold text-[#1F2421]">2. 立體與重塑媒材（觸覺、整合）</span>
-            <p className="leading-relaxed text-[#7A7368]">
-              如輕黏土、軟陶、毛根。能透過雙手揉捏提供本體感覺回饋，讓內在模糊感受具象化、立體化與賦形。
-            </p>
-          </div>
-          <div className="p-4 rounded-2xl bg-white border border-[#EAE6DF] space-y-1.5">
-            <span className="font-bold text-[#1F2421]">3. 高流動性媒材（宣洩、突破）</span>
-            <p className="leading-relaxed text-[#7A7368]">
-              如水彩、手指膏、撕撕報紙。適合已有高度信任感的團體，能促進情感宣洩與自由流動，突破僵化思維。
-            </p>
-          </div>
-        </div>
       </div>
 
     </div>

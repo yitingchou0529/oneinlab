@@ -227,7 +227,7 @@ export const SidebarDrawer: React.FC<SidebarDrawerProps> = ({
                             <span>藝術媒材表</span>
                           </div>
                           <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#FAF8F5] text-[#8A847A] border border-[#E8E4DC]">
-                            6大媒材
+                            12項媒材
                           </span>
                         </button>
 
