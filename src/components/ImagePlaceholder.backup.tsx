@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { Palette, Sparkles } from 'lucide-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Image as ImageIcon, Sparkles } from 'lucide-react';
 import { getAssetUrl } from '../utils/assets';
 
 interface ImagePlaceholderProps {
@@ -10,7 +10,6 @@ interface ImagePlaceholderProps {
   reservedFilename: string;
   hint?: string;
   overlayBadge?: string;
-  priority?: boolean; // 是否為首屏優先載入
 }
 
 export const ImagePlaceholder: React.FC<ImagePlaceholderProps> = ({
@@ -19,10 +18,10 @@ export const ImagePlaceholder: React.FC<ImagePlaceholderProps> = ({
   className = '',
   aspectRatio = 'auto',
   reservedFilename,
+  hint,
   overlayBadge,
-  priority = false,
 }) => {
-  // 自動解析精準與備用候選路徑
+  // 自動解析多重候選路徑（支援放置在 /public/assets/ 或 /public/assets/activities/，並支援 GitHub Pages 子路徑相容）
   const candidateUrls = useMemo(() => {
     const urls: string[] = [];
     const add = (u?: string) => {
@@ -37,19 +36,22 @@ export const ImagePlaceholder: React.FC<ImagePlaceholderProps> = ({
       if (!urls.includes(resolved)) urls.push(resolved);
     };
 
-    // 解析活動編號，精準優先指向已存在的 /assets/activities/activity-{num}.jpg
+    // 解析活動編號，如 notion-act-01、activity-1 等，優先加入最常用的標準路徑
     const match = (src || reservedFilename || '').match(/(?:notion-act-|activity-)(\d+)/i);
     if (match) {
       const num = parseInt(match[1], 10);
       const padded = String(num).padStart(2, '0');
 
-      // 1. 實際現存標準路徑（最優先）
+      // 優先依序嘗試目前資料夾中最常見的命名方式
       add(`assets/activities/activity-${num}.jpg`);
-      // 2. 次要備援
-      add(`assets/activities/activity-${num}.jpg.jpg`);
       add(`assets/activities/activity-notion-act-${padded}.jpg`);
+      add(`assets/activities/activity-${num}.jpg.jpg`);
       add(`assets/activities/activity-${padded}.jpg`);
       add(`assets/activity-${num}.jpg`);
+      add(`assets/activity-${num}.jpg.jpg`);
+      add(`assets/activity-notion-act-${padded}.jpg`);
+      add(`assets/activities/activity-${num}.png`);
+      add(`assets/activities/activity-${num}.webp`);
     }
 
     if (src) add(src);
@@ -61,7 +63,7 @@ export const ImagePlaceholder: React.FC<ImagePlaceholderProps> = ({
   const [currentUrlIndex, setCurrentUrlIndex] = useState(0);
   const [hasError, setHasError] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const imgRef = useRef<HTMLImageElement>(null);
+  const imgRef = React.useRef<HTMLImageElement>(null);
 
   // 當 src 變更時重設狀態
   useEffect(() => {
@@ -72,7 +74,7 @@ export const ImagePlaceholder: React.FC<ImagePlaceholderProps> = ({
 
   const currentUrl = candidateUrls[currentUrlIndex] || src;
 
-  // 針對已存在快取中的圖片立即觸發完成狀態（避免任何可察覺延遲）
+  // 檢查快取已完成載入的圖片 (特別是預覽 iframe 環境中防止 onLoad 未及時觸發)
   useEffect(() => {
     if (imgRef.current && imgRef.current.complete && imgRef.current.naturalWidth > 0) {
       setIsLoaded(true);
@@ -102,50 +104,47 @@ export const ImagePlaceholder: React.FC<ImagePlaceholderProps> = ({
   }[aspectRatio];
 
   return (
-    <div className={`relative overflow-hidden bg-[#EFECE6] select-none ${ratioClass} ${className}`}>
-      {/* 1. 圖片下載中：優雅呼吸骨架屏（完全無任何提示詞，提供純淨平滑過渡） */}
-      {!isLoaded && !hasError && (
-        <div className="absolute inset-0 bg-[#EDEAE3] animate-pulse flex items-center justify-center pointer-events-none z-1">
-          <div className="w-10 h-10 rounded-xl bg-[#E2DDD5]/60 flex items-center justify-center text-[#9E978C]/50">
-            <Palette className="w-5 h-5 opacity-40" />
-          </div>
-        </div>
-      )}
-
-      {/* 2. 真實圖片本體：支援原生懶加載與非同步解碼，載入完成後平滑淡入 */}
+    <div className={`relative overflow-hidden bg-[#EFECE6] ${ratioClass} ${className}`}>
+      {/* 嘗試載入圖片（自動依序嘗試多種可能放置路徑） */}
       {!hasError && currentUrl && (
         <img
           ref={imgRef}
           key={currentUrl}
           src={currentUrl}
           alt={alt}
-          loading={priority ? 'eager' : 'lazy'}
-          decoding="async"
           onLoad={handleImageLoad}
           onError={handleImageError}
-          className={`w-full h-full object-cover transition-opacity duration-300 ${
-            isLoaded ? 'opacity-100' : 'opacity-0'
+          className={`w-full h-full object-cover transition-opacity duration-500 ${
+            isLoaded ? 'opacity-100' : 'opacity-0 absolute inset-0 pointer-events-none'
           }`}
         />
       )}
 
-      {/* 3. 圖片全部載入失敗時：展現質感品牌幾何卡片，不暴露技術路徑或提示詞 */}
-      {hasError && (
-        <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center bg-gradient-to-br from-[#FAF8F5] to-[#EAE6DF] text-[#7A7368]">
-          <div className="w-9 h-9 rounded-xl bg-white/80 border border-[#E2DDD5] flex items-center justify-center text-[#8A847A] shadow-2xs mb-1.5">
-            <Sparkles className="w-4 h-4 text-[#D4A373]" />
+      {/* 當圖片尚未上傳或載入失敗時，顯示優雅預留檔名佔位設計 */}
+      {(!isLoaded || hasError) && (
+        <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center border-2 border-dashed border-[#D5CFC5] rounded-inherit bg-gradient-to-br from-[#FAF8F5] via-[#F3EFEA] to-[#EAE6DF] select-none">
+          <div className="w-12 h-12 rounded-2xl bg-white/80 border border-[#E2DDD5] flex items-center justify-center text-[#8A847A] shadow-2xs mb-2.5">
+            <ImageIcon className="w-6 h-6 text-[#A39D93]" />
           </div>
-          <span className="text-xs font-serif font-bold text-[#1F2421] tracking-wide line-clamp-1">
-            {alt || '玩藝所活動'}
-          </span>
-          <span className="text-[10px] text-[#9E978C] mt-0.5 font-medium">以玩入心・活動教案</span>
-        </div>
-      )}
 
-      {/* 浮水印／分類徽章 */}
-      {overlayBadge && (
-        <div className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-full bg-[#1F2421]/75 backdrop-blur-xs text-[11px] font-medium text-white shadow-xs pointer-events-none">
-          {overlayBadge}
+          <span className="text-xs font-semibold text-[#5C554B] tracking-wide flex items-center gap-1">
+            <Sparkles className="w-3 h-3 text-[#E07A5F]" />
+            預留圖片位置
+          </span>
+
+          <div className="mt-1 px-2.5 py-1 rounded-md bg-white/70 border border-[#E2DDD5] text-[11px] font-mono text-[#736E65] max-w-full truncate">
+            建議檔名：<span className="text-[#1F2421] font-medium">{reservedFilename}</span>
+          </div>
+
+          <p className="text-[10px] text-[#8A847A] mt-1">
+            {hint || '支援直接放在 /public/assets/ 命名為 activity-{編號}.jpg'}
+          </p>
+
+          {overlayBadge && (
+            <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-[#1F2421]/75 backdrop-blur-xs text-[11px] font-medium text-white shadow-xs">
+              {overlayBadge}
+            </div>
+          )}
         </div>
       )}
     </div>
