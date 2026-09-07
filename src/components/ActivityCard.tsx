@@ -11,6 +11,7 @@ import {
 import { Activity } from '../types';
 import { CATEGORY_THEMES } from '../data/activities';
 import { ImagePlaceholder } from './ImagePlaceholder';
+import { getAssetUrl } from '../utils/assets';
 
 interface ActivityCardProps {
   activity: Activity;
@@ -41,7 +42,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
 
   const actNum = parseInt(activity.id.replace(/\D/g, ''), 10) || 1;
   const friendlyFilename = `activity-${actNum}.jpg`;
-  const reservedImgPath = activity.coverImage || `/assets/activities/${friendlyFilename}`;
+  const reservedImgPath = getAssetUrl(activity.coverImage || `assets/activities/${friendlyFilename}`);
 
   return (
     <article

@@ -17,6 +17,7 @@ import { HeroCarousel } from './HeroCarousel';
 import { ImagePlaceholder } from './ImagePlaceholder';
 import { Activity, AppView, SearchResultItem } from '../types';
 import { performGlobalSearch, getSearchSuggestions, KeywordSuggestion } from '../utils/searchEngine';
+import { getAssetUrl } from '../utils/assets';
 
 interface HomePageProps {
   onNavigate: (view: AppView) => void;
@@ -322,7 +323,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     const act = item.originalData as Activity;
                     const actNum = parseInt(act.id.replace(/\D/g, ''), 10) || 1;
                     const friendlyFilename = `activity-${actNum}.jpg`;
-                    const reservedImgPath = act.coverImage || `/assets/activities/${friendlyFilename}`;
+                    const reservedImgPath = getAssetUrl(act.coverImage || `assets/activities/${friendlyFilename}`);
                     return (
                       <div
                         key={item.id}
@@ -493,7 +494,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               {featuredActivities.map((act, index) => {
                 const actNum = parseInt(act.id.replace(/\D/g, ''), 10) || 1;
                 const friendlyFilename = `activity-${actNum}.jpg`;
-                const reservedImgPath = act.coverImage || `/assets/activities/${friendlyFilename}`;
+                const reservedImgPath = getAssetUrl(act.coverImage || `assets/activities/${friendlyFilename}`);
                 return (
                   <div
                     key={act.id}

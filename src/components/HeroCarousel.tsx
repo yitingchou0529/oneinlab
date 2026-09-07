@@ -6,6 +6,7 @@ import {
   ArrowRight 
 } from 'lucide-react';
 import { Activity, AppView, CategoryType } from '../types';
+import { getAssetUrl } from '../utils/assets';
 
 export interface BannerItem {
   id: string;
@@ -31,25 +32,29 @@ const HeroBannerBackground: React.FC<{ activity: Activity }> = ({ activity }) =>
     const urls: string[] = [];
     const add = (u?: string) => {
       if (!u) return;
-      const normalized = (u.startsWith('/') || u.startsWith('http') || u.startsWith('data:'))
-        ? u
-        : `/assets/activities/${u}`;
-      if (!urls.includes(normalized)) urls.push(normalized);
+      let path = u;
+      if (!path.startsWith('http') && !path.startsWith('data:') && !path.startsWith('blob:')) {
+        if (!path.includes('assets/')) {
+          path = `assets/activities/${path}`;
+        }
+      }
+      const resolved = getAssetUrl(path);
+      if (!urls.includes(resolved)) urls.push(resolved);
     };
 
     const match = activity.id.match(/(\d+)/);
     if (match) {
       const num = parseInt(match[1], 10);
       const padded = String(num).padStart(2, '0');
-      add(`/assets/activities/activity-${num}.jpg`);
-      add(`/assets/activities/activity-notion-act-${padded}.jpg`);
-      add(`/assets/activities/activity-${num}.jpg.jpg`);
-      add(`/assets/activities/activity-${padded}.jpg`);
-      add(`/assets/activity-${num}.jpg`);
-      add(`/assets/activity-${num}.jpg.jpg`);
-      add(`/assets/activity-notion-act-${padded}.jpg`);
-      add(`/assets/activities/activity-${num}.png`);
-      add(`/assets/activities/activity-${num}.webp`);
+      add(`assets/activities/activity-${num}.jpg`);
+      add(`assets/activities/activity-notion-act-${padded}.jpg`);
+      add(`assets/activities/activity-${num}.jpg.jpg`);
+      add(`assets/activities/activity-${padded}.jpg`);
+      add(`assets/activity-${num}.jpg`);
+      add(`assets/activity-${num}.jpg.jpg`);
+      add(`assets/activity-notion-act-${padded}.jpg`);
+      add(`assets/activities/activity-${num}.png`);
+      add(`assets/activities/activity-${num}.webp`);
     }
 
     if (activity.coverImage) add(activity.coverImage);
@@ -152,7 +157,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
       return {
         id: act.id,
         actNum,
-        reservedImage: `/assets/activities/activity-${actNum}.jpg`,
+        reservedImage: getAssetUrl(`assets/activities/activity-${actNum}.jpg`),
         title: act.title,
         category: act.category,
         badge: `${act.category}精選`,
@@ -165,6 +170,13 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [touchDeltaX, setTouchDeltaX] = useState(0);
+  const [isSwiping, setIsSwiping] = useState(false);
+
+  const touchStartRef = useRef<{ x: number; y: number; time: number } | null>(null);
+  const isHorizontalSwipeRef = useRef<boolean | null>(null);
+  const mouseStartRef = useRef<{ x: number; time: number } | null>(null);
+  const isMouseDownRef = useRef(false);
 
   // 當 banners 長度變化時，防止索引溢位
   useEffect(() => {
@@ -173,14 +185,14 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
     }
   }, [banners.length, currentIndex]);
 
-  // 自動輪播 (每 6 秒切換，滑鼠懸停時暫停)
+  // 自動輪播 (每 6 秒切換，滑鼠懸停或觸控拖曳時暫停)
   useEffect(() => {
-    if (isPaused || banners.length <= 1) return;
+    if (isPaused || isSwiping || banners.length <= 1) return;
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % banners.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, [isPaused, banners.length]);
+  }, [isPaused, isSwiping, banners.length]);
 
   if (banners.length === 0) {
     return null;
@@ -196,7 +208,112 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
     setCurrentIndex((prev) => (prev - 1 + banners.length) % banners.length);
   };
 
-  const handleActionClick = () => {
+  // 手機觸控拖動處理
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (banners.length <= 1) return;
+    setIsPaused(true);
+    touchStartRef.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+      time: Date.now(),
+    };
+    isHorizontalSwipeRef.current = null;
+    setIsSwiping(false);
+    setTouchDeltaX(0);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!touchStartRef.current || banners.length <= 1) return;
+    const currentX = e.touches[0].clientX;
+    const currentY = e.touches[0].clientY;
+    const diffX = currentX - touchStartRef.current.x;
+    const diffY = currentY - touchStartRef.current.y;
+
+    // 判斷是否為水平滑動（避免干擾使用者垂直滾動網頁）
+    if (isHorizontalSwipeRef.current === null) {
+      if (Math.abs(diffX) > 8 || Math.abs(diffY) > 8) {
+        isHorizontalSwipeRef.current = Math.abs(diffX) > Math.abs(diffY);
+      }
+    }
+
+    if (isHorizontalSwipeRef.current) {
+      // 帶阻尼的彈性跟隨，讓觸控時有平滑回饋
+      setTouchDeltaX(diffX * 0.65);
+      setIsSwiping(true);
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    setIsPaused(false);
+    if (touchStartRef.current && isHorizontalSwipeRef.current) {
+      const endX = e.changedTouches[0]?.clientX ?? touchStartRef.current.x;
+      const diffX = endX - touchStartRef.current.x;
+      const duration = Date.now() - touchStartRef.current.time;
+      const velocity = Math.abs(diffX) / Math.max(duration, 1);
+
+      // 觸發切換門檻：水平移動超過 40px 或快速滑拂 (速度 > 0.3)
+      if (diffX < -40 || (diffX < -20 && velocity > 0.3)) {
+        handleNext();
+      } else if (diffX > 40 || (diffX > 20 && velocity > 0.3)) {
+        handlePrev();
+      }
+    }
+
+    touchStartRef.current = null;
+    isHorizontalSwipeRef.current = null;
+    setIsSwiping(false);
+    setTouchDeltaX(0);
+  };
+
+  // 支援滑鼠拖動測試
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).closest('button')) return;
+    if (banners.length <= 1) return;
+    setIsPaused(true);
+    isMouseDownRef.current = true;
+    mouseStartRef.current = {
+      x: e.clientX,
+      time: Date.now(),
+    };
+    setIsSwiping(false);
+    setTouchDeltaX(0);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isMouseDownRef.current || !mouseStartRef.current || banners.length <= 1) return;
+    const diffX = e.clientX - mouseStartRef.current.x;
+    if (Math.abs(diffX) > 6) {
+      setIsSwiping(true);
+      setTouchDeltaX(diffX * 0.5);
+    }
+  };
+
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (!isMouseDownRef.current) return;
+    setIsPaused(false);
+    if (mouseStartRef.current && isSwiping) {
+      const diffX = e.clientX - mouseStartRef.current.x;
+      const duration = Date.now() - mouseStartRef.current.time;
+      const velocity = Math.abs(diffX) / Math.max(duration, 1);
+
+      if (diffX < -40 || (diffX < -20 && velocity > 0.3)) {
+        handleNext();
+      } else if (diffX > 40 || (diffX > 20 && velocity > 0.3)) {
+        handlePrev();
+      }
+    }
+    isMouseDownRef.current = false;
+    mouseStartRef.current = null;
+    setIsSwiping(false);
+    setTouchDeltaX(0);
+  };
+
+  const handleActionClick = (e: React.MouseEvent) => {
+    // 若正在滑動中，避免觸發點擊跳轉
+    if (isSwiping || Math.abs(touchDeltaX) > 6) {
+      e.preventDefault();
+      return;
+    }
     if (currentBanner.activity) {
       onSelectActivity(currentBanner.activity);
     } else {
@@ -206,9 +323,19 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
 
   return (
     <div 
-      className="relative w-full bg-[#1F2421] overflow-hidden group border-b border-[#E2DDD5]"
+      className="relative w-full bg-[#1F2421] overflow-hidden group border-b border-[#E2DDD5] touch-pan-y select-none cursor-grab active:cursor-grabbing"
       onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      onMouseLeave={(e) => {
+        setIsPaused(false);
+        handleMouseUp(e);
+      }}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
     >
       {/* 背景圖片：直接取用該活動的封面照 (全幅平鋪接在頂部 Banner 之下) */}
       <AnimatePresence mode="wait">
@@ -230,8 +357,14 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
         </motion.div>
       </AnimatePresence>
 
-      {/* 輪播主畫面內容 (依齊 max-w-7xl) */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16 min-h-[340px] sm:min-h-[380px] lg:min-h-[420px] flex flex-col justify-end">
+      {/* 輪播主畫面內容 (依齊 max-w-7xl)，支援觸控拖曳位移回饋 */}
+      <div 
+        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16 min-h-[340px] sm:min-h-[380px] lg:min-h-[420px] flex flex-col justify-end transition-transform ease-out"
+        style={{
+          transform: touchDeltaX !== 0 ? `translateX(${touchDeltaX}px)` : undefined,
+          transitionDuration: isSwiping ? '0ms' : '300ms',
+        }}
+      >
         
         {/* 輪播文字內容區塊 */}
         <div className="max-w-2xl space-y-3 text-white">

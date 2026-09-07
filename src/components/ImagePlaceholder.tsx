@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Image as ImageIcon, Sparkles } from 'lucide-react';
+import { getAssetUrl } from '../utils/assets';
 
 interface ImagePlaceholderProps {
   src: string;
@@ -20,15 +21,19 @@ export const ImagePlaceholder: React.FC<ImagePlaceholderProps> = ({
   hint,
   overlayBadge,
 }) => {
-  // 自動解析多重候選路徑（支援放置在 /public/assets/ 或 /public/assets/activities/，支援簡短命名與副檔名相容）
+  // 自動解析多重候選路徑（支援放置在 /public/assets/ 或 /public/assets/activities/，並支援 GitHub Pages 子路徑相容）
   const candidateUrls = useMemo(() => {
     const urls: string[] = [];
     const add = (u?: string) => {
       if (!u) return;
-      const normalized = (u.startsWith('/') || u.startsWith('http') || u.startsWith('data:'))
-        ? u
-        : `/assets/activities/${u}`;
-      if (!urls.includes(normalized)) urls.push(normalized);
+      let path = u;
+      if (!path.startsWith('http') && !path.startsWith('data:') && !path.startsWith('blob:')) {
+        if (!path.includes('assets/')) {
+          path = `assets/activities/${path}`;
+        }
+      }
+      const resolved = getAssetUrl(path);
+      if (!urls.includes(resolved)) urls.push(resolved);
     };
 
     // 解析活動編號，如 notion-act-01、activity-1 等，優先加入最常用的標準路徑
@@ -38,18 +43,18 @@ export const ImagePlaceholder: React.FC<ImagePlaceholderProps> = ({
       const padded = String(num).padStart(2, '0');
 
       // 優先依序嘗試目前資料夾中最常見的命名方式
-      add(`/assets/activities/activity-${num}.jpg`);
-      add(`/assets/activities/activity-notion-act-${padded}.jpg`);
-      add(`/assets/activities/activity-${num}.jpg.jpg`);
-      add(`/assets/activities/activity-${padded}.jpg`);
-      add(`/assets/activity-${num}.jpg`);
-      add(`/assets/activity-${num}.jpg.jpg`);
-      add(`/assets/activity-notion-act-${padded}.jpg`);
-      add(`/assets/activities/activity-${num}.png`);
-      add(`/assets/activities/activity-${num}.webp`);
+      add(`assets/activities/activity-${num}.jpg`);
+      add(`assets/activities/activity-notion-act-${padded}.jpg`);
+      add(`assets/activities/activity-${num}.jpg.jpg`);
+      add(`assets/activities/activity-${padded}.jpg`);
+      add(`assets/activity-${num}.jpg`);
+      add(`assets/activity-${num}.jpg.jpg`);
+      add(`assets/activity-notion-act-${padded}.jpg`);
+      add(`assets/activities/activity-${num}.png`);
+      add(`assets/activities/activity-${num}.webp`);
     }
 
-    add(src);
+    if (src) add(src);
     if (reservedFilename) add(reservedFilename);
 
     return urls;
