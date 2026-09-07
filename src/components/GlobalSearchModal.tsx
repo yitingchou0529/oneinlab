@@ -203,7 +203,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
           ) : query.trim() ? (
             <div className="py-12 text-center text-[#8A847A] space-y-2">
               <p className="text-sm">未找到與「{query}」相關的內容</p>
-              <p className="text-xs text-[#A39D93]">嘗試搜尋：破冰、SFBT、水彩、敘事治療、自我探索</p>
+              <p className="text-xs text-[#A39D93]">嘗試搜尋：破冰、焦點解決短期治療、水彩、敘事治療、自我探索</p>
             </div>
           ) : (
             <div className="py-10 text-center text-[#8A847A] space-y-3">

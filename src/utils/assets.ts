@@ -1,6 +1,6 @@
 /**
  * 資源路徑解析工具函式
- * 自動相容 Vite 的 base 路徑設定（例如 GitHub Pages 的 `/oneinlab/` 或 本地/AI Studio 的 `/`）
+ * 自動相容 Vite 的 base 路徑設定（支援 相對路徑 './'、GitHub Pages 子目錄 或 根路徑 '/'）
  */
 export function getAssetUrl(path?: string): string {
   if (!path) return '';
@@ -15,18 +15,22 @@ export function getAssetUrl(path?: string): string {
     return path;
   }
 
-  // Vite 環境下動態取得 base (如 '/oneinlab/' 或 '/')
-  const base = import.meta.env.BASE_URL || '/';
+  // Vite 環境下動態取得 base (如 './', '/oneinlab/' 或 '/')
+  const base = import.meta.env.BASE_URL || './';
 
-  // 去除路徑開頭的 '/'
-  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  // 去除路徑開頭的 './' 或 '/'
+  const cleanPath = path.replace(/^(\.\/|\/)+/, '');
 
-  // 若路徑已經包含 base 前綴（例如已經是 'oneinlab/assets/...'），避免重複拼接
+  // 若路徑已經包含 base 前綴，避免重複拼接
   const normalizedBase = base.replace(/^\/|\/$/g, '');
-  if (normalizedBase && cleanPath.startsWith(normalizedBase)) {
+  if (normalizedBase && normalizedBase !== '.' && cleanPath.startsWith(normalizedBase)) {
     return `/${cleanPath}`;
   }
 
-  // 確保 base 尾端與 cleanPath 連接正確
+  if (base === './') {
+    return `./${cleanPath}`;
+  }
+
   return base.endsWith('/') ? `${base}${cleanPath}` : `${base}/${cleanPath}`;
 }
+

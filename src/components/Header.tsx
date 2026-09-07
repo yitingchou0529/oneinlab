@@ -55,14 +55,16 @@ export const Header: React.FC<HeaderProps> = ({
 
           </div>
 
-          {/* 右側：最右側右下角小小的［Created by YITING］ */}
+          {/* 右側：最右側右下角小小的［Created by YITING］(點擊可直達關於創作者) */}
           <div className="self-end pb-0.5 sm:pb-1 shrink-0 flex items-end">
-            <span 
+            <button 
               id="header-creator-credit"
-              className="text-[10px] sm:text-[11px] font-sans font-normal text-[#8C857B] tracking-wide select-none leading-none whitespace-nowrap"
+              onClick={() => onSelectView('about')}
+              title="點擊認識創作者周亦霆與玩藝所初衷"
+              className="text-[10px] sm:text-[11px] font-sans font-normal text-[#8C857B] hover:text-[#E07A5F] tracking-wide leading-none whitespace-nowrap cursor-pointer transition-colors px-1 py-0.5 rounded hover:bg-[#EFECE6] active:scale-95"
             >
               ［Created by YITING］
-            </span>
+            </button>
           </div>
 
         </div>

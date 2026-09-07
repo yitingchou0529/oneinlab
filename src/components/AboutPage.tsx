@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   ArrowLeft, 
   Heart, 
@@ -6,7 +6,7 @@ import {
   MessageSquare, 
   Palette,
   User,
-  Camera
+  Compass
 } from 'lucide-react';
 import { AppView } from '../types';
 import { PlayArtLogo } from './PlayArtLogo';
@@ -15,57 +15,29 @@ import { getAssetUrl } from '../utils/assets';
 interface AboutPageProps {
   onBackToHome: () => void;
   onNavigate: (view: AppView) => void;
-  activitiesCount: number;
+  activitiesCount?: number;
 }
 
 export const AboutPage: React.FC<AboutPageProps> = ({
   onBackToHome,
   onNavigate,
-  activitiesCount,
 }) => {
-  // 創作者相片支援本地上傳快取或靜態資源多重候選路徑
-  const [customPhoto, setCustomPhoto] = useState<string | null>(() => {
-    try {
-      return localStorage.getItem('playart_author_photo');
-    } catch {
-      return null;
-    }
-  });
-
   const [photoError, setPhotoError] = useState(false);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // 創作者照片直接載入專屬後台資料夾 about-me 中的照片檔案，供所有使用者與各裝置造訪時直接閱覽
   const photoCandidates = useMemo(() => {
-    if (customPhoto) return [customPhoto];
     return [
-      getAssetUrl('assets/author.jpg'),
-      getAssetUrl('assets/profile.jpg'),
-      getAssetUrl('assets/creator.jpg'),
-      getAssetUrl('assets/author.png'),
-      getAssetUrl('assets/profile.png'),
+      getAssetUrl('about-me/about-me.jpg'),
+      getAssetUrl('about-me/about-me.jpg.jpg'),
+      getAssetUrl('about-me/about-me.jpeg'),
+      getAssetUrl('about-me/about-me.png'),
+      getAssetUrl('about-me/about-me.webp'),
+      '/about-me/about-me.jpg',
+      '/about-me/about-me.jpg.jpg',
+      getAssetUrl('assets/about-me/about-me.jpg'),
     ];
-  }, [customPhoto]);
-
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const result = event.target?.result as string;
-        if (result) {
-          setCustomPhoto(result);
-          setPhotoError(false);
-          try {
-            localStorage.setItem('playart_author_photo', result);
-          } catch {
-            // ignore
-          }
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  }, []);
 
   return (
     <div className="space-y-7 sm:space-y-8 py-4 sm:py-6 max-w-4xl mx-auto">
@@ -81,8 +53,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({
         <span>返回首頁</span>
       </button>
 
-      {/* 1. 主標題區塊：關於玩藝所 */}
-      <div className="rounded-3xl p-7 sm:p-9 bg-white border border-[#E8E4DC] shadow-xs space-y-4">
+      {/* 1. 主標題與本站介紹區塊 */}
+      <div className="rounded-3xl p-7 sm:p-9 bg-white border border-[#E8E4DC] shadow-xs space-y-5">
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5">
           <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-2xl bg-white border border-[#E2DDD5] p-1.5 shadow-xs shrink-0 flex items-center justify-center">
             <PlayArtLogo className="w-full h-full object-contain" />
@@ -93,16 +65,50 @@ export const AboutPage: React.FC<AboutPageProps> = ({
               關於本站・初衷與理念
             </div>
             <h2 className="font-serif font-bold text-2xl sm:text-3xl text-[#1F2421] leading-snug">
-              玩藝所：心靈對話與體驗引導資源庫
+              玩藝所：以玩入心 活動資源庫
             </h2>
           </div>
         </div>
 
-        <p className="text-xs sm:text-[14px] text-[#5C554B] leading-relaxed pt-2 border-t border-[#F0EBE1]">
-          這是個專為助人工作者、心理師、社工、引導師、培訓講師與團體帶領者量身設計的高質感內容型錄。
-          我們將繁複的實務經驗凝鍊為三個核心模組：<b>引導問句庫</b>、<b>藝術媒材表</b>與<b>活動教案庫</b>，
-          讓你在帶領團體時能隨時隨地輕鬆檢索、靈感湧現。
-        </p>
+        {/* 本站詳細介紹 */}
+        <div className="pt-4 border-t border-[#F0EBE1] space-y-4 text-xs sm:text-[13.5px] text-[#4A443B] leading-relaxed">
+          <p className="font-medium text-[#1F2421] sm:text-[14.5px]">
+            玩藝所（One In Lab）是一個整合表達性藝術、戲劇遊戲與活動的實務教案資料庫。
+          </p>
+
+          {/* 名稱意涵 */}
+          <div className="rounded-2xl bg-[#FAF8F5] border border-[#EAE5DC] p-4 sm:p-5 space-y-2.5">
+            <h3 className="font-serif font-bold text-sm sm:text-base text-[#1F2421] flex items-center gap-2">
+              <span className="w-1.5 h-4 rounded-full bg-[#E07A5F]"></span>
+              名稱意涵
+            </h3>
+            <ul className="space-y-2 text-xs sm:text-[13px] text-[#5C554B] pl-1">
+              <li className="flex items-start gap-2">
+                <span className="text-[#E07A5F] font-bold shrink-0">•</span>
+                <span><b>One In 諧音「玩藝」</b>：結合遊戲的趣味與藝術媒材的表達。</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#E07A5F] font-bold shrink-0">•</span>
+                <span><b>All in one</b>：一站式整合多元團體活動與教案，方便工作者快速檢索與靈感共備。</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#E07A5F] font-bold shrink-0">•</span>
+                <span><b>從 One（玩）入 In（內在）</b>：透過遊戲與活動設計，降低防衛，引導成員進入內在世界探索，達到復原力效果。</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* 本站核心 */}
+          <div className="rounded-2xl bg-[#FAF8F5] border border-[#EAE5DC] p-4 sm:p-5 space-y-2">
+            <h3 className="font-serif font-bold text-sm sm:text-base text-[#1F2421] flex items-center gap-2">
+              <span className="w-1.5 h-4 rounded-full bg-[#4D6A56]"></span>
+              本站核心
+            </h3>
+            <p className="text-xs sm:text-[13px] text-[#5C554B] leading-relaxed pl-1">
+              源自創作者在臺灣戲劇復原力協會的社工實習實踐，將第一線團體活動設計、操作步驟與反思系統化記錄。建立一套可立即參考、彈性調度且兼具結構性的教案工具庫。
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* 2. 三大核心支柱卡片 */}
@@ -113,7 +119,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
           </div>
           <h3 className="font-serif font-bold text-base sm:text-lg text-[#1F2421]">三大學派引導問句</h3>
           <p className="text-xs text-[#736E65] leading-relaxed">
-            收錄「焦點解決短期治療 (SFBT)」、「敘事治療」與「ORID 焦點討論法」，協助帶領者精準提問，促進深層自我覺察與對話。
+            收錄「焦點解決短期治療」、「敘事治療」與「ORID 焦點討論法」，協助帶領者精準提問，促進深層自我覺察與對話。
           </p>
         </div>
 
@@ -121,9 +127,9 @@ export const AboutPage: React.FC<AboutPageProps> = ({
           <div className="w-9 h-9 rounded-xl bg-[#EEF3EF] text-[#4D6A56] flex items-center justify-center">
             <Palette className="w-4.5 h-4.5" />
           </div>
-          <h3 className="font-serif font-bold text-base sm:text-lg text-[#1F2421]">藝術媒材心理屬性</h3>
+          <h3 className="font-serif font-bold text-base sm:text-lg text-[#1F2421]">藝術媒材</h3>
           <p className="text-xs text-[#736E65] leading-relaxed">
-            依據表達性藝術治療原理，整理乾性、濕性、塑形與隱喻等不同媒材的控制度與情緒流動特質，提供精準的媒材選擇策略。
+            彙整表達性藝術常用媒材及特性介紹，作為活動介入或遊戲設計時的指引。
           </p>
         </div>
 
@@ -131,9 +137,9 @@ export const AboutPage: React.FC<AboutPageProps> = ({
           <div className="w-9 h-9 rounded-xl bg-[#FDF6E9] text-[#D4A373] flex items-center justify-center">
             <BookOpen className="w-4.5 h-4.5" />
           </div>
-          <h3 className="font-serif font-bold text-base sm:text-lg text-[#1F2421]">實務教案型錄 ({activitiesCount})</h3>
+          <h3 className="font-serif font-bold text-base sm:text-lg text-[#1F2421]">實務教案型錄</h3>
           <p className="text-xs text-[#736E65] leading-relaxed">
-            涵蓋破冰、暖身、合作、表達、自我探索等豐富主題，每篇教案皆具備清晰人數、時長、強度、詳細步驟與帶領者心法。
+            涵蓋破冰、暖身、合作、表達、自我探索等豐富主題，每篇教案皆具備建議人數、時長、強度、詳細步驟與帶領者心法。
           </p>
         </div>
       </div>
@@ -146,12 +152,12 @@ export const AboutPage: React.FC<AboutPageProps> = ({
         </div>
 
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 sm:gap-6 pt-1">
-          {/* 照片預留空間 */}
-          <div className="relative group shrink-0 w-32 sm:w-36 md:w-40 aspect-3/4 rounded-2xl overflow-hidden border border-[#E2DDD5] bg-[#F5F2EB] shadow-xs flex items-center justify-center">
+          {/* 照片展示空間：直接讀取後台 about-me 資料夾中的照片檔案 */}
+          <div className="relative shrink-0 w-32 sm:w-36 md:w-40 aspect-3/4 rounded-2xl overflow-hidden border border-[#E2DDD5] bg-[#F5F2EB] shadow-xs flex items-center justify-center">
             {!photoError && photoCandidates[currentPhotoIndex] ? (
               <img
                 src={photoCandidates[currentPhotoIndex]}
-                alt="周亦霆"
+                alt="創作者 周亦霆"
                 className="w-full h-full object-cover"
                 onError={() => {
                   if (currentPhotoIndex < photoCandidates.length - 1) {
@@ -163,32 +169,14 @@ export const AboutPage: React.FC<AboutPageProps> = ({
               />
             ) : (
               <div className="w-full h-full flex flex-col items-center justify-center p-3 text-center bg-gradient-to-b from-[#FAF8F5] to-[#F2EFE9] text-[#736E65]">
-                <div className="w-11 h-11 rounded-full bg-[#EAE5DC] flex items-center justify-center text-[#8C827A] mb-1.5 shadow-2xs group-hover:scale-105 transition-transform">
+                <div className="w-11 h-11 rounded-full bg-[#EAE5DC] flex items-center justify-center text-[#8C827A] mb-1.5 shadow-2xs">
                   <User className="w-5 h-5 text-[#7D756C]" />
                 </div>
                 <span className="text-xs font-serif font-bold text-[#1F2421]">周亦霆</span>
-                <span className="text-[11px] text-[#8A847A] mt-0.5">照片預留空間</span>
-                <span className="text-[9.5px] text-[#A69E92] mt-1 font-mono leading-tight">assets/author.jpg</span>
+                <span className="text-[11px] text-[#8A847A] mt-0.5">創作者相片</span>
+                <span className="text-[9.5px] text-[#A69E92] mt-1 font-mono leading-tight">about-me/about-me.jpg</span>
               </div>
             )}
-
-            {/* 懸浮上傳 / 更換按鈕 */}
-            <button
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              className="absolute inset-0 bg-black/40 backdrop-blur-2xs opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white text-xs font-medium cursor-pointer"
-              title="點擊上傳或更換照片"
-            >
-              <Camera className="w-4 h-4 mb-1 text-white" />
-              <span>更換照片</span>
-            </button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handlePhotoUpload}
-            />
           </div>
 
           {/* 創作者姓名與經歷自述 */}
@@ -199,7 +187,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
                   周亦霆
                 </h3>
                 <span className="text-[11px] px-2 py-0.5 rounded-full bg-[#F4F0E8] border border-[#E2DDD5] text-[#5C554B] font-medium">
-                  創作者 / 實習社工
+                  創作者
                 </span>
               </div>
               <p className="text-xs sm:text-[13px] font-medium text-[#C8644A] leading-relaxed">
@@ -222,23 +210,24 @@ export const AboutPage: React.FC<AboutPageProps> = ({
         </div>
       </div>
 
-      {/* 4. 快速開始按鈕 (位於創作者介紹下方) */}
+      {/* 4. 快速導航按鈕 (位於創作者介紹下方) */}
       <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
         <button
           onClick={() => onNavigate('home')}
           className="px-5 py-2.5 rounded-xl bg-[#1F2421] text-white text-xs sm:text-sm font-medium hover:bg-[#343B37] transition-all active:scale-95 shadow-xs cursor-pointer"
         >
-          前往首頁探索
+          首頁
         </button>
         <button
           onClick={() => onNavigate('activities')}
           className="px-5 py-2.5 rounded-xl bg-white border border-[#D5CFC5] text-[#1F2421] text-xs sm:text-sm font-medium hover:bg-[#F3EFEA] transition-all active:scale-95 shadow-xs cursor-pointer"
         >
-          瀏覽活動教案庫 ({activitiesCount})
+          活動教案庫
         </button>
       </div>
 
     </div>
   );
 };
+
 

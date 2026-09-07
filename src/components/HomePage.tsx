@@ -11,7 +11,8 @@ import {
   X,
   Sparkles,
   ExternalLink,
-  Tag
+  Tag,
+  User
 } from 'lucide-react';
 import { HeroCarousel } from './HeroCarousel';
 import { ImagePlaceholder } from './ImagePlaceholder';
@@ -571,12 +572,12 @@ export const HomePage: React.FC<HomePageProps> = ({
                     探索完整教案
                   </h4>
                   <p className="text-[10px] sm:text-xs text-[#736E65] max-w-xs leading-relaxed line-clamp-2">
-                    全庫收錄 30 項實務教案，多維度精準篩選
+                    實務教案型錄，多維度精準篩選
                   </p>
                 </div>
 
                 <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-semibold text-[#1F2421] group-hover:text-[#E07A5F]">
-                  <span>前往瀏覽 ({activities.length})</span>
+                  <span>前往瀏覽</span>
                   <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>
@@ -585,6 +586,38 @@ export const HomePage: React.FC<HomePageProps> = ({
 
           </section>
         )}
+
+        {/* 創作者與理念介紹快捷入口 */}
+        <section className="pt-2">
+          <div 
+            onClick={() => onNavigate('about')}
+            className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 bg-white border border-[#E8E4DC] hover:border-[#D5CFC5] shadow-xs hover:shadow-sm transition-all cursor-pointer group flex flex-col sm:flex-row items-center justify-between gap-4"
+          >
+            <div className="flex items-center gap-3.5 sm:gap-4 w-full sm:w-auto">
+              <div className="w-12 h-12 rounded-2xl bg-[#FAF8F5] border border-[#E2DDD5] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform text-[#E07A5F] shadow-2xs">
+                <User className="w-6 h-6" />
+              </div>
+              <div className="space-y-0.5 min-w-0">
+                <div className="flex items-center gap-2">
+                  <h3 className="font-serif font-bold text-base sm:text-lg text-[#1F2421] group-hover:text-[#E07A5F] transition-colors">
+                    關於創作者・周亦霆
+                  </h3>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#FAF8F5] border border-[#E2DDD5] text-[#5C554B] font-medium hidden sm:inline-block">
+                    輔仁大學社工系
+                  </span>
+                </div>
+                <p className="text-xs text-[#736E65] line-clamp-1 leading-relaxed">
+                  「玩藝所：以玩入心，活動資源庫」，收錄實務教案型錄、三大學派引導問句與藝術媒材心理屬性，點此閱讀創作者故事與初衷。
+                </p>
+              </div>
+            </div>
+
+            <div className="shrink-0 flex items-center gap-1.5 text-xs font-semibold text-[#1F2421] group-hover:text-[#E07A5F] px-4 py-2 rounded-xl bg-[#FAF8F5] border border-[#E2DDD5] group-hover:bg-[#FDF0ED] group-hover:border-[#F4D0C7] transition-all self-end sm:self-center">
+              <span>認識創作者與理念</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </div>
+        </section>
 
       </div>
 

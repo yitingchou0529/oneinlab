@@ -75,7 +75,7 @@ export const InquiryToolkitModal: React.FC<InquiryToolkitModalProps> = ({
             }`}
           >
             <HelpCircle className="w-4 h-4 text-[#E07A5F]" />
-            <span>三大學派引導問句 (ORID / SFBT / 敘事)</span>
+            <span>三大學派引導問句 (ORID / 焦點解決短期治療 / 敘事)</span>
           </button>
           <button
             onClick={() => setActiveTab('materials')}

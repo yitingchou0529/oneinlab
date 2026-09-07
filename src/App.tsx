@@ -75,12 +75,16 @@ export default function App() {
   const getInitialRoute = (): { initialView: AppView; initialActId: string | null } => {
     if (typeof window === 'undefined') return { initialView: 'home', initialActId: null };
 
-    // 支援 query 參數: ?activity=... 或 ?act=...
+    // 支援 query 參數: ?activity=... 或 ?act=... 或 ?page=about 或 ?view=about
     try {
       const searchParams = new URLSearchParams(window.location.search);
       const queryAct = searchParams.get('activity') || searchParams.get('act');
       if (queryAct) {
         return { initialView: 'activities', initialActId: queryAct };
+      }
+      const page = searchParams.get('page') || searchParams.get('view');
+      if (page && ['home', 'inquiry', 'materials', 'activities', 'about'].includes(page)) {
+        return { initialView: page as AppView, initialActId: null };
       }
     } catch {
       // ignore
@@ -151,6 +155,10 @@ export default function App() {
         if (queryAct) {
           targetActId = queryAct;
           targetView = 'activities';
+        }
+        const page = searchParams.get('page') || searchParams.get('view');
+        if (!targetActId && page && ['home', 'inquiry', 'materials', 'activities', 'about'].includes(page)) {
+          targetView = page as AppView;
         }
       } catch {
         // ignore
