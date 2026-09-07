@@ -1,0 +1,6 @@
+{
+  "name": "玩藝所",
+  "description": "為帶領者量身打造的心靈對話與體驗引導資源庫，包含引導問句庫、藝術媒材表與活動教案庫。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

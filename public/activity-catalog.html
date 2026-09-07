@@ -1,0 +1,2459 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>活動教案與引導資料庫 (首頁入口・30項教案版)</title>
+  <meta name="description" content="溫暖木質簡約文青風的活動教案資料庫，具備首頁三大模組入口：引導問句庫、藝術媒材表與活動教案庫。" />
+
+  <!-- Google 字體：思源宋體與黑體 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN 支援 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Noto Serif TC"', 'Georgia', 'serif'],
+            sans: ['"Noto Sans TC"', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Noto Sans TC', system-ui, sans-serif;
+      background-color: #F9F8F6;
+      color: #1F2421;
+    }
+    
+    .card-lift {
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+    }
+    .card-lift:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 25px -5px rgba(31, 36, 33, 0.08), 0 8px 10px -6px rgba(31, 36, 33, 0.04);
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F4F1EA;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D5CFC5;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-[#E07A5F]/20 selection:text-[#1F2421]">
+
+  <!-- 頂部導航與標題 -->
+  <header class="border-b border-[#E8E4DC] bg-[#FAF8F5]/95 backdrop-blur-md sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 sm:py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3.5">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('home')">
+        <div class="w-10 h-10 rounded-xl bg-[#1F2421] text-[#EFECE6] flex items-center justify-center font-serif font-bold text-lg shadow-xs shrink-0">
+          活
+        </div>
+        <div>
+          <h1 class="text-lg sm:text-xl font-serif font-bold tracking-tight text-[#1F2421]">
+            活動教案與引導資料庫
+          </h1>
+          <p class="text-xs text-[#736E65] mt-0.5">引導問句庫・藝術媒材表・30項教案型錄</p>
+        </div>
+      </div>
+
+      <!-- 導航分頁按鈕 -->
+      <nav class="flex items-center gap-1 bg-[#EFECE6] p-1 rounded-xl border border-[#E2DDD5] self-start md:self-center overflow-x-auto max-w-full">
+        <button
+          id="nav-home"
+          onclick="switchView('home')"
+          class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap bg-white text-[#1F2421] shadow-2xs"
+        >
+          首頁
+        </button>
+        <button
+          id="nav-inquiry"
+          onclick="switchView('inquiry')"
+          class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap text-[#6B6357] hover:text-[#1F2421]"
+        >
+          💬 引導問句庫
+        </button>
+        <button
+          id="nav-materials"
+          onclick="switchView('materials')"
+          class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap text-[#6B6357] hover:text-[#1F2421]"
+        >
+          🎨 藝術媒材表
+        </button>
+        <button
+          id="nav-activities"
+          onclick="switchView('activities')"
+          class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap text-[#6B6357] hover:text-[#1F2421]"
+        >
+          📚 活動教案庫 (30)
+        </button>
+      </nav>
+
+      <!-- 右側按鈕 -->
+      <div class="flex items-center gap-2">
+        <button
+          id="btn-surprise"
+          onclick="pickRandomActivity()"
+          class="hidden sm:inline-flex px-3 py-1.5 rounded-lg text-xs font-medium bg-white text-[#4A443B] border border-[#E2DDD5] hover:bg-[#F3EFEA]"
+        >
+          🎲 隨機挑選
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主內容容器 -->
+  <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- ==========================================
+         VIEW 1: 首頁 (三大選項卡片)
+         ========================================== -->
+    <section id="view-home" class="space-y-10 py-2">
+      <!-- 迎賓 Banner -->
+      <div class="rounded-3xl p-8 sm:p-12 bg-[#EFECE6] border border-[#E2DDD5] space-y-3">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#FAF8F5] text-[#4D6A56] border border-[#D5CFC5]">
+          ✨ 表達性藝術與團體引導・全方位教案庫
+        </span>
+        <h2 class="font-serif font-bold text-3xl sm:text-4xl text-[#1F2421]">
+          為帶領者量身打造的心靈對話與體驗引導資源庫
+        </h2>
+        <p class="text-xs sm:text-sm text-[#5C554B] max-w-2xl leading-relaxed">
+          請選擇你今天想探索的單元。包含焦點解決與敘事問句庫、12 種表達性藝術媒材指南，以及 30 個經過實務驗證的團體教案。
+        </p>
+      </div>
+
+      <!-- 三大選項卡片 -->
+      <div class="space-y-4">
+        <h3 class="font-serif font-bold text-xl sm:text-2xl text-[#1F2421]">請選擇欲瀏覽的功能模組</h3>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-7">
+          
+          <!-- 選項 1: 引導問句庫 -->
+          <div
+            onclick="switchView('inquiry')"
+            class="card-lift bg-white rounded-3xl border border-[#E8E4DC] hover:border-[#D5CFC5] p-7 sm:p-8 flex flex-col justify-between shadow-xs cursor-pointer"
+          >
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <div class="w-12 h-12 rounded-2xl bg-[#FDF0ED] text-[#E07A5F] flex items-center justify-center text-xl">
+                  💬
+                </div>
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-[#FDF0ED] text-[#C85A3E]">
+                  3 大對話學派
+                </span>
+              </div>
+              <div>
+                <h4 class="font-serif font-bold text-2xl text-[#1F2421]">引導問句庫</h4>
+                <p class="text-xs sm:text-sm text-[#5C554B] mt-1.5 leading-relaxed">
+                  收錄焦點解決 (SFBT)、敘事治療、ORID 焦點討論法核心提問句，支援一鍵複製提問。
+                </p>
+              </div>
+              <ul class="text-xs text-[#665E52] space-y-1.5 pt-2 border-t border-[#F2EEE9]">
+                <li>• 奇蹟問句、例外問句、評量問句</li>
+                <li>• 外化問題、尋求特殊意義事件</li>
+                <li>• ORID 四層次深度焦點反思提問</li>
+              </ul>
+            </div>
+            <div class="pt-6 mt-6 border-t border-[#F2EEE9] text-xs font-bold text-[#E07A5F] flex items-center justify-between">
+              <span>進入問句庫查閱 →</span>
+            </div>
+          </div>
+
+          <!-- 選項 2: 藝術媒材表 -->
+          <div
+            onclick="switchView('materials')"
+            class="card-lift bg-white rounded-3xl border border-[#E8E4DC] hover:border-[#D5CFC5] p-7 sm:p-8 flex flex-col justify-between shadow-xs cursor-pointer"
+          >
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <div class="w-12 h-12 rounded-2xl bg-[#EEF3EF] text-[#4D6A56] flex items-center justify-center text-xl">
+                  🎨
+                </div>
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-[#EEF3EF] text-[#3E5C46]">
+                  12 種表達媒材
+                </span>
+              </div>
+              <div>
+                <h4 class="font-serif font-bold text-2xl text-[#1F2421]">藝術媒材表</h4>
+                <p class="text-xs sm:text-sm text-[#5C554B] mt-1.5 leading-relaxed">
+                  彙整常用表達性藝術媒材的物理特性、心理投射意涵與帶領者安全邊界指引。
+                </p>
+              </div>
+              <ul class="text-xs text-[#665E52] space-y-1.5 pt-2 border-t border-[#F2EEE9]">
+                <li>• 水彩渲染、粉蠟筆直覺塗鴉、報紙</li>
+                <li>• 輕黏土、軟陶、毛根揉捏與觸覺回饋</li>
+                <li>• 面具創作、JEANSFRAME 舊物重塑</li>
+              </ul>
+            </div>
+            <div class="pt-6 mt-6 border-t border-[#F2EEE9] text-xs font-bold text-[#4D6A56] flex items-center justify-between">
+              <span>查看藝術媒材指南 →</span>
+            </div>
+          </div>
+
+          <!-- 選項 3: 活動教案庫 -->
+          <div
+            onclick="switchView('activities')"
+            class="card-lift bg-white rounded-3xl border border-[#E8E4DC] hover:border-[#D5CFC5] p-7 sm:p-8 flex flex-col justify-between shadow-xs cursor-pointer"
+          >
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <div class="w-12 h-12 rounded-2xl bg-[#FDF6E9] text-[#D4A373] flex items-center justify-center text-xl">
+                  📚
+                </div>
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-[#FDF6E9] text-[#A07026]">
+                  30 項完整教案
+                </span>
+              </div>
+              <div>
+                <h4 class="font-serif font-bold text-2xl text-[#1F2421]">活動教案庫</h4>
+                <p class="text-xs sm:text-sm text-[#5C554B] mt-1.5 leading-relaxed">
+                  破冰、暖身、合作、藝術、競賽與模擬體驗。具備即時搜尋與多維度強度人數篩選。
+                </p>
+              </div>
+              <ul class="text-xs text-[#665E52] space-y-1.5 pt-2 border-t border-[#F2EEE9]">
+                <li>• 兩真一假、人體結、六格畫、面具創作</li>
+                <li>• 步驟式帶領說明與帶領者心法秘訣</li>
+                <li>• 結合反思提問引導與道具清單</li>
+              </ul>
+            </div>
+            <div class="pt-6 mt-6 border-t border-[#F2EEE9] text-xs font-bold text-[#A07026] flex items-center justify-between">
+              <span>瀏覽 30 個活動教案 →</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 2: 引導問句庫
+         ========================================== -->
+    <section id="view-inquiry" class="hidden space-y-6">
+      <div class="flex items-center justify-between">
+        <button onclick="switchView('home')" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#5C554B] hover:text-[#1F2421]">
+          ← 返回首頁選項
+        </button>
+        <button onclick="switchView('activities')" class="text-xs font-medium text-[#C85A3E] hover:underline">
+          前往活動教案庫 →
+        </button>
+      </div>
+
+      <div class="rounded-2xl p-6 bg-[#FDF0ED] border border-[#F4D0C7]">
+        <h2 class="font-serif font-bold text-2xl text-[#1F2421]">帶領者引導問句庫</h2>
+        <p class="text-xs sm:text-sm text-[#5C554B] mt-1">包含焦點解決 (SFBT)、敘事治療與 ORID 焦點討論法核心問句。</p>
+      </div>
+
+      <div id="inquiry-cards-container" class="space-y-6">
+        <!-- JS 動態插入 -->
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 3: 藝術媒材表
+         ========================================== -->
+    <section id="view-materials" class="hidden space-y-6">
+      <div class="flex items-center justify-between">
+        <button onclick="switchView('home')" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#5C554B] hover:text-[#1F2421]">
+          ← 返回首頁選項
+        </button>
+        <button onclick="switchView('activities')" class="text-xs font-medium text-[#4D6A56] hover:underline">
+          前往活動教案庫 →
+        </button>
+      </div>
+
+      <div class="rounded-2xl p-6 bg-[#EEF3EF] border border-[#D1E0D5]">
+        <h2 class="font-serif font-bold text-2xl text-[#1F2421]">常用藝術媒材指南表</h2>
+        <p class="text-xs sm:text-sm text-[#5C554B] mt-1">12 種表達性藝術媒材的物理特性、安全邊界與推薦搭配教案。</p>
+      </div>
+
+      <div id="materials-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- JS 動態插入 -->
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 4: 活動教案庫
+         ========================================== -->
+    <section id="view-activities" class="hidden space-y-6">
+      <div class="flex items-center justify-between">
+        <button onclick="switchView('home')" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#5C554B] hover:text-[#1F2421]">
+          ← 返回首頁選項
+        </button>
+        <div class="flex items-center gap-2 text-xs">
+          <button onclick="switchView('inquiry')" class="text-[#C85A3E] hover:underline">💬 問句庫</button>
+          <span>•</span>
+          <button onclick="switchView('materials')" class="text-[#4D6A56] hover:underline">🎨 媒材表</button>
+        </div>
+      </div>
+
+      <!-- 搜尋與篩選面板 -->
+      <div class="bg-white rounded-2xl border border-[#E8E4DC] p-5 space-y-4">
+        <input
+          id="search-input"
+          type="text"
+          placeholder="搜尋活動名稱、亮點、道具或能力關鍵字..."
+          class="w-full px-4 py-2.5 rounded-xl border border-[#E2DDD5] bg-[#FAF8F5] text-xs sm:text-sm"
+        />
+
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between text-xs text-[#7A7368]">
+            <span class="font-medium">活動分類：</span>
+            <span>共 <strong id="results-count" class="text-[#1F2421]">30</strong> 項活動</span>
+          </div>
+          <div id="category-pills" class="flex items-center gap-2 overflow-x-auto pb-1">
+            <!-- JS 產生分類按鈕 -->
+          </div>
+        </div>
+
+        <div class="pt-2 border-t border-[#F0ECE4] flex flex-wrap items-center gap-3 text-xs">
+          <select id="filter-groupsize" class="px-2.5 py-1.5 rounded-lg border border-[#E2DDD5] bg-[#FAF8F5]">
+            <option value="all">建議人數：全部</option>
+            <option value="個人">個人 (1人)</option>
+            <option value="2~5人">2~5人 (小組)</option>
+            <option value="5人以上">5人以上 (大團體)</option>
+          </select>
+
+          <select id="filter-intensity" class="px-2.5 py-1.5 rounded-lg border border-[#E2DDD5] bg-[#FAF8F5]">
+            <option value="all">活動強度：全部</option>
+            <option value="低強度">低強度</option>
+            <option value="中強度">中強度</option>
+            <option value="高強度">高強度</option>
+          </select>
+
+          <select id="filter-depth" class="px-2.5 py-1.5 rounded-lg border border-[#E2DDD5] bg-[#FAF8F5]">
+            <option value="all">深度：全部</option>
+            <option value="較淺">較淺</option>
+            <option value="適中">適中</option>
+            <option value="較深入">較深入</option>
+          </select>
+
+          <select id="filter-audience" class="px-2.5 py-1.5 rounded-lg border border-[#E2DDD5] bg-[#FAF8F5]">
+            <option value="all">對象族群：全部</option>
+            <option value="兒童">兒童</option>
+            <option value="青少年">青少年</option>
+            <option value="成人">成人</option>
+          </select>
+
+          <button id="btn-reset-filters" class="ml-auto text-xs text-[#C85A3E] hover:underline">
+            重設篩選
+          </button>
+        </div>
+      </div>
+
+      <!-- 活動卡片網格 -->
+      <div id="activities-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+        <!-- JS 動態插入卡片 -->
+      </div>
+      <div id="no-results" class="hidden py-16 text-center bg-white rounded-2xl border border-[#EAE6DF] max-w-md mx-auto">
+        <div class="text-3xl mb-2">🍃</div>
+        <h3 class="font-serif font-bold text-lg text-[#1F2421]">無符合條件的活動</h3>
+        <p class="text-xs text-[#736E65] mt-1">請嘗試放寬人數、強度或重設搜尋關鍵字。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 詳情彈窗 -->
+  <div id="activity-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden flex items-center justify-center p-3 sm:p-6">
+    <div class="relative w-full max-w-3xl bg-[#FAF8F5] rounded-2xl sm:rounded-3xl border border-[#E2DDD5] shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+      <div class="px-5 py-3.5 bg-white border-b border-[#EAE6DF] flex items-center justify-between">
+        <span id="modal-category-badge" class="px-2.5 py-1 rounded-full text-xs font-semibold bg-[#EEF3EF] text-[#4D6A56]">
+          分類
+        </span>
+        <button id="btn-close-modal" class="px-3 py-1 bg-[#FAF8F5] hover:bg-[#EFECE6] rounded-lg text-xs font-medium border border-[#E2DDD5]">
+          關閉 (Esc)
+        </button>
+      </div>
+      <div id="modal-content-body" class="overflow-y-auto flex-1">
+        <!-- JS 填入 -->
+      </div>
+    </div>
+  </div>
+
+  <footer class="mt-16 border-t border-[#E8E4DC] bg-[#FAF8F5] py-8 text-xs text-[#7A7368] text-center">
+    活動教案與引導資料庫（共 30 項教案・單一檔案完全離線版）
+  </footer>
+
+  <!-- 腳本 -->
+  <script>
+    const activities = [
+  {
+    "id": "notion-act-01",
+    "title": "人體結",
+    "summary": "透過肢體穿梭與肢體協調，考驗成員非語言溝通、問題解決與團隊策略合作。",
+    "category": "合作",
+    "targetAudience": [
+      "兒童",
+      "成人",
+      "青少年"
+    ],
+    "groupSize": "5人以上",
+    "nature": [
+      "合作性",
+      "動態"
+    ],
+    "intensity": "中強度",
+    "depth": "較淺",
+    "abilities": [
+      "創意",
+      "反應力",
+      "合作",
+      "溝通",
+      "肢體"
+    ],
+    "duration": "15-25 分鐘",
+    "materials": [
+      "足夠寬敞無障礙的平整場地"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "圍圈伸出雙手",
+        "duration": "3 分鐘",
+        "description": "所有人圍成一個緊密的圓圈，閉上眼睛伸出右手隨機抓住對面夥伴的手，再伸出左手抓住另一位不同夥伴的手，形成一個複雜的人體交錯結。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "非語言穿梭解結",
+        "duration": "15 分鐘",
+        "description": "在雙手完全不放開的前提下，團隊透過跨越、鑽過手臂、轉身等肢體協調動作，合力將交錯的結解開成一個平整的圓圈。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "反思與肢體舒緩",
+        "duration": "5 分鐘",
+        "description": "完成後甩動手臂放鬆肩膀，回顧在動彈不得時團隊如何溝通並找到解方。"
+      }
+    ],
+    "tips": [
+      "過程中提醒夥伴注意手腕安全，不可硬扯。",
+      "若遇到真正的死結（如方向相反），帶領者可充當『手術刀』臨時解開一組手再重新接合。"
+    ],
+    "reflectionQuestions": [
+      "ORID 感受：當你身體卡在一個奇怪姿勢時，你內心的感受是什麼？",
+      "ORID 意義：在沒有指定領導者時，團隊是如何自發性達成默契推進的？"
+    ]
+  },
+  {
+    "id": "notion-act-02",
+    "title": "搭肩傳令",
+    "summary": "用肢體深化非語言溝通，快速建立團隊信任與默契。",
+    "category": "合作",
+    "targetAudience": [
+      "兒童",
+      "成人",
+      "青少年"
+    ],
+    "groupSize": "2~5人",
+    "nature": [
+      "動態",
+      "合作性"
+    ],
+    "intensity": "中強度",
+    "depth": "較淺",
+    "abilities": [
+      "創意",
+      "反應力",
+      "合作",
+      "溝通",
+      "肢體"
+    ],
+    "duration": "10-20 分鐘",
+    "materials": [
+      "任務題目卡（如動物、形狀或簡單動作）"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "縱隊排列面向背後",
+        "duration": "2 分鐘",
+        "description": "小組成員依序排成縱隊面向同一方向，後一人將雙手輕輕搭在前一人的肩膀上。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "拍背轉身無聲傳遞",
+        "duration": "10 分鐘",
+        "description": "隊伍最後一人看完題目卡後，輕拍前一人的肩膀示意轉身，在完全不發聲的情況下，僅用肢體動作與手勢演出題目傳遞至最前排。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "終點作答與對照",
+        "duration": "5 分鐘",
+        "description": "最前排成員猜測並公佈答案，對比最初題目與傳遞過程中的趣味質變。"
+      }
+    ],
+    "tips": [
+      "嚴禁說話或發出狀聲詞，鼓勵善用生動的臉部表情與節奏。",
+      "可由簡單具象物品（如吃西瓜）漸進到抽象概念。"
+    ],
+    "reflectionQuestions": [
+      "當訊息在傳遞中變質時，你發現非語言溝通中最容易被遺漏的是什麼？"
+    ]
+  },
+  {
+    "id": "notion-act-03",
+    "title": "身體傳球",
+    "summary": "使用身體部位傳遞物品，破除肢體拘謹並培養高度協調默契。",
+    "category": "合作",
+    "targetAudience": [
+      "兒童",
+      "青少年"
+    ],
+    "groupSize": "2~5人",
+    "nature": [
+      "動態",
+      "合作性"
+    ],
+    "intensity": "中強度",
+    "depth": "較淺",
+    "abilities": [
+      "合作",
+      "肢體"
+    ],
+    "duration": "15-20 分鐘",
+    "materials": [
+      "軟式充氣球、瑜珈球或氣球"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "限定部位夾球",
+        "duration": "3 分鐘",
+        "description": "指定不能用雙手握球，兩人一組只能用手肘、背部、肩膀或膝蓋夾住球體。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "接力運送與障礙繞行",
+        "duration": "12 分鐘",
+        "description": "兩人協調步行繞過錐桶障礙，並在終點將球交接給下一組夥伴的對應身體部位，球落地需回到原點重來。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "難度升級與心得分享",
+        "duration": "5 分鐘",
+        "description": "挑戰不同體型夥伴配對，分享保持球體平衡的發力秘訣。"
+      }
+    ],
+    "tips": [
+      "提醒運動鞋止滑，避免劇烈碰撞造成扭傷。",
+      "可利用背景節奏感強烈的音樂帶動氣氛。"
+    ],
+    "reflectionQuestions": [
+      "你如何調整自己的步幅去配合搭檔的移動節奏？"
+    ]
+  },
+  {
+    "id": "notion-act-04",
+    "title": "箭與靶",
+    "summary": "類似鬼抓人的動態關係暖身，快速破冰活絡全場氣氛，全班適用且無需道具。",
+    "category": "暖身",
+    "targetAudience": [
+      "成人",
+      "青少年"
+    ],
+    "groupSize": "5人以上",
+    "nature": [
+      "動態"
+    ],
+    "intensity": "高強度",
+    "depth": "較淺",
+    "abilities": [
+      "全班適用",
+      "無道具",
+      "肢體",
+      "高強度",
+      "反應力"
+    ],
+    "duration": "10-15 分鐘",
+    "materials": [
+      "寬敞開闊的室內或戶外場地"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "心中秘密鎖定",
+        "duration": "2 分鐘",
+        "description": "全員散開在場地中。每人在心裡秘密挑選兩個人：一人為自己的『箭』（保護者），另一人為『靶』（危險源），不可告知任何人。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "動態走位連線",
+        "duration": "8 分鐘",
+        "description": "遊戲開始後，每個人必須想辦法移動走位，讓自己的『箭』隨時保持在自己與『靶』的中間作為擋箭牌。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "骨牌效應定格",
+        "duration": "3 分鐘",
+        "description": "因為連鎖關係全場會陷入有趣的集體大走位。帶領者隨時喊『停！』，檢視誰的防護線依然完美。"
+      }
+    ],
+    "tips": [
+      "提醒以快步走為主，禁止推擠碰撞，注意周遭空間安全。",
+      "非常適合作為早晨喚醒活力或中場破冰的最高能量遊戲。"
+    ],
+    "reflectionQuestions": [
+      "當你的保護者突然跑走去追他的人時，你當下的直覺反應是什麼？"
+    ]
+  },
+  {
+    "id": "notion-act-05",
+    "title": "兩真一假",
+    "summary": "自我揭露快速拉近關係，在真假猜謎中了解彼此不為人知的真實經歷。",
+    "category": "破冰",
+    "targetAudience": [
+      "兒童",
+      "成人",
+      "青少年"
+    ],
+    "groupSize": "2~5人",
+    "nature": [
+      "表達性"
+    ],
+    "intensity": "低強度",
+    "depth": "較淺",
+    "abilities": [
+      "創意",
+      "認知"
+    ],
+    "duration": "15-20 分鐘",
+    "materials": [
+      "便簽紙",
+      "筆"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "寫下三段經歷",
+        "duration": "3 分鐘",
+        "description": "每人在便簽上寫下三個關於自己的陳述（兩件真實發生過、一件編造的假事）。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "輪流宣讀與盤問",
+        "duration": "12 分鐘",
+        "description": "成員輪流平靜念出三個句子，同組夥伴可提出細節問題進行偵探般的盤問。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "票選假象並揭曉真相",
+        "duration": "5 分鐘",
+        "description": "眾人指向猜測的假事，宣讀者揭曉並分享真實經歷背後的小故事。"
+      }
+    ],
+    "tips": [
+      "假事情節越貼近日常生活細節，越具備迷惑度與趣味性。"
+    ],
+    "reflectionQuestions": [
+      "焦點解決：哪一個夥伴分享的真實經歷讓你對他有了完全不同的新認識？"
+    ]
+  },
+  {
+    "id": "notion-act-06",
+    "title": "蛋蛋蛋幾顆蛋",
+    "summary": "在歡樂遊玩與口訣抱團中，快速拉近彼此距離，打破身體防線。",
+    "category": "暖身",
+    "targetAudience": [
+      "兒童",
+      "成人",
+      "青少年"
+    ],
+    "groupSize": "5人以上",
+    "nature": [
+      "動態",
+      "合作性"
+    ],
+    "intensity": "中強度",
+    "depth": "較淺",
+    "abilities": [
+      "反應力",
+      "肢體"
+    ],
+    "duration": "10-15 分鐘",
+    "materials": [
+      "無特別道具需求"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "圍圈漫步與節奏拍掌",
+        "duration": "2 分鐘",
+        "description": "全員圍成大圈依順時針隨音樂漫步，隨帶領者節奏拍手。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "口訣唱和與隨機抱團",
+        "duration": "8 分鐘",
+        "description": "全場齊喊口訣『蛋蛋蛋，幾顆蛋？』，帶領者喊出數字（如『四顆蛋！』），所有人需在 3 秒內緊緊抱成該數字的團體。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "落單救援與分享",
+        "duration": "3 分鐘",
+        "description": "未湊足人數者合唱一首短曲或一同做出可愛招牌動作後回歸大圈。"
+      }
+    ],
+    "tips": [
+      "最後一次抱團可喊出全場總人數，讓所有人合抱成一個超級大團體，圓滿收攏團體感。"
+    ],
+    "reflectionQuestions": [
+      "在慌亂尋找夥伴時，你注意到了自己是什麼樣的應對風格？"
+    ]
+  },
+  {
+    "id": "notion-act-07",
+    "title": "接力自畫像",
+    "summary": "創造自己與別人眼中的我，透過接力繪圖看見多元視角投射與幽默包容。",
+    "category": "藝術",
+    "targetAudience": [
+      "青少年"
+    ],
+    "groupSize": "個人",
+    "nature": [
+      "表達性"
+    ],
+    "intensity": "低強度",
+    "depth": "適中",
+    "abilities": [
+      "創意",
+      "認知",
+      "自我覺察"
+    ],
+    "duration": "25-35 分鐘",
+    "materials": [
+      "圖畫紙",
+      "彩色筆",
+      "粉蠟筆"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "畫下臉部輪廓",
+        "duration": "3 分鐘",
+        "description": "在紙張最上方寫下自己名字，畫下自己的臉型輪廓，隨後將畫紙順時針傳給下一位夥伴。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "輪替添筆特徵",
+        "duration": "15 分鐘",
+        "description": "每位接手者為畫像添上一種特徵（眼睛、髮型、微表情、代表性配件），每隔 1.5 分鐘依序傳遞。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "物歸原主與對話",
+        "duration": "10 分鐘",
+        "description": "畫作回到本人手中，欣賞眾人共同創作出的自畫像，並分享哪一部分最神似或最有趣。"
+      }
+    ],
+    "tips": [
+      "強調不評價美醜，重點在於投射他人眼中的鮮明特徵與可愛之處。"
+    ],
+    "reflectionQuestions": [
+      "敘事治療：當看見別人為你畫上的眼神或笑容，你感受到了什麼樣的善意？"
+    ]
+  },
+  {
+    "id": "notion-act-08",
+    "title": "人間煉獄",
+    "summary": "姓名互換破冰團康，考驗混亂中的記憶力與專注反應。",
+    "category": "破冰",
+    "targetAudience": [
+      "青少年"
+    ],
+    "groupSize": "5人以上",
+    "nature": [
+      "動態"
+    ],
+    "intensity": "中強度",
+    "depth": "較淺",
+    "abilities": [
+      "創意",
+      "溝通",
+      "反應力"
+    ],
+    "duration": "15-20 分鐘",
+    "materials": [
+      "名牌貼紙或便利貼"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "猜拳與姓名交換",
+        "duration": "3 分鐘",
+        "description": "兩人相遇猜拳，輸的人必須將自己的名字讓渡給贏家，變成贏家的名字。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "身分滾雪球尋親",
+        "duration": "10 分鐘",
+        "description": "隨著不斷猜拳，全場會逐漸剩下少數幾個人的名字。所有人需在場內呼喊尋找自己的『同名分身』聚集成家族。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "清點名字回歸本我",
+        "duration": "5 分鐘",
+        "description": "帶領者引導大家笑聲中宣佈最後勝出的超級大姓，最後各自領回自己的真實姓名。"
+      }
+    ],
+    "tips": [
+      "遊戲節奏輕快歡樂，適合用於彼此初次見面、想快速記住姓名的場合。"
+    ],
+    "reflectionQuestions": [
+      "叫出別人的名字時，你心中的人際距離是否在一瞬間拉近了？"
+    ]
+  },
+  {
+    "id": "notion-act-09",
+    "title": "特質賓果",
+    "summary": "透過簡單認識彼此找到共同點，主動出擊探索他人的特殊經歷。",
+    "category": "破冰",
+    "targetAudience": [
+      "成人",
+      "青少年"
+    ],
+    "groupSize": "5人以上",
+    "nature": [
+      "動態",
+      "談話性"
+    ],
+    "intensity": "低強度",
+    "depth": "較淺",
+    "abilities": [
+      "溝通",
+      "自我覺察",
+      "社交探勘"
+    ],
+    "duration": "15-25 分鐘",
+    "materials": [
+      "9宮格或16宮格特質賓果單",
+      "原子筆"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "發放賓果單",
+        "duration": "3 分鐘",
+        "description": "每人領取一張印有特質（如『家中有養兩隻貓』、『會三種語言』、『曾單車環島』）的賓果紙。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "自由穿梭訪談簽名",
+        "duration": "15 分鐘",
+        "description": "在場內自由走動與不同夥伴聊天，找到符合條件者請對方在該格簽名，每人限簽一格。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "連線慶祝與故事分享",
+        "duration": "5 分鐘",
+        "description": "最快完成三條線者大喊『BINGO!』，並請簽名者簡短分享該特質背後的有趣故事。"
+      }
+    ],
+    "tips": [
+      "特質題目可依團體屬性（如職場新訓、學生社團、心理工作坊）客製化設計。"
+    ],
+    "reflectionQuestions": [
+      "焦點解決：你發現了哪一位平時看似文靜的夥伴有著讓你驚豔的隱藏技能？"
+    ]
+  },
+  {
+    "id": "notion-act-10",
+    "title": "六格畫",
+    "summary": "從各個面向切入自我覺察，在結構化格子中安頓內心與整理當下生命狀態。",
+    "category": "藝術",
+    "targetAudience": [
+      "成人",
+      "青少年"
+    ],
+    "groupSize": "個人",
+    "nature": [
+      "支持性",
+      "表達性"
+    ],
+    "intensity": "中強度",
+    "depth": "較淺",
+    "abilities": [
+      "情緒",
+      "自我覺察",
+      "認知"
+    ],
+    "duration": "30-45 分鐘",
+    "materials": [
+      "A4圖畫紙折成六格",
+      "色筆或粉蠟筆"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "折紙與設定六大主題",
+        "duration": "5 分鐘",
+        "description": "將紙張折成六等分，依序標註：1.現在的心情 2.最渴望的事 3.最大的阻礙 4.我的後盾 5.如果跨越阻礙 6.未來的祝福。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "自由繪圖與心靈著色",
+        "duration": "20 分鐘",
+        "description": "無須具象寫實，用線條、色彩與符號象徵將每個格子的心境畫出來，播放柔和輕音樂。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "兩人一組溫柔傾聽",
+        "duration": "15 分鐘",
+        "description": "兩人一組，選擇願意分享的格子向對方敘說，傾聽者不給建議，只給予肯定與共鳴回饋。"
+      }
+    ],
+    "tips": [
+      "給予充裕的空白時間，不催促作畫進度，營造安靜神聖的創作氛圍。"
+    ],
+    "reflectionQuestions": [
+      "敘事治療：看著第 4 格『我的後盾』與第 6 格『未來的祝福』，你感受到了體內湧現什麼力量？"
+    ]
+  },
+  {
+    "id": "notion-act-11",
+    "title": "即興故事創作(皮克斯故事法)",
+    "summary": "透過半結構式句型發想故事，激發無拘無束的想像力與同理敘事力。",
+    "category": "藝術",
+    "targetAudience": [
+      "兒童"
+    ],
+    "groupSize": "個人",
+    "nature": [
+      "表達性"
+    ],
+    "intensity": "低強度",
+    "depth": "適中",
+    "abilities": [
+      "創意",
+      "合作",
+      "認知"
+    ],
+    "duration": "20-30 分鐘",
+    "materials": [
+      "故事骨架提詞卡",
+      "繪本紙",
+      "彩筆"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "給定皮克斯經典骨架句型",
+        "duration": "5 分鐘",
+        "description": "公佈句型：從前從前...每天...直到有一天...因此...因此...直到最後...。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "接力填寫或圖文繪製",
+        "duration": "15 分鐘",
+        "description": "每位成員或小組設定一位奇特的主角（如一隻想飛的茶壺），依序為每個句型填入曲折情節與配圖。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "故事說書發表",
+        "duration": "10 分鐘",
+        "description": "站在台前聲情並茂地說出故事，台下夥伴以熱烈掌聲致敬主角的勇氣。"
+      }
+    ],
+    "tips": [
+      "主角遇到困難是故事的核心，鼓勵孩子不要害怕讓主角失敗或搞砸。"
+    ],
+    "reflectionQuestions": [
+      "你的主角在關鍵時刻做了什麼不同於以往的決定，才讓奇蹟發生的？"
+    ]
+  },
+  {
+    "id": "notion-act-12",
+    "title": "細胞分裂",
+    "summary": "結合反應力與敏銳度的動態暖身遊戲，打破固有社交小圈子。",
+    "category": "暖身",
+    "targetAudience": [
+      "兒童",
+      "青少年"
+    ],
+    "groupSize": "5人以上",
+    "nature": [
+      "動態"
+    ],
+    "intensity": "高強度",
+    "depth": "較淺",
+    "abilities": [
+      "反應力",
+      "肢體"
+    ],
+    "duration": "10-15 分鐘",
+    "materials": [
+      "寬敞空地"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "漫遊與微小原子",
+        "duration": "2 分鐘",
+        "description": "所有人如同遊走在水中的細胞分子，在場內隨意穿梭並與迎面而來的夥伴打招呼。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "指令分裂與融合",
+        "duration": "8 分鐘",
+        "description": "帶領者隨機喊出『分裂成 3 個！』或『融合為 7 個！』，細胞需迅速勾手組合；隨後又喊『細胞壁破裂！』重新解散流動。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "超級有機體",
+        "duration": "3 分鐘",
+        "description": "最後一次指令喊出全員融合，全場連成一體，完成能量整合。"
+      }
+    ],
+    "tips": [
+      "適合在成員彼此還有點放不開時，透過生理奔跑與手挽手快速破冰。"
+    ],
+    "reflectionQuestions": [
+      "當被拉進一個新組合時，你的第一感受是什麼？"
+    ]
+  },
+  {
+    "id": "notion-act-13",
+    "title": "進化論",
+    "summary": "猜拳遊戲演變進化，在勝負循環中體會成長、接納與同溫層陪伴。",
+    "category": "競賽",
+    "targetAudience": [
+      "兒童"
+    ],
+    "groupSize": "5人以上",
+    "nature": [
+      "動態"
+    ],
+    "intensity": "中強度",
+    "depth": "較淺",
+    "abilities": [
+      "肢體",
+      "反應力",
+      "社交動態"
+    ],
+    "duration": "10-15 分鐘",
+    "materials": [
+      "無特別道具需求"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "四階段物種動作設定",
+        "duration": "2 分鐘",
+        "description": "定義四個等級：1. 雞蛋（蹲下雙手抱膝） 2. 小雞（半蹲雙手拍翅） 3. 恐龍（直立張牙舞爪） 4. 人類（雙手合十微笑成仙）。所有人起初都是雞蛋。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "同級猜拳進化與退化",
+        "duration": "8 分鐘",
+        "description": "只能找相同等級的物種猜拳。贏者進化一級，輸者退化一級。成為人類者即可前往『仙界榮譽席』觀戰並為大家加油。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "最後的蛋皇登基",
+        "duration": "3 分鐘",
+        "description": "最後留在場上的未進化者，全場一起給予最熱烈的英雄式歡呼。"
+      }
+    ],
+    "tips": [
+      "肢體動作越誇張滑稽，全場笑聲越多，能有效降低輸贏的挫折感。"
+    ],
+    "reflectionQuestions": [
+      "當你退化回雞蛋時，你的心情如何？是怎麼重新站起來繼續找人猜拳的？"
+    ]
+  },
+  {
+    "id": "notion-act-14",
+    "title": "節奏挑戰",
+    "summary": "跟隨音樂節拍，精準在八拍內唸出畫面中出現的文字或圖片，考驗專注與神經協調。",
+    "category": "暖身",
+    "targetAudience": [
+      "兒童",
+      "青少年"
+    ],
+    "groupSize": "5人以上",
+    "nature": [
+      "動態"
+    ],
+    "intensity": "中強度",
+    "depth": "較淺",
+    "abilities": [
+      "創意",
+      "反應力",
+      "肢體",
+      "專注"
+    ],
+    "duration": "10-15 分鐘",
+    "materials": [
+      "節奏拍子音樂（BPM 90-110）",
+      "圖卡或字卡"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "建立身體節奏",
+        "duration": "2 分鐘",
+        "description": "全場跟隨節奏：拍大腿、拍大腿、拍手、拍手，穩固八拍循環。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "點名接龍節拍挑戰",
+        "duration": "10 分鐘",
+        "description": "帶領者在第 5、6 拍唸出自己的名字，第 7、8 拍點名下一人；被點名者需在下一個八拍內不卡拍精準接上。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "雙倍速激戰",
+        "duration": "3 分鐘",
+        "description": "將節奏加快至 120 BPM，挑戰全場專注極限。"
+      }
+    ],
+    "tips": [
+      "放慢前幾輪速度，確保每個人都能掌握節奏律動感。"
+    ],
+    "reflectionQuestions": [
+      "卡拍時你當下的身體反應是什麼？是緊張還是會心一笑？"
+    ]
+  },
+  {
+    "id": "notion-act-15",
+    "title": "面具創作",
+    "summary": "自我象徵性創作載體，透過面具內外的繪製，探索外界眼中的我與私密深層的自我。",
+    "category": "藝術",
+    "targetAudience": [
+      "兒童",
+      "青少年"
+    ],
+    "groupSize": "個人",
+    "nature": [
+      "表達性"
+    ],
+    "intensity": "低強度",
+    "depth": "較深入",
+    "abilities": [
+      "創意",
+      "情緒",
+      "自我覺察",
+      "認知"
+    ],
+    "duration": "45-60 分鐘",
+    "materials": [
+      "空白紙面具",
+      "羽毛、毛根",
+      "壓克力顏料或彩筆",
+      "剪刀、白膠"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "引導冥想與向內凝視",
+        "duration": "5 分鐘",
+        "description": "閉上眼思考：我平時展現給外在世界的是什麼樣貌？而隱藏在面具背後的真實渴望又是什麼？"
+      },
+      {
+        "stepNumber": 2,
+        "title": "面具表裡雙面創作",
+        "duration": "30 分鐘",
+        "description": "面具正面畫上『希望外界看到的我（保護色或社交人格）』，面具內側畫上『只有我自己知道的私密脆弱或珍貴夢想』。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "戴上面具進行無聲凝視",
+        "duration": "15 分鐘",
+        "description": "戴上面具在場中穿梭互相致意，隨後摘下面具，分享創作背後的心靈象徵。"
+      }
+    ],
+    "tips": [
+      "內側為極度隱私的自我揭露，允許成員自行決定是否向同儕公開內側內容，尊重界線。"
+    ],
+    "reflectionQuestions": [
+      "敘事治療：當戴上面具時，你感到自由還是拘束？這個面具曾如何保護了你？"
+    ]
+  },
+  {
+    "id": "notion-act-16",
+    "title": "心願實現所",
+    "summary": "透過想像力、戲劇定格方式實現夢想，在群體支持下預演渴望發生的未來。",
+    "category": "模擬體驗",
+    "targetAudience": [
+      "兒童"
+    ],
+    "groupSize": "2~5人",
+    "nature": [
+      "動態",
+      "復原力",
+      "支持性"
+    ],
+    "intensity": "中強度",
+    "depth": "較淺",
+    "abilities": [
+      "創意",
+      "合作",
+      "肢體"
+    ],
+    "duration": "25-35 分鐘",
+    "materials": [
+      "簡單道具布條、皇冠或獎盃道具"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "委託心願許願卡",
+        "duration": "5 分鐘",
+        "description": "每人寫下一個想在未來實現的具體願望（如『代表學校贏得球賽』、『勇敢向朋友道歉』）。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "小組戲劇導演排練",
+        "duration": "15 分鐘",
+        "description": "小組夥伴化身為配角、觀眾或舞台道具，為委託人導演排練出一幕『心願實現瞬間』的 1 分鐘短劇。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "定格照片演出與祝福",
+        "duration": "10 分鐘",
+        "description": "各組上台演出並在最動人高潮處『定格 5 秒』，全場拍照並給予真摯祝福讚美。"
+      }
+    ],
+    "tips": [
+      "焦點解決取向經典應用，透過戲劇身體感體驗成功滋味，為大腦種下神經迴路。"
+    ],
+    "reflectionQuestions": [
+      "焦點解決：當大家為你歡呼的那一剎那，你身體的哪一個部位感受到了溫暖力量？"
+    ]
+  },
+  {
+    "id": "notion-act-17",
+    "title": "鏡像引導(動作牽引)",
+    "summary": "由一人帶領，一人模仿如同鏡子般，在極度同調中練習傾聽、跟隨與帶領。",
+    "category": "暖身",
+    "targetAudience": [
+      "兒童",
+      "成人",
+      "青少年"
+    ],
+    "groupSize": "2~5人",
+    "nature": [
+      "動態",
+      "表達性"
+    ],
+    "intensity": "中強度",
+    "depth": "較淺",
+    "abilities": [
+      "創意",
+      "反應力",
+      "專注",
+      "肢體"
+    ],
+    "duration": "15-20 分鐘",
+    "materials": [
+      "舒緩的環境音樂"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "面對面目光鎖定",
+        "duration": "2 分鐘",
+        "description": "兩人一組面對面站立相隔一步，雙手掌心相向但不碰觸。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "慢速鏡像動作同步",
+        "duration": "10 分鐘",
+        "description": "A 為主導者緩慢移動手勢、轉動頭部或彎曲身體，B 必須如實體鏡子般無延遲同步模仿；5 分鐘後互換角色。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "無主導意識融合",
+        "duration": "5 分鐘",
+        "description": "進階階段：不指定誰是主導者，兩人共同感知動作，讓第三方看不出是誰在帶領。"
+      }
+    ],
+    "tips": [
+      "帶領者的動作越慢、越柔和，鏡像者的同步體驗越深刻。"
+    ],
+    "reflectionQuestions": [
+      "ORID 感受：在扮演鏡子（跟隨者）時，你覺得輕鬆還是吃力？為什麼？"
+    ]
+  },
+  {
+    "id": "notion-act-18",
+    "title": "誇大與縮小",
+    "summary": "透過肢體與聲音的漸進放大與縮小，開發身體與情感極限，釋放拘謹。",
+    "category": "暖身",
+    "targetAudience": [
+      "青少年"
+    ],
+    "groupSize": "5人以上",
+    "nature": [
+      "動態",
+      "表達性"
+    ],
+    "intensity": "中強度",
+    "depth": "較淺",
+    "abilities": [
+      "創意",
+      "肢體"
+    ],
+    "duration": "10-15 分鐘",
+    "materials": [
+      "足夠活動的場地空間"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "做出一個日常微小動作",
+        "duration": "2 分鐘",
+        "description": "每人先做一個很細微的日常動作（如抓頭、推眼鏡或嘆氣），音量與動作幅度定義為 1 級。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "級數倍增至 10 級",
+        "duration": "8 分鐘",
+        "description": "帶領者喊 3 級、5 級、8 級、10 級！動作與聲音需幾何級數放大，直到整個人如同歌劇巨星般浮誇舞動咆哮。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "驟縮至 0.1 級",
+        "duration": "3 分鐘",
+        "description": "瞬間將幅度縮小至如螞蟻般的極微弱呼吸與抽搐，最後定格靜止，享受能量落差。"
+      }
+    ],
+    "tips": [
+      "帶領者自身必須先無包袱示範 10 級誇張，給予全場安全感。"
+    ],
+    "reflectionQuestions": [
+      "在達到 10 級放開自我時，你發現身體產生了什麼樣的生理變化？"
+    ]
+  },
+  {
+    "id": "notion-act-19",
+    "title": "報紙找碴",
+    "summary": "模仿與觀察力訓練，在趣味競賽中磨練同理心與微表情細節偵測。",
+    "category": "競賽",
+    "targetAudience": [
+      "青少年"
+    ],
+    "groupSize": "5人以上",
+    "nature": [
+      "合作性",
+      "表達性"
+    ],
+    "intensity": "中強度",
+    "depth": "較淺",
+    "abilities": [
+      "創意",
+      "反應力",
+      "合作",
+      "專注",
+      "肢體"
+    ],
+    "duration": "15-20 分鐘",
+    "materials": [
+      "全版大舊報紙數張"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "兩組相對與報紙屏風",
+        "duration": "3 分鐘",
+        "description": "兩組人面對面坐下，中間由兩位關主拉起一張完全展開的報紙作為視線屏障。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "暗中變換三處特徵",
+        "duration": "8 分鐘",
+        "description": "A 組在報紙遮擋下，指派一人暗中改變身上三處特徵（如脫掉眼鏡、袖子捲起、頭髮綁起）。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "報紙落下倒數搶答",
+        "duration": "5 分鐘",
+        "description": "報紙瞬間落下！B 組需在 10 秒內搶答找出對方的三處變化，隨後攻守互換計分。"
+      }
+    ],
+    "tips": [
+      "可進階為『團體微走位變化』，考驗全場空間記憶力。"
+    ],
+    "reflectionQuestions": [
+      "在觀察別人的微小改變時，你用了什麼策略？"
+    ]
+  },
+  {
+    "id": "notion-act-20",
+    "title": "你在做什麼?",
+    "summary": "肢體與口語錯位即興挑戰，打破左右腦既定慣性，引爆全場笑聲。",
+    "category": "暖身",
+    "targetAudience": [
+      "成人",
+      "青少年"
+    ],
+    "groupSize": "5人以上",
+    "nature": [
+      "動態",
+      "表達性"
+    ],
+    "intensity": "中強度",
+    "depth": "較淺",
+    "abilities": [
+      "創意",
+      "反應力",
+      "肢體"
+    ],
+    "duration": "10-15 分鐘",
+    "materials": [
+      "無特別道具需求"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "A 做出動作，B 上前詢問",
+        "duration": "2 分鐘",
+        "description": "A 站在場中做出一個重複動作（如刷牙）。B 走上前詢問：『你在做什麼？』"
+      },
+      {
+        "stepNumber": 2,
+        "title": "口非心是說出不同動作",
+        "duration": "8 分鐘",
+        "description": "A 必須嘴巴說出一件『與眼前動作完全不同』的事（例如一邊刷牙一邊回答：『我在高空跳傘！』）。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "接續動作輪流挑戰",
+        "duration": "4 分鐘",
+        "description": "B 聽到回答後，必須立刻開始做『高空跳傘』的動作，換 C 上前詢問，以此類推輪流接力。"
+      }
+    ],
+    "tips": [
+      "猶豫超過 2 秒或不自覺說出真實動作即出局換下一位，節奏要快速緊湊。"
+    ],
+    "reflectionQuestions": [
+      "當身體和嘴巴想做不一樣的事情時，大腦發生了什麼有趣的當機狀況？"
+    ]
+  },
+  {
+    "id": "notion-act-21",
+    "title": "價值拍賣會",
+    "summary": "透過拍賣覺察自身注重的事物與其價值，梳理人生取捨與深層渴望。",
+    "category": "模擬體驗",
+    "targetAudience": [
+      "成人",
+      "青少年"
+    ],
+    "groupSize": "5人以上",
+    "nature": [
+      "談話性"
+    ],
+    "intensity": "低強度",
+    "depth": "適中",
+    "abilities": [
+      "自我覺察",
+      "認知"
+    ],
+    "duration": "40-60 分鐘",
+    "materials": [
+      "拍賣標的清單卡（如親情、自由、健康、智慧）",
+      "虛擬籌碼卡（每人1000元）",
+      "拍賣木槌"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "分發籌碼與瀏覽標的",
+        "duration": "8 分鐘",
+        "description": "每人拿到 1000 點籌碼與拍賣項目清單，先在心裡挑選最想競標的 2-3 個心願價值。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "激烈競標拍賣落槌",
+        "duration": "25 分鐘",
+        "description": "拍賣師主持競標，成員舉手出價，喊價最高者成交並扣除籌碼。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "得標真心話與反思對談",
+        "duration": "17 分鐘",
+        "description": "得標者分享為什麼願意重金買下，未得標或保留籌碼者分享自己的思考與排序。"
+      }
+    ],
+    "tips": [
+      "可設計 1 個神秘盲盒標的，增加現場競標氛圍與取捨張力。"
+    ],
+    "reflectionQuestions": [
+      "ORID 詮釋：你花最多籌碼買下的東西，反映了你當前生活最在乎的是什麼？"
+    ]
+  },
+  {
+    "id": "notion-act-22",
+    "title": "社會原子圖",
+    "summary": "人際關係圖像化覺察，看見人我之間的心理距離、連結與資源系統。",
+    "category": "藝術",
+    "targetAudience": [
+      "青少年"
+    ],
+    "groupSize": "個人",
+    "nature": [
+      "復原力",
+      "支持性",
+      "表達性"
+    ],
+    "intensity": "中強度",
+    "depth": "較深入",
+    "abilities": [
+      "自我覺察"
+    ],
+    "duration": "30-45 分鐘",
+    "materials": [
+      "大張畫紙",
+      "不同顏色大小的圓形貼紙或彩色筆"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "畫出核心原子核（我）",
+        "duration": "3 分鐘",
+        "description": "在紙張中央畫下一個象徵自己的圓圈，作為引力的核心。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "定位身邊重要他人",
+        "duration": "20 分鐘",
+        "description": "依據心理親疏遠近，在周圍畫出家人、朋友、師長、寵物，並用不同線條（實線、虛線、鋸齒線、雙向箭頭）標記互動關係的品質。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "覺察能量流動與調整願景",
+        "duration": "15 分鐘",
+        "description": "檢視哪些關係給予自己滋養？哪些消耗能量？若要調整，自己希望將哪個原子移近一點？"
+      }
+    ],
+    "tips": [
+      "心理劇（Psychodrama）經典技術，引導語氣保持中立接納，不強求圓滿。"
+    ],
+    "reflectionQuestions": [
+      "敘事治療：在這幅圖中，哪一個關係是你在遭遇困難時，始終支撐著你的安定力量？"
+    ]
+  },
+  {
+    "id": "notion-act-23",
+    "title": "搶位子",
+    "summary": "音樂椅子與大風吹的高能變化版，敏捷身手與歡樂氣氛兼具。",
+    "category": "暖身",
+    "targetAudience": [
+      "兒童",
+      "青少年"
+    ],
+    "groupSize": "5人以上",
+    "nature": [
+      "動態"
+    ],
+    "intensity": "中強度",
+    "depth": "較淺",
+    "abilities": [
+      "反應力",
+      "專注",
+      "肢體"
+    ],
+    "duration": "10-15 分鐘",
+    "materials": [
+      "比總人數少一張的椅子（圍成大圓圈）"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1506869640319-fe1a24fd76dc?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "中間鬼出題發號施令",
+        "duration": "2 分鐘",
+        "description": "椅子圍成一圈，一人站在中央，喊出指令（例如『大風吹，吹有戴眼鏡的人！』）。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "搶位子與不相鄰原則",
+        "duration": "8 分鐘",
+        "description": "符合條件者必須起立奔跑換位子，不可換坐左右相鄰的椅子；中間者趁機搶坐，落單者成為下一位鬼。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "終極大地震",
+        "duration": "3 分鐘",
+        "description": "當喊出『大地震！』時，全場所有人不分條件必須全體起立搶位。"
+      }
+    ],
+    "tips": [
+      "提醒收好地上的背包鞋子，避免奔跑時絆倒滑倒。"
+    ],
+    "reflectionQuestions": [
+      "在奔跑尋找座位的過程中，你看到了什麼樣的互讓或機智表現？"
+    ]
+  },
+  {
+    "id": "notion-act-24",
+    "title": "旅程地圖",
+    "summary": "雜誌拼貼與生命軌跡視覺化，透過象徵意象回溯生命高山與低谷。",
+    "category": "藝術",
+    "targetAudience": [
+      "青少年"
+    ],
+    "groupSize": "2~5人",
+    "nature": [
+      "復原力",
+      "支持性",
+      "表達性"
+    ],
+    "intensity": "中強度",
+    "depth": "較深入",
+    "abilities": [
+      "創意",
+      "合作",
+      "自我覺察"
+    ],
+    "duration": "45-60 分鐘",
+    "materials": [
+      "舊雜誌、剪刀、膠水",
+      "全開厚卡紙",
+      "色筆"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "繪製起伏生命之路",
+        "duration": "5 分鐘",
+        "description": "在紙上畫出一條蜿蜒前進的道路，標註出生、現在以及未來的方向。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "翻閱雜誌意象拼貼",
+        "duration": "25 分鐘",
+        "description": "從雜誌中剪下觸動心弦的照片、文字標題或風景，拼貼在道路的高峰（成就歡樂）與低谷（挫敗試煉）。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "旅程導覽分享",
+        "duration": "15 分鐘",
+        "description": "向同組夥伴導覽自己的地圖，訴說那些意象如何形塑了今日獨一無二的自己。"
+      }
+    ],
+    "tips": [
+      "多準備涵蓋大自然、人物、建築、抽象色塊的豐富雜誌媒材。"
+    ],
+    "reflectionQuestions": [
+      "敘事治療：回頭看那個曾走在低谷的自己，你現在想對那時的他說句什麼肯定？"
+    ]
+  },
+  {
+    "id": "notion-act-25",
+    "title": "松鼠搬家",
+    "summary": "三人一組照情境快速換位、搶位子，破除角色固化，充滿笑聲與機動性。",
+    "category": "暖身",
+    "targetAudience": [
+      "兒童",
+      "成人",
+      "青少年"
+    ],
+    "groupSize": "5人以上",
+    "nature": [
+      "動態"
+    ],
+    "intensity": "中強度",
+    "depth": "較淺",
+    "abilities": [
+      "反應力",
+      "專注",
+      "肢體"
+    ],
+    "duration": "10-15 分鐘",
+    "materials": [
+      "無特別道具需求"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "大樹與松鼠架構",
+        "duration": "2 分鐘",
+        "description": "三人一組，兩人面對面牽手搭成『樹洞』，一人蹲在中間當『松鼠』；多餘的人站在場中當獵人。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "三大指令快速應變",
+        "duration": "8 分鐘",
+        "description": "獵人喊『松鼠搬家』：所有松鼠換樹洞；喊『樵夫砍柴』：所有大樹解開重組找新夥伴；喊『森林大火』：所有人身分打散重新組合！"
+      },
+      {
+        "stepNumber": 3,
+        "title": "落單者成為新獵人",
+        "duration": "3 分鐘",
+        "description": "未找到樹洞或松鼠者走到中央發號施令，連續遊玩數回。"
+      }
+    ],
+    "tips": [
+      "規則簡單直觀，非常適合各年齡層在短時間內活絡身體。"
+    ],
+    "reflectionQuestions": [
+      "當聽到『森林大火』必須完全打破既定角色時，你的直覺反應是什麼？"
+    ]
+  },
+  {
+    "id": "notion-act-26",
+    "title": "找領袖",
+    "summary": "透過觀察找出團體中的動作領導者，訓練默契引導與細膩感知力。",
+    "category": "暖身",
+    "targetAudience": [
+      "成人",
+      "青少年"
+    ],
+    "groupSize": "5人以上",
+    "nature": [
+      "動態",
+      "表達性"
+    ],
+    "intensity": "中強度",
+    "depth": "較淺",
+    "abilities": [
+      "創意",
+      "反應力",
+      "專注",
+      "肢體"
+    ],
+    "duration": "10-15 分鐘",
+    "materials": [
+      "無特別道具需求"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "偵探離場與秘密指定領袖",
+        "duration": "2 分鐘",
+        "description": "一人擔任偵探暫時閉眼走到場外，全場圍成一圈，帶領者無聲指定一人為秘密動作領袖。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "動作同步變換與偵探辨識",
+        "duration": "8 分鐘",
+        "description": "偵探回到圈子中央。領袖需在不被察覺下暗中更換肢體動作（如拍手、摸頭、擺動雙腿），其他人需立刻同步跟隨。偵探有三次指認機會。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "角色互換與策略分享",
+        "duration": "3 分鐘",
+        "description": "領袖被找出後，由領袖擔任下一輪偵探，分享眼神躲避與集體掩護的趣味技巧。"
+      }
+    ],
+    "tips": [
+      "提醒所有人不要一直死盯著領袖看，要用餘光和周圍夥伴動作來同步掩護。"
+    ],
+    "reflectionQuestions": [
+      "當領袖是怎麼在無聲中把動作傳遞給全場的？這跟團隊中的隱形影響力有何相通之處？"
+    ]
+  },
+  {
+    "id": "notion-act-27",
+    "title": "襪子娃娃",
+    "summary": "利用襪子創作出手作布偶，賦予平凡物件靈魂，陪伴自我成長與投射。",
+    "category": "藝術",
+    "targetAudience": [
+      "成人",
+      "青少年"
+    ],
+    "groupSize": "個人",
+    "nature": [
+      "表達性"
+    ],
+    "intensity": "低強度",
+    "depth": "適中",
+    "abilities": [
+      "創意",
+      "自我覺察"
+    ],
+    "duration": "45-60 分鐘",
+    "materials": [
+      "新舊棉襪或花色毛襪",
+      "棉花或香草",
+      "鈕扣、毛線、針線包、保麗龍膠"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1558060370-d644479cb6f7?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "挑選襪子與填充棉花",
+        "duration": "8 分鐘",
+        "description": "挑選一隻觸感與花色舒服的襪子，將棉花蓬鬆地塞入，捏塑出想要的身形與手感。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "縫製五官與個性化裝飾",
+        "duration": "30 分鐘",
+        "description": "用鈕扣當眼睛、毛線縫出微笑，加上耳朵或小配件，創作出專屬於自己的守護玩偶。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "命名儀式與陪伴宣言",
+        "duration": "15 分鐘",
+        "description": "為娃娃取一個溫暖的名字，並寫下一句它想對你說的鼓勵小語。"
+      }
+    ],
+    "tips": [
+      "若學員不熟悉針線，可用橡皮筋分節與保麗龍膠黏貼方式安全製作。"
+    ],
+    "reflectionQuestions": [
+      "敘事治療：如果這個襪子娃娃擁有超能力，它會在你感到孤單時帶給你什麼超能力？"
+    ]
+  },
+  {
+    "id": "notion-act-28",
+    "title": "JEANSFRAME",
+    "summary": "舊衣服與丹寧布料 DIY 重生，將生命回憶縫綴在相框中，珍藏重要時光。",
+    "category": "藝術",
+    "targetAudience": [
+      "青少年"
+    ],
+    "groupSize": "個人",
+    "nature": [
+      "表達性"
+    ],
+    "intensity": "低強度",
+    "depth": "適中",
+    "abilities": [
+      "創意",
+      "自我覺察"
+    ],
+    "duration": "45-60 分鐘",
+    "materials": [
+      "穿不下的舊牛仔褲或舊衣服",
+      "木質相框素胚",
+      "布膠、剪刀、蕾絲金屬配件"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "回想衣物承載的故事",
+        "duration": "5 分鐘",
+        "description": "手握舊衣服，回想這件衣服曾陪伴自己走過哪些青澀、熱血或轉變的時刻。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "解構剪裁與裱框拼貼",
+        "duration": "30 分鐘",
+        "description": "將丹寧口袋、車縫線、標籤剪下，用拼貼手法包覆相框，形成立體粗獷的文青質感。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "置入重要照片或手寫字",
+        "duration": "15 分鐘",
+        "description": "在相框中放上一張珍惜的照片或一句座右銘，擺在桌前作為自我肯定的信物。"
+      }
+    ],
+    "tips": [
+      "丹寧布的磨損邊緣自帶復古隨性美感，鼓勵保留自然毛邊。"
+    ],
+    "reflectionQuestions": [
+      "這件舊物從被遺忘的衣櫃角落變成藝術相框，給了你關於『重生與轉化』什麼樣的啟發？"
+    ]
+  },
+  {
+    "id": "notion-act-29",
+    "title": "社會計量",
+    "summary": "透過具體行動與空間站位營造安全感，具象呈現群體內在凝聚力與共鳴。",
+    "category": "破冰",
+    "targetAudience": [
+      "成人",
+      "青少年"
+    ],
+    "groupSize": "5人以上",
+    "nature": [
+      "動態"
+    ],
+    "intensity": "低強度",
+    "depth": "較淺",
+    "abilities": [
+      "自我覺察",
+      "認知"
+    ],
+    "duration": "15-25 分鐘",
+    "materials": [
+      "地面標記線或隱形量尺標竿"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "設定空間座標尺規",
+        "duration": "3 分鐘",
+        "description": "帶領者指定場地左側為 1 分（完全不同意／感到疲倦），右側為 10 分（非常同意／精力充沛）。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "依題目起步走位",
+        "duration": "12 分鐘",
+        "description": "拋出題目（如：『你今天起床時的心情？』、『你對今天工作坊的期待？』），所有人依自己的真實感受走到對應位置。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "就近訪談同溫層與對角線",
+        "duration": "8 分鐘",
+        "description": "站在同一分數區間的人互相交流理由，並好奇詢問另一端的夥伴，看見群體光譜的多元包容。"
+      }
+    ],
+    "tips": [
+      "心理劇（Sociometry）核心技術，無對錯之分，讓每個人看見自己並不孤單。"
+    ],
+    "reflectionQuestions": [
+      "當你看到有人和你站在同一個分數區塊時，你感受到了什麼樣的共鳴與安全感？"
+    ]
+  },
+  {
+    "id": "notion-act-30",
+    "title": "零件組合",
+    "summary": "透過重複性動作與聲響組合創造新的象徵意義，體驗群體機械共振的魔力。",
+    "category": "合作",
+    "targetAudience": [
+      "兒童",
+      "成人",
+      "青少年"
+    ],
+    "groupSize": "2~5人",
+    "nature": [
+      "動態",
+      "復原力",
+      "表達性"
+    ],
+    "intensity": "中強度",
+    "depth": "較淺",
+    "abilities": [
+      "創意",
+      "反應力",
+      "合作",
+      "肢體"
+    ],
+    "duration": "15-25 分鐘",
+    "materials": [
+      "寬敞空地"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "第一名零件啟動引擎",
+        "duration": "3 分鐘",
+        "description": "一人先走到場中，做一個重複的機械動作並伴隨一種有節奏的擬聲詞（如『齒輪轉動：咔噠咔噠』）。"
+      },
+      {
+        "stepNumber": 2,
+        "title": "全員依序卡榫組裝",
+        "duration": "12 分鐘",
+        "description": "其他人依序上前，讓自己的動作與前一位零件產生物理或連動關係，發出獨特聲音，逐漸組合成一座龐大運轉的群體機器。"
+      },
+      {
+        "stepNumber": 3,
+        "title": "變速加速與順暢停機",
+        "duration": "5 分鐘",
+        "description": "帶領者調控機器速度（慢速、極速、缺油運轉、完美共振），最後倒數一聲整齊停止在終極定格。"
+      }
+    ],
+    "tips": [
+      "戲劇治療（Drama Therapy）經典活動，每個人的動作無須複雜，只要能跟他人產生咬合即可。"
+    ],
+    "reflectionQuestions": [
+      "ORID 意義：在這個機器中，你扮演的角色如何促成了整體機器的持續運轉？"
+    ]
+  }
+];
+    const inquiryToolkit = [
+  {
+    "title": "焦點解決短期治療 (SFBT)",
+    "subtitle": "著重於「尋找解決方案與成功經驗」，激發內在資源與目標願景",
+    "items": [
+      {
+        "type": "奇蹟問句",
+        "question": "如果今晚睡覺時奇蹟發生了，問題解決了，你明天醒來第一個會發生的變化是什麼？",
+        "description": "跳過困境直接描繪美好解答與微小起點。"
+      },
+      {
+        "type": "例外問句",
+        "question": "過去有沒有哪一次，這個狀況沒有發生，或是情況比較好的時候？當時你做了什麼？",
+        "description": "尋找過去成功的例外經驗，複製成功策略。"
+      },
+      {
+        "type": "評量問句",
+        "question": "如果 10 分代表最滿意，1 分代表最糟糕，你覺得自己現在在哪個分數？要多加 1 分需要什麼小行動？",
+        "description": "將抽象感受具體量化，聚焦於邁向下一分的微小行動。"
+      },
+      {
+        "type": "因應問句",
+        "question": "在這麼困難的情況下，你是怎麼撐過來的？是什麼力量讓你一直沒有放棄？",
+        "description": "肯定對方的韌性與生存智慧。"
+      }
+    ]
+  },
+  {
+    "title": "敘事治療 (Narrative Therapy)",
+    "subtitle": "著重於「重新撰寫生命故事與重塑身分」，將人與問題分開",
+    "items": [
+      {
+        "type": "外化問句",
+        "question": "如果把『焦慮』看作一個獨立的個體，它最近常在什麼時候來找你？它長什麼樣子？",
+        "description": "問題才是問題，人不是問題。"
+      },
+      {
+        "type": "解構問句",
+        "question": "誰告訴你『男生不能流眼淚』這件事的？這個想法是從哪裡來的？它對你有幫助嗎？",
+        "description": "檢視社會主流文化與主流論述對個人的束縛。"
+      },
+      {
+        "type": "尋求特殊意義事件",
+        "question": "有沒有哪一次，你成功抵擋了『憤怒』的控制，做出了不一樣的選擇？",
+        "description": "發掘閃耀時刻（Sparkling Moments），厚實支線故事。"
+      }
+    ]
+  },
+  {
+    "title": "ORID 焦點討論法",
+    "subtitle": "結構化體驗回顧四層次：客觀、感受、意義、行動",
+    "items": [
+      {
+        "type": "O (Objective) 客觀事實",
+        "question": "剛剛的遊戲中發生了什麼事？印象最深的一幕或肢體動作是什麼？看到、聽到、做到了什麼？",
+        "description": "客觀事實層：不帶評價，回顧所見所聞。"
+      },
+      {
+        "type": "R (Reflective) 反應感受",
+        "question": "在卡關或順暢的時候，你的當下心情與身體感覺是什麼？",
+        "description": "情緒感受層：探索直覺反應與內在觸動。"
+      },
+      {
+        "type": "I (Interpretive) 詮釋意義",
+        "question": "這經驗跟你平常在學校、職場或家庭中遇到的狀況有什麼相似處？你發現了什麼？",
+        "description": "價值詮釋層：連結真實生活情境與省思。"
+      },
+      {
+        "type": "D (Decisional) 決定行動",
+        "question": "如果下次再遇到類似的挑戰，你會試著做什麼調整？明天可以開始的第一個小行動是什麼？",
+        "description": "行動決策層：落實於未來生活中的行動。"
+      }
+    ]
+  }
+];
+    const artMaterials = [
+  {
+    "name": "色筆",
+    "icon": "🖍️",
+    "desc": "快速勾勒、精準線條、提供安全控制感",
+    "suitableActivities": "六格畫、特質賓果、旅程地圖"
+  },
+  {
+    "name": "水彩",
+    "icon": "🎨",
+    "desc": "流動情緒、渲染放鬆、促進非理性情感宣洩",
+    "suitableActivities": "情緒色彩光譜、接力自畫像"
+  },
+  {
+    "name": "蠟筆",
+    "icon": "✏️",
+    "desc": "直覺塗鴉、質樸觸感、抗拒低退化度高",
+    "suitableActivities": "盲畫自畫像、直覺心靈塗鴉"
+  },
+  {
+    "name": "毛根",
+    "icon": "🧶",
+    "desc": "立體塑造、空間感知、可反覆折疊容錯率高",
+    "suitableActivities": "立體情緒怪獸、心靈保護罩"
+  },
+  {
+    "name": "輕黏土",
+    "icon": "🫧",
+    "desc": "柔軟可塑、舒壓排遣、雙手揉捏本體感回饋",
+    "suitableActivities": "手心裡的安心物、自塑微縮世界"
+  },
+  {
+    "name": "軟陶",
+    "icon": "🏺",
+    "desc": "細緻雕琢、定型留存、具備成果儀式感",
+    "suitableActivities": "力量圖騰製作、個人護身符"
+  },
+  {
+    "name": "報紙",
+    "icon": "📰",
+    "desc": "撕揉發洩、即興拼貼、低成本且易於破除完美主義",
+    "suitableActivities": "報紙找碴、撕紙重組之塔"
+  },
+  {
+    "name": "雜誌",
+    "icon": "📖",
+    "desc": "意象剪貼、視覺隱喻、降低繪畫焦慮的拼貼首選",
+    "suitableActivities": "夢想願景板、心願實現所、內在自我拼圖"
+  },
+  {
+    "name": "氣球",
+    "icon": "🎈",
+    "desc": "呼吸象徵、輕盈互動、宣洩緊張與肢體破冰",
+    "suitableActivities": "輕飄飄合作傳球、壓力爆破儀式"
+  },
+  {
+    "name": "面具",
+    "icon": "🎭",
+    "desc": "人格投射、內外在自我對照、安全偽裝防衛機制",
+    "suitableActivities": "面具創作（表層社會我 vs 內在真實我）"
+  },
+  {
+    "name": "熱縮片",
+    "icon": "🪄",
+    "desc": "縮小轉化、護身象徵、具神奇趣味的轉化歷程",
+    "suitableActivities": "煩惱縮小術、個人隨身勇氣扣"
+  },
+  {
+    "name": "布、衣服",
+    "icon": "🧵",
+    "desc": "溫暖觸感、生命記憶、依附關係與懷舊安全感",
+    "suitableActivities": "襪子娃娃（內在小孩對話）、JEANSFRAME 舊牛仔相框"
+  }
+];
+    const categories = ['全部', '破冰', '暖身', '合作', '藝術', '競賽', '模擬體驗'];
+
+    let currentView = 'home';
+    let currentCategory = '全部';
+    let searchQuery = '';
+    let selectedGroupSize = 'all';
+    let selectedIntensity = 'all';
+    let selectedDepth = 'all';
+    let selectedAudience = 'all';
+
+    function switchView(viewName) {
+      currentView = viewName;
+      ['home', 'inquiry', 'materials', 'activities'].forEach(v => {
+        const el = document.getElementById('view-' + v);
+        if (el) el.classList.toggle('hidden', v !== viewName);
+        
+        const navEl = document.getElementById('nav-' + v);
+        if (navEl) {
+          if (v === viewName) {
+            navEl.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap bg-white text-[#1F2421] shadow-2xs';
+          } else {
+            navEl.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap text-[#6B6357] hover:text-[#1F2421]';
+          }
+        }
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 渲染引導問句庫
+    function renderInquiry() {
+      const container = document.getElementById('inquiry-cards-container');
+      container.innerHTML = inquiryToolkit.map(sec => `
+        <div class="bg-white rounded-3xl border border-[#EAE6DF] p-6 sm:p-8 space-y-4">
+          <div class="border-b border-[#F0ECE4] pb-3">
+            <h3 class="font-serif font-bold text-xl text-[#1F2421]">${sec.title}</h3>
+            <p class="text-xs text-[#7A7368] mt-0.5">${sec.subtitle}</p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+            ${sec.items.map(item => `
+              <div class="p-4 rounded-2xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-[#EFECE6] text-[#4A443B]">${item.type}</span>
+                  <button onclick="copyText('${item.question.replace(/'/g, "\\'")}', this)" class="text-[11px] px-2 py-0.5 rounded bg-white border border-[#E2DDD5] text-[#7A7368] hover:text-[#1F2421]">
+                    複製
+                  </button>
+                </div>
+                <p class="text-sm font-medium text-[#1F2421]">${item.question}</p>
+                ${item.description ? '<p class="text-xs text-[#7A7368] pt-1 border-t border-[#EAE6DF]">💡 ' + item.description + '</p>' : ''}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 渲染藝術媒材表
+    function renderMaterials() {
+      const container = document.getElementById('materials-cards-container');
+      container.innerHTML = artMaterials.map((mat, idx) => `
+        <div class="bg-white rounded-3xl border border-[#EAE6DF] p-6 flex flex-col justify-between space-y-3">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">${mat.icon}</span>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-[#FAF8F5] border border-[#E2DDD5]">#${idx + 1}</span>
+            </div>
+            <h4 class="font-serif font-bold text-lg text-[#1F2421]">${mat.name}</h4>
+            <p class="text-xs text-[#5C554B] leading-relaxed">${mat.desc}</p>
+          </div>
+          ${mat.suitableActivities ? `
+            <div class="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EAE6DF] text-xs">
+              <span class="font-semibold text-[#4D6A56]">推薦教案：</span>
+              <p class="text-[#332E27] mt-0.5">${mat.suitableActivities}</p>
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
+    }
+
+    // 活動卡片與篩選
+    const grid = document.getElementById('activities-grid');
+    const pillsContainer = document.getElementById('category-pills');
+    const searchInput = document.getElementById('search-input');
+    const resultsCount = document.getElementById('results-count');
+    const noResults = document.getElementById('no-results');
+    const modal = document.getElementById('activity-modal');
+    const modalContent = document.getElementById('modal-content-body');
+    const modalCategoryBadge = document.getElementById('modal-category-badge');
+
+    function renderPills() {
+      pillsContainer.innerHTML = '';
+      categories.forEach(cat => {
+        const count = cat === '全部' ? activities.length : activities.filter(a => a.category === cat).length;
+        const btn = document.createElement('button');
+        btn.className = 'shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ' +
+          (currentCategory === cat ? 'bg-[#1F2421] text-white shadow-xs' : 'bg-white text-[#524B42] border border-[#E2DDD5] hover:bg-[#F3EFEA]');
+        btn.innerHTML = cat + ' <span class="ml-1 px-1.5 py-0.2 rounded-full text-[10px] bg-black/10">' + count + '</span>';
+        btn.onclick = () => {
+          currentCategory = cat;
+          renderPills();
+          applyFilters();
+        };
+        pillsContainer.appendChild(btn);
+      });
+    }
+
+    function applyFilters() {
+      const filtered = activities.filter(act => {
+        if (currentCategory !== '全部' && act.category !== currentCategory) return false;
+        if (selectedGroupSize !== 'all' && act.groupSize !== selectedGroupSize) return false;
+        if (selectedIntensity !== 'all' && act.intensity !== selectedIntensity) return false;
+        if (selectedDepth !== 'all' && act.depth !== selectedDepth) return false;
+        if (selectedAudience !== 'all' && !act.targetAudience.includes(selectedAudience)) return false;
+
+        if (searchQuery.trim()) {
+          const q = searchQuery.toLowerCase();
+          const inTitle = act.title.toLowerCase().includes(q);
+          const inSummary = act.summary.toLowerCase().includes(q);
+          const inCat = act.category.toLowerCase().includes(q);
+          const inMat = act.materials.some(m => m.toLowerCase().includes(q));
+          const inAb = act.abilities.some(a => a.toLowerCase().includes(q));
+          if (!inTitle && !inSummary && !inCat && !inMat && !inAb) return false;
+        }
+        return true;
+      });
+
+      resultsCount.textContent = filtered.length;
+      grid.innerHTML = '';
+
+      if (filtered.length === 0) {
+        noResults.classList.remove('hidden');
+      } else {
+        noResults.classList.add('hidden');
+        filtered.forEach(act => {
+          const card = document.createElement('article');
+          card.className = 'card-lift bg-white rounded-2xl border border-[#EAE6DF] overflow-hidden cursor-pointer flex flex-col justify-between';
+          card.onclick = () => openModal(act);
+
+          card.innerHTML = `
+            <div class="relative w-full aspect-16/10 bg-[#EFECE6] overflow-hidden">
+              <img src="${act.coverImage}" alt="${act.title}" class="w-full h-full object-cover" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent"></div>
+              <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold bg-white/90 text-[#1F2421]">
+                ${act.category}
+              </span>
+              <span class="absolute bottom-2.5 left-3 px-2 py-0.5 rounded-md text-[11px] font-medium bg-black/40 text-white">
+                ${act.intensity}・${act.depth}
+              </span>
+              <span class="absolute bottom-2.5 right-3 px-2 py-0.5 rounded-md text-[11px] bg-black/40 text-white">
+                👥 ${act.groupSize}
+              </span>
+            </div>
+
+            <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
+              <div class="space-y-1.5">
+                <h3 class="font-serif font-bold text-base sm:text-lg text-[#1F2421] hover:text-[#C85A3E] transition-colors">
+                  ${act.title}
+                </h3>
+                <p class="text-xs sm:text-sm text-[#5C554B] line-clamp-2 leading-relaxed">
+                  ${act.summary}
+                </p>
+              </div>
+
+              <div class="flex flex-wrap gap-1">
+                ${act.abilities.slice(0, 3).map(a => '<span class="px-2 py-0.5 rounded text-[10px] bg-[#F4F0E8] text-[#4A443B]">#' + a + '</span>').join('')}
+              </div>
+
+              <div class="pt-3 border-t border-[#F0ECE4] flex items-center justify-between text-xs text-[#7A7368]">
+                <span>⏱️ ${act.duration}</span>
+                <span>${act.targetAudience.join('・')}</span>
+              </div>
+            </div>
+          `;
+
+          grid.appendChild(card);
+        });
+      }
+    }
+
+    function openModal(act) {
+      modalCategoryBadge.textContent = act.category;
+
+      const stepsHtml = act.steps.map(s => `
+        <div class="p-3.5 rounded-xl bg-white border border-[#EAE6DF] space-y-1">
+          <div class="flex items-center justify-between font-bold text-sm text-[#1F2421]">
+            <span>${s.stepNumber}. ${s.title}</span>
+            <span class="text-xs text-[#7A7368] font-normal">${s.duration || ''}</span>
+          </div>
+          <p class="text-xs sm:text-sm text-[#4D453A] leading-relaxed">${s.description}</p>
+        </div>
+      `).join('');
+
+      const tipsHtml = act.tips.map(t => '<li>' + t + '</li>').join('');
+      const qHtml = (act.reflectionQuestions || []).map(q => '<li class="bg-white/70 p-2.5 rounded-lg border border-[#D1E0D5]/50">' + q + '</li>').join('');
+
+      modalContent.innerHTML = `
+        <div class="relative w-full h-48 sm:h-56 bg-[#E2DDD5] overflow-hidden">
+          <img src="${act.coverImage}" alt="${act.title}" class="w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#FAF8F5] via-[#FAF8F5]/30 to-black/30"></div>
+          <div class="absolute bottom-3 left-6">
+            <h2 class="font-serif font-bold text-2xl text-[#1F2421]">${act.title}</h2>
+          </div>
+        </div>
+
+        <div class="p-6 space-y-5">
+          <p class="italic text-sm text-[#3E3830] bg-[#F4F0E8] p-3 rounded-xl border border-[#EAE6DF]">
+            “${act.summary}”
+          </p>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 p-3.5 rounded-xl bg-white border border-[#E8E4DC] text-xs">
+            <div>⏱️ 時間：<strong>${act.duration}</strong></div>
+            <div>👥 人數：<strong>${act.groupSize}</strong></div>
+            <div>🔥 強度：<strong>${act.intensity}</strong></div>
+            <div>🎯 深度：<strong>${act.depth}</strong></div>
+          </div>
+
+          <div>
+            <div class="text-xs font-bold text-[#7A7368] mb-1.5">📦 必備材料與道具：</div>
+            <div class="flex flex-wrap gap-1.5">
+              ${act.materials.map(m => '<span class="px-2.5 py-1 rounded-lg bg-white border border-[#E2DDD5] text-xs">' + m + '</span>').join('')}
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="font-serif font-bold text-sm text-[#1F2421]">✨ 引導步驟 (Step-by-Step)</div>
+            <div class="space-y-2.5">${stepsHtml}</div>
+          </div>
+
+          ${act.tips.length > 0 ? `
+            <div class="p-4 rounded-xl bg-[#FDF6E9] border border-[#F4E1BA] space-y-1.5 text-xs sm:text-sm">
+              <div class="font-bold text-[#A07026]">💡 帶領者心法秘訣</div>
+              <ul class="list-disc pl-5 space-y-1 text-[#5C4827]">${tipsHtml}</ul>
+            </div>
+          ` : ''}
+
+          ${act.reflectionQuestions && act.reflectionQuestions.length > 0 ? `
+            <div class="p-4 rounded-xl bg-[#EEF3EF] border border-[#D1E0D5] space-y-1.5 text-xs sm:text-sm">
+              <div class="font-bold text-[#3E5C46]">❓ 反思提問引導 (ORID / 焦點解決)</div>
+              <ul class="space-y-1.5 text-[#2A4432]">${qHtml}</ul>
+            </div>
+          ` : ''}
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+    }
+
+    function copyText(str, btn) {
+      navigator.clipboard.writeText(str);
+      const original = btn.textContent;
+      btn.textContent = '已複製✓';
+      setTimeout(() => btn.textContent = original, 1500);
+    }
+
+    function pickRandomActivity() {
+      switchView('activities');
+      const random = activities[Math.floor(Math.random() * activities.length)];
+      openModal(random);
+    }
+
+    searchInput.oninput = (e) => {
+      searchQuery = e.target.value;
+      applyFilters();
+    };
+
+    document.getElementById('filter-groupsize').onchange = (e) => {
+      selectedGroupSize = e.target.value;
+      applyFilters();
+    };
+    document.getElementById('filter-intensity').onchange = (e) => {
+      selectedIntensity = e.target.value;
+      applyFilters();
+    };
+    document.getElementById('filter-depth').onchange = (e) => {
+      selectedDepth = e.target.value;
+      applyFilters();
+    };
+    document.getElementById('filter-audience').onchange = (e) => {
+      selectedAudience = e.target.value;
+      applyFilters();
+    };
+
+    document.getElementById('btn-reset-filters').onclick = () => {
+      currentCategory = '全部';
+      searchQuery = '';
+      selectedGroupSize = 'all';
+      selectedIntensity = 'all';
+      selectedDepth = 'all';
+      selectedAudience = 'all';
+      searchInput.value = '';
+      document.getElementById('filter-groupsize').value = 'all';
+      document.getElementById('filter-intensity').value = 'all';
+      document.getElementById('filter-depth').value = 'all';
+      document.getElementById('filter-audience').value = 'all';
+      renderPills();
+      applyFilters();
+    };
+
+    document.getElementById('btn-close-modal').onclick = () => modal.classList.add('hidden');
+    modal.onclick = (e) => {
+      if (e.target === modal) modal.classList.add('hidden');
+    };
+
+    window.onkeydown = (e) => {
+      if (e.key === 'Escape') modal.classList.add('hidden');
+    };
+
+    renderInquiry();
+    renderMaterials();
+    renderPills();
+    applyFilters();
+  </script>
+</body>
+</html>

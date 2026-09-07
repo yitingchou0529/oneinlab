@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Noto Serif TC", Georgia, serif;
+  --font-sans: "Noto Sans TC", system-ui, -apple-system, sans-serif;
+  --color-sand: #EFECE6;
+  --color-sand-light: #F9F8F6;
+  --color-sand-dark: #E2DDD5;
+  --color-ink: #1F2421;
+  --color-coral: #E07A5F;
+  --color-olive: #4D6A56;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #F9F8F6;
+  color: #1F2421;
+}
+
+/* 溫暖文青風自訂滾動條 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F4F1EA;
+}
+::-webkit-scrollbar-thumb {
+  background: #D5CFC5;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B8B0A2;
+}
+
