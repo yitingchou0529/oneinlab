@@ -514,7 +514,9 @@ export default function App() {
                         活動檢索與教案型錄
                       </h2>
                       <p className="text-xs sm:text-sm text-[#5C554B] leading-relaxed font-normal">
-                        支援分類標籤、人數、強度、深度與對象族群篩選。點擊任意活動卡片即可查看完整帶領步驟、道具與引導反思問句。
+                        支援分類標籤、人數、強度、深度與對象族群篩選。點擊任意活動卡片即可查看完整內容。
+                        <br />
+                        分類僅用於迅速統整，不代表該活動唯一性質。
                       </p>
                     </div>
 

@@ -79,7 +79,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             onChange={(e) => onChangeFilters({ sortBy: e.target.value as any })}
             className="px-3 py-2.5 rounded-xl border border-[#E2DDD5] bg-[#FAF8F5] text-xs sm:text-sm text-[#1F2421] focus:outline-hidden focus:ring-2 focus:ring-[#E07A5F]/30"
           >
-            <option value="default">預設排序 (Notion 編號)</option>
+            <option value="default">預設排序</option>
             <option value="title">名稱筆畫順序</option>
             <option value="intensity">依活動強度 (高→低)</option>
           </select>
