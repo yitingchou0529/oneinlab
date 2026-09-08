@@ -54,7 +54,10 @@ export function performGlobalSearch(query: string): SearchResultItem[] {
 
   // 2. 搜尋引導問句庫 (Inquiry Questions)
   INQUIRY_TOOLKIT.forEach((cat, catIdx) => {
-    const catMatch = cat.title.toLowerCase().includes(trimmed) || cat.subtitle.toLowerCase().includes(trimmed);
+    const catMatch = cat.title.toLowerCase().includes(trimmed) || 
+      cat.subtitle.toLowerCase().includes(trimmed) ||
+      (cat.intro && cat.intro.toLowerCase().includes(trimmed)) ||
+      (cat.conclusion && cat.conclusion.toLowerCase().includes(trimmed));
 
     cat.items.forEach((item, itemIdx) => {
       let score = 0;

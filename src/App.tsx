@@ -18,6 +18,7 @@ import { HomePage } from './components/HomePage';
 import { InquiryPage } from './components/InquiryPage';
 import { MaterialsPage } from './components/MaterialsPage';
 import { AboutPage } from './components/AboutPage';
+import { ContactPage } from './components/ContactPage';
 import { FilterBar } from './components/FilterBar';
 import { ActivityCard } from './components/ActivityCard';
 import { ActivityDetailModal } from './components/ActivityDetailModal';
@@ -98,7 +99,7 @@ export default function App() {
     if (hash.startsWith('notion-act-')) {
       return { initialView: 'activities', initialActId: hash };
     }
-    if (['home', 'inquiry', 'materials', 'activities', 'about'].includes(hash)) {
+    if (['home', 'inquiry', 'materials', 'activities', 'about', 'contact'].includes(hash)) {
       return { initialView: hash as AppView, initialActId: null };
     }
     return { initialView: 'home', initialActId: null };
@@ -174,7 +175,7 @@ export default function App() {
         } else if (hash.startsWith('notion-act-')) {
           targetActId = hash;
           targetView = 'activities';
-        } else if (['home', 'inquiry', 'materials', 'activities', 'about'].includes(hash)) {
+        } else if (['home', 'inquiry', 'materials', 'activities', 'about', 'contact'].includes(hash)) {
           targetView = hash as AppView;
         }
       }
@@ -582,6 +583,16 @@ export default function App() {
                   onBackToHome={() => navigateTo('home')}
                   onNavigate={(v) => navigateTo(v)}
                   activitiesCount={activities.length}
+                />
+              </main>
+            )}
+
+            {/* 6. 聯絡我們獨立分頁 */}
+            {currentView === 'contact' && (
+              <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+                <ContactPage
+                  onBackToHome={() => navigateTo('home')}
+                  onNavigate={(v) => navigateTo(v)}
                 />
               </main>
             )}

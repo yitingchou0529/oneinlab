@@ -11,7 +11,8 @@ import {
   FolderTree, 
   ExternalLink,
   Sparkles,
-  Heart
+  Heart,
+  Mail
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { AppView } from '../types';
@@ -247,6 +248,19 @@ export const SidebarDrawer: React.FC<SidebarDrawerProps> = ({
                 >
                   <Info className="w-4 h-4 shrink-0" />
                   <span>關於本站</span>
+                </button>
+
+                {/* 5. 聯絡我們 */}
+                <button
+                  onClick={() => handleSelectView('contact')}
+                  className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all active:scale-[0.98] cursor-pointer ${
+                    currentView === 'contact'
+                      ? 'bg-[#1F2421] text-white shadow-xs'
+                      : 'text-[#5C554B] hover:bg-white hover:text-[#1F2421]'
+                  }`}
+                >
+                  <Mail className="w-4 h-4 shrink-0" />
+                  <span>聯絡我們</span>
                 </button>
 
               </nav>

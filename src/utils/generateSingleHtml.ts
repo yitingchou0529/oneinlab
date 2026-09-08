@@ -266,7 +266,7 @@ export function generateSingleFileHtml(activities: Activity[]): string {
 
       <div class="rounded-2xl p-6 bg-[#FDF0ED] border border-[#F4D0C7]">
         <h2 class="font-serif font-bold text-2xl text-[#1F2421]">帶領者引導問句庫</h2>
-        <p class="text-xs sm:text-sm text-[#5C554B] mt-1">包含焦點解決短期治療、敘事治療與 ORID 焦點討論法核心問句。</p>
+        <p class="text-xs sm:text-sm text-[#5C554B] mt-1">包含焦點解決短期治療、敘事治療、ORID 焦點討論法與活動延伸提問引導心法。</p>
       </div>
 
       <div id="inquiry-cards-container" class="space-y-6">
@@ -430,10 +430,18 @@ export function generateSingleFileHtml(activities: Activity[]): string {
       const container = document.getElementById('inquiry-cards-container');
       container.innerHTML = inquiryToolkit.map(sec => \`
         <div class="bg-white rounded-3xl border border-[#EAE6DF] p-6 sm:p-8 space-y-4">
-          <div class="border-b border-[#F0ECE4] pb-3">
-            <h3 class="font-serif font-bold text-xl text-[#1F2421]">\${sec.title}</h3>
-            <p class="text-xs text-[#7A7368] mt-0.5">\${sec.subtitle}</p>
+          <div class="border-b border-[#F0ECE4] pb-3 flex items-center justify-between">
+            <div>
+              <h3 class="font-serif font-bold text-xl text-[#1F2421]">\${sec.title}</h3>
+              <p class="text-xs text-[#7A7368] mt-0.5">\${sec.subtitle}</p>
+            </div>
+            \${sec.fullContent ? \`
+              <button onclick="copyText('\${sec.fullContent.replace(/'/g, "\\\\'").replace(/\\n/g, '\\\\n')}', this)" class="text-xs px-3 py-1 rounded-full bg-[#FAF8F5] border border-[#E2DDD5] text-[#7A7368] hover:text-[#1F2421]">
+                複製指南全文
+              </button>
+            \` : ''}
           </div>
+          \${sec.intro ? '<div class="p-4 rounded-2xl bg-[#FDFBF7] border border-[#EFE8DC] text-xs sm:text-sm text-[#5C554B] leading-relaxed whitespace-pre-line">' + sec.intro + '</div>' : ''}
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
             \${sec.items.map(item => \`
               <div class="p-4 rounded-2xl bg-[#FAF8F5] border border-[#EAE6DF] space-y-2">
@@ -448,6 +456,7 @@ export function generateSingleFileHtml(activities: Activity[]): string {
               </div>
             \`).join('')}
           </div>
+          \${sec.conclusion ? '<div class="p-4 rounded-2xl bg-[#F5F8F5] border border-[#DCE5DC] text-xs sm:text-sm text-[#47604E] leading-relaxed whitespace-pre-line space-y-1"><div class="font-bold text-xs text-[#2F4E38]">💡 帶領心法與實務建議</div><div>' + sec.conclusion + '</div></div>' : ''}
         </div>
       \`).join('');
     }

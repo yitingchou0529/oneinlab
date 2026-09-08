@@ -98,13 +98,39 @@ export const InquiryToolkitModal: React.FC<InquiryToolkitModalProps> = ({
             <div className="space-y-6">
               {INQUIRY_TOOLKIT.map((section, idx) => (
                 <div key={idx} className="bg-white rounded-2xl border border-[#E8E4DC] p-5 shadow-xs space-y-3">
-                  <div className="border-b border-[#F0ECE6] pb-3">
-                    <h4 className="font-serif font-bold text-base text-[#1F2421] flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-[#E07A5F]" />
-                      {section.title}
-                    </h4>
-                    <p className="text-xs text-[#7A7368] mt-0.5">{section.subtitle}</p>
+                  <div className="border-b border-[#F0ECE6] pb-3 flex items-center justify-between">
+                    <div>
+                      <h4 className="font-serif font-bold text-base text-[#1F2421] flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-[#E07A5F]" />
+                        {section.title}
+                      </h4>
+                      <p className="text-xs text-[#7A7368] mt-0.5">{section.subtitle}</p>
+                    </div>
+                    {section.fullContent && (
+                      <button
+                        onClick={() => handleCopy(section.fullContent!)}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs bg-[#FAF8F5] text-[#7A7368] hover:text-[#1F2421] border border-[#E2DDD5] transition-colors"
+                      >
+                        {copiedText === section.fullContent ? (
+                          <>
+                            <Check className="w-3 h-3 text-emerald-600" />
+                            <span>已複製全文</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3 h-3" />
+                            <span>複製指南</span>
+                          </>
+                        )}
+                      </button>
+                    )}
                   </div>
+
+                  {section.intro && (
+                    <div className="p-3.5 rounded-xl bg-[#FDFBF7] border border-[#EFE8DC] text-xs text-[#5C554B] leading-relaxed whitespace-pre-line">
+                      {section.intro}
+                    </div>
+                  )}
 
                   <div className="space-y-3 pt-1">
                     {section.items.map((item, qIdx) => (
@@ -138,6 +164,13 @@ export const InquiryToolkitModal: React.FC<InquiryToolkitModalProps> = ({
                       </div>
                     ))}
                   </div>
+
+                  {section.conclusion && (
+                    <div className="p-3.5 rounded-xl bg-[#F5F8F5] border border-[#DCE5DC] text-xs text-[#47604E] leading-relaxed whitespace-pre-line space-y-1">
+                      <div className="font-bold text-xs text-[#2F4E38]">💡 帶領心法與實務建議</div>
+                      <div>{section.conclusion}</div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

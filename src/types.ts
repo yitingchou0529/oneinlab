@@ -2,7 +2,7 @@
  * 活動資料庫型別定義 (完全對齊使用者的 Notion Database 欄位結構)
  */
 
-export type AppView = 'home' | 'inquiry' | 'materials' | 'activities' | 'about';
+export type AppView = 'home' | 'inquiry' | 'materials' | 'activities' | 'about' | 'contact';
 
 export interface SearchResultItem {
   id: string;

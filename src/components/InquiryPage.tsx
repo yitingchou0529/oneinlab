@@ -95,7 +95,7 @@ export const InquiryPage: React.FC<InquiryPageProps> = ({
             帶領者引導問句庫
           </h2>
           <p className="text-xs sm:text-sm text-[#5C554B] leading-relaxed font-normal">
-            提問是開啟反思與重塑故事的鑰匙。收錄焦點解決短期治療、敘事治療與 ORID 焦點討論法三大經典引導架構，點擊右側即可一鍵複製至教案中。
+            提問是開啟反思與重塑故事的鑰匙。收錄焦點解決短期治療、敘事治療、ORID 焦點討論法與活動延伸提問四大引導架構，點擊右側即可一鍵複製至教案中。
           </p>
         </div>
 
@@ -161,12 +161,33 @@ export const InquiryPage: React.FC<InquiryPageProps> = ({
                   {section.subtitle}
                 </p>
               </div>
-              <span className="text-xs text-[#8A847A] bg-[#FAF8F5] px-3 py-1 rounded-full border border-[#E2DDD5] w-fit">
-                共 {section.items.length} 則問句
-              </span>
+              {section.fullContent && (
+                <button
+                  onClick={() => handleCopy(section.fullContent!)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-[#FAF8F5] hover:bg-[#F3EFEA] text-[#7A7368] hover:text-[#1F2421] border border-[#E2DDD5] transition-colors"
+                >
+                  {copiedText === section.fullContent ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>已複製全文</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>複製完整指南</span>
+                    </>
+                  )}
+                </button>
+              )}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            {section.intro && (
+              <div className="p-4 sm:p-5 rounded-2xl bg-[#FDFBF7] border border-[#EFE8DC] text-xs sm:text-sm text-[#5C554B] leading-relaxed whitespace-pre-line">
+                {section.intro}
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
               {section.items.map((item, qIdx) => (
                 <div
                   key={qIdx}
@@ -204,6 +225,16 @@ export const InquiryPage: React.FC<InquiryPageProps> = ({
                 </div>
               ))}
             </div>
+
+            {section.conclusion && (
+              <div className="p-4 sm:p-5 rounded-2xl bg-[#F5F8F5] border border-[#DCE5DC] text-xs sm:text-sm text-[#47604E] leading-relaxed whitespace-pre-line space-y-2">
+                <div className="font-bold text-xs text-[#2F4E38] flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[#4D6A56]" />
+                  <span>實務運用心法與延伸引導</span>
+                </div>
+                <div>{section.conclusion}</div>
+              </div>
+            )}
           </section>
         ))}
 
