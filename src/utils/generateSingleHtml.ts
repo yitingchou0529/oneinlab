@@ -15,7 +15,7 @@ export function generateSingleFileHtml(activities: Activity[]): string {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>活動教案與引導資料庫 (首頁入口・30項教案版)</title>
+  <title>活動教案與引導資料庫 (首頁入口・44項教案版)</title>
   <meta name="description" content="溫暖木質簡約文青風的活動教案資料庫，具備首頁三大模組入口：引導問句庫、藝術媒材表與活動教案庫。" />
 
   <!-- Google 字體：思源宋體與黑體 -->
@@ -79,7 +79,7 @@ export function generateSingleFileHtml(activities: Activity[]): string {
           <h1 class="text-lg sm:text-xl font-serif font-bold tracking-tight text-[#1F2421]">
             活動教案與引導資料庫
           </h1>
-          <p class="text-xs text-[#736E65] mt-0.5">引導問句庫・藝術媒材表・30項教案型錄</p>
+          <p class="text-xs text-[#736E65] mt-0.5">引導問句庫・藝術媒材表・44項教案型錄</p>
         </div>
       </div>
 
@@ -144,7 +144,7 @@ export function generateSingleFileHtml(activities: Activity[]): string {
           為帶領者量身打造的心靈對話與體驗引導資源庫
         </h2>
         <p class="text-xs sm:text-sm text-[#5C554B] max-w-2xl leading-relaxed">
-          請選擇你今天想探索的單元。包含焦點解決與敘事問句庫、12 種表達性藝術媒材指南，以及 30 個經過實務驗證的團體教案。
+          請選擇你今天想探索的單元。包含焦點解決與敘事問句庫、12 種表達性藝術媒材指南，以及 44 個經過實務驗證的團體教案。
         </p>
       </div>
 
@@ -227,13 +227,13 @@ export function generateSingleFileHtml(activities: Activity[]): string {
                   📚
                 </div>
                 <span class="px-3 py-1 rounded-full text-xs font-semibold bg-[#FDF6E9] text-[#A07026]">
-                  30 項完整教案
+                  44 項完整教案
                 </span>
               </div>
               <div>
                 <h4 class="font-serif font-bold text-2xl text-[#1F2421]">活動教案庫</h4>
                 <p class="text-xs sm:text-sm text-[#5C554B] mt-1.5 leading-relaxed">
-                  破冰、暖身、合作、藝術、競賽與模擬體驗。具備即時搜尋與多維度強度人數篩選。
+                  破冰、暖身、合作、藝術與模擬體驗。具備即時搜尋與多維度強度人數篩選。
                 </p>
               </div>
               <ul class="text-xs text-[#665E52] space-y-1.5 pt-2 border-t border-[#F2EEE9]">
@@ -243,7 +243,7 @@ export function generateSingleFileHtml(activities: Activity[]): string {
               </ul>
             </div>
             <div class="pt-6 mt-6 border-t border-[#F2EEE9] text-xs font-bold text-[#A07026] flex items-center justify-between">
-              <span>瀏覽 30 個活動教案 →</span>
+              <span>瀏覽 44 個活動教案 →</span>
             </div>
           </div>
 
@@ -353,13 +353,6 @@ export function generateSingleFileHtml(activities: Activity[]): string {
             <option value="較深入">較深入</option>
           </select>
 
-          <select id="filter-audience" class="px-2.5 py-1.5 rounded-lg border border-[#E2DDD5] bg-[#FAF8F5]">
-            <option value="all">對象族群：全部</option>
-            <option value="兒童">兒童</option>
-            <option value="青少年">青少年</option>
-            <option value="成人">成人</option>
-          </select>
-
           <button id="btn-reset-filters" class="ml-auto text-xs text-[#C85A3E] hover:underline">
             重設篩選
           </button>
@@ -397,7 +390,7 @@ export function generateSingleFileHtml(activities: Activity[]): string {
   </div>
 
   <footer class="mt-16 border-t border-[#E8E4DC] bg-[#FAF8F5] py-8 text-xs text-[#7A7368] text-center">
-    活動教案與引導資料庫（共 30 項教案・單一檔案完全離線版）
+    活動教案與引導資料庫（共 44 項教案・單一檔案完全離線版）
   </footer>
 
   <!-- 腳本 -->
@@ -405,7 +398,7 @@ export function generateSingleFileHtml(activities: Activity[]): string {
     const activities = ${jsonActivities};
     const inquiryToolkit = ${jsonInquiries};
     const artMaterials = ${jsonMaterials};
-    const categories = ['全部', '破冰', '暖身', '合作', '藝術', '競賽', '模擬體驗'];
+    const categories = ['全部', '破冰', '暖身', '合作', '藝術', '模擬體驗'];
 
     let currentView = 'home';
     let currentCategory = '全部';
@@ -413,7 +406,6 @@ export function generateSingleFileHtml(activities: Activity[]): string {
     let selectedGroupSize = 'all';
     let selectedIntensity = 'all';
     let selectedDepth = 'all';
-    let selectedAudience = 'all';
 
     function switchView(viewName) {
       currentView = viewName;
@@ -516,7 +508,6 @@ export function generateSingleFileHtml(activities: Activity[]): string {
         if (selectedGroupSize !== 'all' && act.groupSize !== selectedGroupSize) return false;
         if (selectedIntensity !== 'all' && act.intensity !== selectedIntensity) return false;
         if (selectedDepth !== 'all' && act.depth !== selectedDepth) return false;
-        if (selectedAudience !== 'all' && !act.targetAudience.includes(selectedAudience)) return false;
 
         if (searchQuery.trim()) {
           const q = searchQuery.toLowerCase();
@@ -573,7 +564,7 @@ export function generateSingleFileHtml(activities: Activity[]): string {
 
               <div class="pt-3 border-t border-[#F0ECE4] flex items-center justify-between text-xs text-[#7A7368]">
                 <span>⏱️ \${act.duration}</span>
-                <span>\${act.targetAudience.join('・')}</span>
+                <span>👥 \${act.groupSize}</span>
               </div>
             </div>
           \`;
@@ -621,7 +612,7 @@ export function generateSingleFileHtml(activities: Activity[]): string {
           </div>
 
           <div>
-            <div class="text-xs font-bold text-[#7A7368] mb-1.5">📦 必備材料與道具：</div>
+            <div class="text-xs font-bold text-[#7A7368] mb-1.5">📦 建議材料與道具：</div>
             <div class="flex flex-wrap gap-1.5">
               \${act.materials.map(m => '<span class="px-2.5 py-1 rounded-lg bg-white border border-[#E2DDD5] text-xs">' + m + '</span>').join('')}
             </div>
@@ -681,10 +672,6 @@ export function generateSingleFileHtml(activities: Activity[]): string {
       selectedDepth = e.target.value;
       applyFilters();
     };
-    document.getElementById('filter-audience').onchange = (e) => {
-      selectedAudience = e.target.value;
-      applyFilters();
-    };
 
     document.getElementById('btn-reset-filters').onclick = () => {
       currentCategory = '全部';
@@ -692,12 +679,10 @@ export function generateSingleFileHtml(activities: Activity[]): string {
       selectedGroupSize = 'all';
       selectedIntensity = 'all';
       selectedDepth = 'all';
-      selectedAudience = 'all';
       searchInput.value = '';
       document.getElementById('filter-groupsize').value = 'all';
       document.getElementById('filter-intensity').value = 'all';
       document.getElementById('filter-depth').value = 'all';
-      document.getElementById('filter-audience').value = 'all';
       renderPills();
       applyFilters();
     };

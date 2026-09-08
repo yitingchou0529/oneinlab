@@ -3,7 +3,7 @@ import { INQUIRY_TOOLKIT, ART_MATERIALS } from '../data/inquiryQuestions';
 import { SearchResultItem } from '../types';
 
 /**
- * 全站搜尋引擎：整合 30 項活動教案、三大學派引導問句、常用藝術媒材
+ * 全站搜尋引擎：整合 44 項活動教案、三大學派引導問句、常用藝術媒材
  */
 export function performGlobalSearch(query: string): SearchResultItem[] {
   const trimmed = query.trim().toLowerCase();

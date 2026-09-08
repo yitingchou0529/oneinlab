@@ -7,10 +7,9 @@ import {
   Zap, 
   SlidersHorizontal,
   Flame,
-  Layers,
-  GraduationCap
+  Layers
 } from 'lucide-react';
-import { FilterState, CategoryType, TargetAudience, IntensityLevel, DepthLevel, GroupSizeOption } from '../types';
+import { FilterState, CategoryType, IntensityLevel, DepthLevel, GroupSizeOption } from '../types';
 import { CATEGORIES } from '../data/activities';
 
 interface FilterBarProps {
@@ -33,7 +32,6 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   const hasActiveFilters =
     filters.searchQuery.trim() !== '' ||
     filters.selectedCategory !== '全部' ||
-    filters.selectedAudience !== 'all' ||
     filters.selectedGroupSize !== 'all' ||
     filters.selectedIntensity !== 'all' ||
     filters.selectedDepth !== 'all' ||
@@ -171,22 +169,6 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             <option value="較淺">較淺（輕鬆無負擔）</option>
             <option value="適中">適中（自我省思）</option>
             <option value="較深">較深（深刻心理覺察）</option>
-          </select>
-        </div>
-
-        {/* 團體對象族群 */}
-        <div className="flex items-center gap-1.5">
-          <GraduationCap className="w-3.5 h-3.5 text-[#817291]" />
-          <select
-            id="filter-audience"
-            value={filters.selectedAudience}
-            onChange={(e) => onChangeFilters({ selectedAudience: e.target.value as TargetAudience })}
-            className="px-2.5 py-1.5 rounded-lg border border-[#E2DDD5] bg-[#FAF8F5] text-xs text-[#1F2421] focus:outline-hidden focus:ring-1 focus:ring-[#E07A5F]"
-          >
-            <option value="all">對象族群：全部</option>
-            <option value="兒童">兒童適用</option>
-            <option value="青少年">青少年適用</option>
-            <option value="成人">成人適用</option>
           </select>
         </div>
 

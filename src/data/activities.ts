@@ -9,7 +9,6 @@ export const CATEGORIES: CategoryType[] = [
   '破冰',
   '合作',
   '藝術',
-  '競賽',
   '模擬體驗',
 ];
 
@@ -41,12 +40,6 @@ export const CATEGORY_THEMES: Record<string, { bg: string; text: string; border:
     border: 'border-[#DDD4E6]',
     accent: '#817291',
   },
-  '競賽': {
-    bg: 'bg-[#FBF1F3]',
-    text: 'text-[#A84A5B]',
-    border: 'border-[#F3CED6]',
-    accent: '#B23A48',
-  },
   '模擬體驗': {
     bg: 'bg-[#EFF5F5]',
     text: 'text-[#366361]',
@@ -56,7 +49,7 @@ export const CATEGORY_THEMES: Record<string, { bg: string; text: string; border:
 };
 
 /**
- * 30 筆真實完整活動教案 (100% 採用使用者提供的玩法說明、備註、變形與延伸思考，絕無 AI 虛構文字)
+ * 44 筆真實完整活動教案 (100% 採用使用者提供的玩法說明、備註、變形與延伸思考，絕無 AI 虛構文字)
  */
 export const NOTION_ACTIVITIES: Activity[] = [
   {
@@ -64,7 +57,6 @@ export const NOTION_ACTIVITIES: Activity[] = [
     title: "箭與靶",
     summary: "類似鬼抓人可用於破冰",
     category: "暖身",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "2~5人",
     nature: ["動態", "破冰"],
     intensity: "高強度",
@@ -104,7 +96,6 @@ export const NOTION_ACTIVITIES: Activity[] = [
     title: "兩真一假",
     summary: "自我揭露快速拉近關係",
     category: "破冰",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "5人以上",
     nature: ["談話性", "自我揭露"],
     intensity: "低強度",
@@ -138,7 +129,6 @@ export const NOTION_ACTIVITIES: Activity[] = [
     title: "搭肩傳令",
     summary: "用肢體深化非語言溝通，快速建立團隊信任與默契",
     category: "合作",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "5人以上",
     nature: ["合作性", "非語言溝通", "信任建立"],
     intensity: "中強度",
@@ -185,7 +175,6 @@ export const NOTION_ACTIVITIES: Activity[] = [
     title: "蛋蛋蛋幾顆蛋",
     summary: "遊玩中抱團拉近彼此距離",
     category: "暖身",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "5人以上",
     nature: ["動態", "破冰團康"],
     intensity: "高強度",
@@ -221,7 +210,6 @@ export const NOTION_ACTIVITIES: Activity[] = [
     title: "接力自畫像",
     summary: "創造自己與別人眼中的我",
     category: "藝術",
-    targetAudience: ["青少年", "成人"],
     groupSize: "5人以上",
     nature: ["表達性", "自我覺察", "藝術創作"],
     intensity: "低強度",
@@ -268,7 +256,6 @@ export const NOTION_ACTIVITIES: Activity[] = [
     title: "人間煉獄",
     summary: "姓名互換破冰團康",
     category: "破冰",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "5人以上",
     nature: ["動態", "破冰團康"],
     intensity: "中強度",
@@ -307,7 +294,6 @@ export const NOTION_ACTIVITIES: Activity[] = [
     title: "特質賓果",
     summary: "透過簡單認識彼此找到共同點",
     category: "破冰",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "5人以上",
     nature: ["破冰", "談話性"],
     intensity: "低強度",
@@ -343,7 +329,6 @@ export const NOTION_ACTIVITIES: Activity[] = [
     title: "六格畫",
     summary: "從各個面向切入自我覺察",
     category: "藝術",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "個人",
     nature: ["表達性", "自我覺察"],
     intensity: "低強度",
@@ -381,7 +366,6 @@ export const NOTION_ACTIVITIES: Activity[] = [
     title: "人體結",
     summary: "透過肢體穿梭與肢體協調，考驗成員非語言溝通、問題解決與團隊策略合作",
     category: "合作",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "5人以上",
     nature: ["合作性", "動態", "問題解決"],
     intensity: "中強度",
@@ -422,7 +406,6 @@ export const NOTION_ACTIVITIES: Activity[] = [
     title: "即興故事創作(皮克斯故事法)",
     summary: "透過半結構式句型發想故事",
     category: "藝術",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "2~5人",
     nature: ["表達性", "敘事表達", "想像力"],
     intensity: "低強度",
@@ -472,7 +455,6 @@ export const NOTION_ACTIVITIES: Activity[] = [
     title: "細胞分裂",
     summary: "結合反應力與敏銳度的動態暖身遊戲",
     category: "暖身",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "5人以上",
     nature: ["動態", "反應訓練"],
     intensity: "高強度",
@@ -505,8 +487,7 @@ export const NOTION_ACTIVITIES: Activity[] = [
     id: "notion-act-12",
     title: "進化論",
     summary: "猜拳遊戲",
-    category: "競賽",
-    targetAudience: ["兒童", "青少年", "成人"],
+    category: "暖身",
     groupSize: "5人以上",
     nature: ["動態", "破冰競賽"],
     intensity: "中強度",
@@ -547,7 +528,6 @@ export const NOTION_ACTIVITIES: Activity[] = [
     title: "節奏挑戰",
     summary: "跟隨音樂節拍，精準在八拍內唸出畫面中出現的文字或圖片",
     category: "暖身",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "5人以上",
     nature: ["節奏感", "多重感官"],
     intensity: "中強度",
@@ -579,7 +559,6 @@ export const NOTION_ACTIVITIES: Activity[] = [
     title: "面具創作",
     summary: "自我象徵性創作載體",
     category: "藝術",
-    targetAudience: ["青少年", "成人"],
     groupSize: "個人",
     nature: ["表達性", "深度自我覺察"],
     intensity: "低強度",
@@ -613,7 +592,6 @@ export const NOTION_ACTIVITIES: Activity[] = [
     title: "心願實現所",
     summary: "透過想像力、戲劇方式實現夢想",
     category: "模擬體驗",
-    targetAudience: ["兒童", "青少年"],
     groupSize: "2~5人",
     nature: ["戲劇性", "復原力體驗"],
     intensity: "中強度",
@@ -651,7 +629,6 @@ export const NOTION_ACTIVITIES: Activity[] = [
     title: "鏡像引導(動作牽引)",
     summary: "由一人帶領，一人模仿如同鏡子般",
     category: "暖身",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "2~5人",
     nature: ["非語言互動", "身體覺察"],
     intensity: "中強度",
@@ -687,7 +664,6 @@ export const NOTION_ACTIVITIES: Activity[] = [
     title: "誇大與縮小",
     summary: "透過肢體與聲音的漸進放大與縮小，開發身體極限",
     category: "暖身",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "5人以上",
     nature: ["肢體開發", "戲劇表達"],
     intensity: "中強度",
@@ -728,8 +704,7 @@ export const NOTION_ACTIVITIES: Activity[] = [
     id: "notion-act-18",
     title: "報紙找碴",
     summary: "模仿與觀察力訓練",
-    category: "競賽",
-    targetAudience: ["兒童", "青少年", "成人"],
+    category: "合作",
     groupSize: "5人以上",
     nature: ["分組競賽", "觀察訓練"],
     intensity: "中強度",
@@ -766,7 +741,6 @@ export const NOTION_ACTIVITIES: Activity[] = [
     title: "你在做什麼?",
     summary: "反直覺動作與語言接龍暖身",
     category: "暖身",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "5人以上",
     nature: ["即興戲劇", "反直覺暖身"],
     intensity: "中強度",
@@ -811,7 +785,6 @@ B: 我在拖地 （表演放風箏） （退場）`,
     title: "價值拍賣會",
     summary: "透過拍賣覺察自身注重的事物與其價值",
     category: "模擬體驗",
-    targetAudience: ["青少年", "成人"],
     groupSize: "5人以上",
     nature: ["價值觀澄清", "自我探索"],
     intensity: "低強度",
@@ -846,7 +819,6 @@ B: 我在拖地 （表演放風箏） （退場）`,
     title: "社會原子圖",
     summary: "透過圓點貼紙投射重要他人關係與支持系統",
     category: "藝術",
-    targetAudience: ["青少年", "成人"],
     groupSize: "個人",
     nature: ["表達性", "人際關係探索"],
     intensity: "低強度",
@@ -888,7 +860,6 @@ B: 我在拖地 （表演放風箏） （退場）`,
     title: "搶位子",
     summary: "音樂椅子、大風吹變化版",
     category: "暖身",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "5人以上",
     nature: ["動態", "破冰團康"],
     intensity: "高強度",
@@ -923,7 +894,6 @@ B: 我在拖地 （表演放風箏） （退場）`,
     title: "旅程地圖",
     summary: "雜誌拼貼、價值拍賣會變化版",
     category: "藝術",
-    targetAudience: ["青少年", "成人"],
     groupSize: "5人以上",
     nature: ["表達性", "復原力認知", "敘事拼貼"],
     intensity: "低強度",
@@ -974,7 +944,6 @@ B: 我在拖地 （表演放風箏） （退場）`,
     title: "松鼠搬家",
     summary: "三人一組照情境快速換位、搶位子",
     category: "暖身",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "5人以上",
     nature: ["動態", "破冰團康"],
     intensity: "高強度",
@@ -1013,7 +982,6 @@ B: 我在拖地 （表演放風箏） （退場）`,
     title: "身體傳球",
     summary: "使用身體部位傳遞物品",
     category: "合作",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "2~5人",
     nature: ["合作性", "肢體默契"],
     intensity: "中強度",
@@ -1045,7 +1013,6 @@ B: 我在拖地 （表演放風箏） （退場）`,
     title: "找領袖",
     summary: "透過觀察找出團體中的動作領導者",
     category: "暖身",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "5人以上",
     nature: ["觀察力", "團體默契"],
     intensity: "中強度",
@@ -1079,7 +1046,6 @@ B: 我在拖地 （表演放風箏） （退場）`,
     title: "襪子娃娃",
     summary: "利用襪子創作出手作布偶",
     category: "藝術",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "個人",
     nature: ["表達性", "觸覺手作"],
     intensity: "低強度",
@@ -1112,7 +1078,6 @@ B: 我在拖地 （表演放風箏） （退場）`,
     title: "JEANSFRAME",
     summary: "舊衣服DIY",
     category: "藝術",
-    targetAudience: ["青少年", "成人"],
     groupSize: "個人",
     nature: ["自我覺察", "記憶敘事", "手作拼貼"],
     intensity: "低強度",
@@ -1147,7 +1112,6 @@ B: 我在拖地 （表演放風箏） （退場）`,
     title: "社會計量",
     summary: "透過具體行動與空間站位營造安全感與團體凝聚力",
     category: "破冰",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "5人以上",
     nature: ["破冰", "空間動力", "安全感營造"],
     intensity: "低強度",
@@ -1186,7 +1150,6 @@ B: 我在拖地 （表演放風箏） （退場）`,
     title: "零件組合",
     summary: "透過重複性動作組合創造新的象徵意義",
     category: "合作",
-    targetAudience: ["兒童", "青少年", "成人"],
     groupSize: "2~5人",
     nature: ["合作性", "肢體象徵", "即興共創"],
     intensity: "中強度",
@@ -1214,6 +1177,576 @@ B: 我在拖地 （表演放風箏） （退場）`,
         stepNumber: 2,
         title: "習慣動作重塑轉化 (版本2)",
         description: "提取生活重複動作並與夥伴拼接，賦予全新且不相干的象徵場景。"
+      }
+    ],
+    tips: [],
+    reflectionQuestions: []
+  },
+  {
+    id: "notion-act-31",
+    title: "蒙娜麗莎",
+    summary: "迅速醒腦與簡單動作演繹遊戲",
+    category: "暖身",
+    groupSize: "5人以上",
+    nature: ["動態"],
+    intensity: "中強度",
+    depth: "較淺",
+    abilities: ["反應力", "專注", "肢體"],
+    duration: "10-15 分鐘",
+    materials: ["足夠圍圈活動的平整空間"],
+    coverImage: "/assets/activities/activity-31.jpg",
+    gameplay: `1、所有成員圍圈。
+2、由一名成員開頭，隨機指向另一名成員並喊出「蒙」
+3、由被指到的成員點下一位並依序喊出「娜」「麗」「莎」
+4、最後被點到「莎」的成員需擺出名畫蒙娜麗莎的姿勢。
+5、該成員左右兩邊成員需以手比出畫框的姿勢形成三人一組的動作。
+6、由扮演蒙娜麗莎的成員重新開始指定下一位並重複1~5流程。
+
+延伸玩法:可以依照輪次不斷擴大需要表演的範圍，如畫框再往外的成員需扮演遊客、再擴大兩位扮演冷氣等等。
+
+備注:蒙娜麗莎有許多變形版，如虎克船長、鹹蛋超人等，帶領者可依照活動主題設定主要人物和情境，透果快速的指定與演繹來進行暖身。`,
+    notes: `蒙娜麗莎有許多變形版，如虎克船長、鹹蛋超人等，帶領者可依照活動主題設定主要人物和情境，透果快速的指定與演繹來進行暖身。`,
+    steps: [
+      {
+        stepNumber: 1,
+        title: "圍圈隨機指定口令",
+        description: "所有成員圍圈，由一名成員隨機指向另一位喊「蒙」，依序被指到的喊「娜」「麗」「莎」。"
+      },
+      {
+        stepNumber: 2,
+        title: "名畫姿勢與畫框合體",
+        description: "被點到「莎」的成員需擺出蒙娜麗莎姿勢，左右兩邊成員需以手比出畫框姿勢形成三人一組動作。"
+      },
+      {
+        stepNumber: 3,
+        title: "重新指定與輪流循環",
+        description: "由扮演蒙娜麗莎的成員重新開始指定下一位並重複流程。"
+      }
+    ],
+    tips: [
+      "延伸玩法：可以依照輪次不斷擴大需要表演的範圍，如畫框再往外的成員需扮演遊客、再擴大兩位扮演冷氣等等。"
+    ],
+    reflectionQuestions: []
+  },
+  {
+    id: "notion-act-32",
+    title: "身體地圖",
+    summary: "透過描繪框架述說身體故事",
+    category: "藝術",
+    groupSize: "個人",
+    nature: ["復原力", "表達性"],
+    intensity: "低強度",
+    depth: "較深入",
+    abilities: ["自我覺察"],
+    duration: "45-60 分鐘",
+    materials: ["等身或至少半身大海報紙", "畫筆", "便條紙"],
+    coverImage: "/assets/activities/activity-32.jpg",
+    gameplay: `1、每人獲得一張等身或至少半身大小的海報紙。
+2、成員躺在自己的紙上。
+3、其他成員協助將躺下成員的外型輪廓，使用畫筆透過描邊的形式在海報紙上畫下。
+4、成員自行加工海報紙，完成自己的「身體」如標記膝蓋位子、五官、手腕等細節。
+5、經帶領者引導，成員在「身體地圖」上創作，分享自己的身體故事。可以指定部位，或由成員自行分享，亦或是指定事件（如國小最難忘的事情）由成員選擇自己的部位進行分享。
+6、可以視需求及能力，透過繪畫、拼貼、文字等方式，呈現在地圖上某部位的故事。例如：成員在頭部畫上青紫色，並分享兒時遭受家暴的故事。
+
+---
+以下為進一步活動帶領
+7、展覽邀請成員選擇一個舒適、喜歡的空間，將身體地圖放在該處，並可以加以佈置。例如放置在沙發，並擺滿枕頭、糖果。
+8、所有成員自由「逛展」並在每個人的身體地圖上留下便條紙，給予彼此鼓勵、安慰和支持。
+
+備註：本活動為較深入之藝術活動，需要有專業的領導者帶領，且於保密、安全、信任、高支持性的團體中進行。`,
+    notes: `本活動為較深入之藝術活動，需要有專業的領導者帶領，且於保密、安全、信任、高支持性的團體中進行。`,
+    steps: [
+      {
+        stepNumber: 1,
+        title: "躺紙協助描繪外型輪廓",
+        description: "每人獲得等身或半身海報紙並躺在紙上，其他成員協助使用畫筆透過描邊在海報紙上畫下輪廓。"
+      },
+      {
+        stepNumber: 2,
+        title: "加工細節與分享身體故事",
+        description: "自行加工膝蓋、五官、手腕等細節，在身體地圖上透過繪畫、拼貼或文字創作分享身體故事。"
+      },
+      {
+        stepNumber: 3,
+        title: "佈置空間逛展與便條支持",
+        description: "將身體地圖佈置於喜歡的空間，成員自由逛展並在彼此的地圖上留下便條紙給予鼓勵支持。"
+      }
+    ],
+    tips: [],
+    reflectionQuestions: []
+  },
+  {
+    id: "notion-act-33",
+    title: "廣播電臺",
+    summary: "放鬆休息與故事分享",
+    category: "模擬體驗",
+    groupSize: "5人以上",
+    nature: ["復原力", "談話性"],
+    intensity: "低強度",
+    depth: "較深入",
+    abilities: ["溝通"],
+    duration: "30-40 分鐘",
+    materials: ["音樂播放設備", "椅子三張（廣播區）"],
+    coverImage: "/assets/activities/activity-33.jpg",
+    gameplay: `1、事前準備：活動前透過其他活動，帶出主題並邀請成員分享與主題有關、自己喜歡的歌曲。關閉所有燈光，使空間成為適合休息的場所；擺放三張椅子作為廣播區並播放舒適的音樂。
+2、邀請所有成員選擇舒服的位子與姿勢休息。
+3、領導者與協調領導者播放音樂（與當天主題有關），自我揭露分享自己的生命經驗以及選擇的歌曲。例如主題為被欺負的經驗，領導者選擇「隱形的翅膀」，播放該歌曲作為背景音樂，並分享國小時受同學欺負，歌曲陪伴他熬過這段時光的故事。
+4、邀請清醒、有意願的成員至廣播區，播放該成員選擇的歌曲，並透過對談的方式，引導成員分享自己的經驗。
+
+備註：本活動以歌曲作為媒介，可搭配午後休息時間以及當日活動主題進行。透過舒適的空間營造，以及午休的私密感，營造安全的心理空間。`,
+    notes: `本活動以歌曲作為媒介，可搭配午後休息時間以及當日活動主題進行。透過舒適的空間營造，以及午休的私密感，營造安全的心理空間。`,
+    steps: [
+      {
+        stepNumber: 1,
+        title: "事前準備與舒適空間營造",
+        description: "關閉燈光營造休息氛圍，擺放三張椅子作為廣播區，播放舒適音樂讓全員選擇舒服姿勢休息。"
+      },
+      {
+        stepNumber: 2,
+        title: "領導者音樂示範與故事分享",
+        description: "領導者播放與當日主題有關音樂，自我揭露分享自己的生命經驗以及選擇該歌曲的故事。"
+      },
+      {
+        stepNumber: 3,
+        title: "邀請成員廣播對談分享",
+        description: "邀請清醒、有意願的成員至廣播區播放其所選歌曲，並透過對談引導成員分享自己的經驗。"
+      }
+    ],
+    tips: [],
+    reflectionQuestions: []
+  },
+  {
+    id: "notion-act-34",
+    title: "動物園",
+    summary: "蒙娜麗莎與零件組合綜合版",
+    category: "暖身",
+    groupSize: "5人以上",
+    nature: ["動態"],
+    intensity: "中強度",
+    depth: "較淺",
+    abilities: ["反應力", "專注", "肢體"],
+    duration: "10-15 分鐘",
+    materials: ["足夠圍圈活動的平整空間"],
+    coverImage: "/assets/activities/activity-34.jpg",
+    gameplay: `1、視活動主題決定同一系列的各種角色以及動作，如以動物為主題之活動，設定雞、大象、袋鼠、刺蝟，並設計至少可由三人組成的動作，中間人為本體，左右兩側為該本體的配件或部位。
+例如:袋鼠，中間成員將雙手放至胸前、左右兩邊單腳蹲下扮演袋鼠的腿。
+2、所有成員圍圈。
+3、由領導者說明並示範遊戲角色與動作。
+4、中間的成員直接指定圍圈中的特定成員，並喊出角色，如「袋鼠！」「大象！」「刺蝟！」被指定的成員及其兩側成員需完成該動作。
+5、可隨著輪次開始加速或是增加角色動作，提升遊戲難度。`,
+    notes: ``,
+    steps: [
+      {
+        stepNumber: 1,
+        title: "設計三人系列角色動作",
+        description: "決定同一系列角色動作（中間為本體，左右兩側為配件部位，如袋鼠雙手抱胸、兩側蹲下當腿）。"
+      },
+      {
+        stepNumber: 2,
+        title: "全員圍圈與示範",
+        description: "全員圍圈，由領導者說明並示範遊戲角色與動作。"
+      },
+      {
+        stepNumber: 3,
+        title: "指定喊名與加速升級",
+        description: "中間成員指定圍圈特定成員喊出角色，被指定者及其兩側需合體完成動作，隨輪次加速或增角色。"
+      }
+    ],
+    tips: [],
+    reflectionQuestions: []
+  },
+  {
+    id: "notion-act-35",
+    title: "過河拆橋",
+    summary: "使用拼圖地墊進行的合作遊戲",
+    category: "合作",
+    groupSize: "5人以上",
+    nature: ["動態", "合作性"],
+    intensity: "中強度",
+    depth: "較淺",
+    abilities: ["合作", "溝通"],
+    duration: "15-20 分鐘",
+    materials: ["拼圖地墊（每組數量為人數減一）"],
+    coverImage: "/assets/activities/activity-35.jpg",
+    gameplay: `1. 設定起點和終點，距離可按參加者年齡、身高、場地大小和活動時間調整。
+2. 建議5~10人一組，可進行分組競賽。
+3. 每組獲發拼圖地墊，數量為每組人數減一。例如每組10人，便獲發9張地墊。
+4. 參加者要同心協力由起點前往終點。
+5. 過程中，所有參加者身體任何部分都不可直接接觸地面，只能站在地墊上。
+6. 小組想辦法移動地墊讓所有組員向前，最後一位成員可能需回收墊子傳至第一位繼續往前。
+7. 若有人接觸地面，可視乎帶領目的設定後果，例如退回上一個位置、全組暫停5秒、失去一分，或由小組重新商量後繼續。
+8. 可增加難度規定如所有墊子上都需要有人，成員腳需接力踩在墊子上。`,
+    notes: ``,
+    steps: [
+      {
+        stepNumber: 1,
+        title: "設定起訖與發放地墊",
+        description: "建議5~10人一組分組競賽，每組獲發比人數少一張的拼圖地墊，設定起點與終點距離。"
+      },
+      {
+        stepNumber: 2,
+        title: "同心協力移動向前",
+        description: "過程中身體不可接觸地面只能站在地墊上，最後一位成員回收墊子傳至第一位繼續向前鋪路。"
+      },
+      {
+        stepNumber: 3,
+        title: "違規處理與難度微調",
+        description: "若接觸地面依設定接受退回、暫停等後果；亦可增加規定如所有墊子上都需有人接力踩著。"
+      }
+    ],
+    tips: [],
+    reflectionQuestions: []
+  },
+  {
+    id: "notion-act-36",
+    title: "護身符/幸運小物",
+    summary: "使用藝術媒材自製屬於自己的小物",
+    category: "藝術",
+    groupSize: "個人",
+    nature: ["復原力", "表達性"],
+    intensity: "低強度",
+    depth: "適中",
+    abilities: ["創意", "自我覺察"],
+    duration: "30-45 分鐘",
+    materials: ["毛根", "軟陶", "熱縮片", "打洞穿線工具"],
+    coverImage: "/assets/activities/activity-36.jpg",
+    gameplay: `1、本活動可做為團體中後期的藝術活動設計。依據活動主題選擇不同媒材以及引導語。
+2、可使用毛根、軟陶、熱縮片可塑性高的媒材。
+3、依據活動主題給予指導語如「如果要送自己一個能幫自己安定下來的物品會是什麼」、「依據自己的性格創造自己的徽章」「在遇到困難時有什麼能夠幫助你」等等。
+4、透過製作完後的塑形、硬化、縮小等具備儀式性的設計，並將小物打洞穿線、收納等方式，使作品可以成為「帶得走」的意象。`,
+    notes: ``,
+    steps: [
+      {
+        stepNumber: 1,
+        title: "活動定位與媒材挑選",
+        description: "作為團體中後期活動，提供毛根、軟陶、熱縮片等高可塑性媒材。"
+      },
+      {
+        stepNumber: 2,
+        title: "給予指導語主題創作",
+        description: "依主題給予指導語（如送自己安定物品、性格徽章、困難時的幫助），進行小物製作。"
+      },
+      {
+        stepNumber: 3,
+        title: "儀式性塑形轉化為象徵",
+        description: "透過塑形、硬化、縮小等儀式性設計並打洞穿線，使作品成為「帶得走」的安定意象。"
+      }
+    ],
+    tips: [],
+    reflectionQuestions: []
+  },
+  {
+    id: "notion-act-37",
+    title: "報紙風火輪",
+    summary: "分工合作使用報紙製作圓環前行",
+    category: "合作",
+    groupSize: "5人以上",
+    nature: ["動態", "合作性"],
+    intensity: "中強度",
+    depth: "較淺",
+    abilities: ["創意", "合作", "溝通"],
+    duration: "20-30 分鐘",
+    materials: ["舊報紙", "剪刀", "膠帶"],
+    coverImage: "/assets/activities/activity-37.jpg",
+    gameplay: `1、5~10人一組。建議進行分組競賽。
+2、每組獲得適量報紙、剪刀、膠帶。
+3、成員需在限時內，製出一個可容納全組組員的大圓環。
+4、所有成員站在圓環內，由起點走向終點。`,
+    notes: ``,
+    steps: [
+      {
+        stepNumber: 1,
+        title: "分組與物資分配",
+        description: "5~10人一組進行分組競賽，每組發放適量報紙、剪刀與膠帶。"
+      },
+      {
+        stepNumber: 2,
+        title: "限時製作大圓環",
+        description: "組員在限時內合作黏接出一個能容納全組組員的大報紙圓環。"
+      },
+      {
+        stepNumber: 3,
+        title: "全員進環步向終點",
+        description: "所有組員站在圓環內，合力滾動圓環履帶由起點前行至終點。"
+      }
+    ],
+    tips: [],
+    reflectionQuestions: []
+  },
+  {
+    id: "notion-act-38",
+    title: "吃西瓜",
+    summary: "透過動作與聲音快速破冰暖身",
+    category: "暖身",
+    groupSize: "5人以上",
+    nature: ["動態"],
+    intensity: "低強度",
+    depth: "較淺",
+    abilities: ["創意", "反應力"],
+    duration: "10-15 分鐘",
+    materials: ["圍圈活動空間"],
+    coverImage: "/assets/activities/activity-38.jpg",
+    gameplay: `1. 所有人圍圈，並指定其中一個人是開始位置。
+2. 講解規則：當開始的人伸出右手並由右往左擦嘴巴（同時發出吃西瓜聲音，咻～），那麼就輪到左邊成員比動作，如果他比一樣的動作就換左邊的夥伴，假設他改成伸出左手並由左往右擦嘴巴，那就是右邊的夥伴開始比動作。
+3. 除了左右邊也可朝向對面或隨機成員，唯需要有明確的手部動作指向。
+4. 隨著團體進行可加速、誇示吃西瓜的聲音與時間，增加遊戲趣味性。`,
+    notes: ``,
+    steps: [
+      {
+        stepNumber: 1,
+        title: "圍圈並講解規則",
+        description: "全員圍圈指定起始位置，右手由右向左擦嘴帶「咻～」傳左邊，左手由左向右擦嘴傳右邊。"
+      },
+      {
+        stepNumber: 2,
+        title: "擦嘴動作與方向傳遞",
+        description: "依夥伴比出的動作方向輪替接棒，亦可明確指向對面或隨機成員。"
+      },
+      {
+        stepNumber: 3,
+        title: "加速與誇張表現",
+        description: "隨著遊戲推進持續加速並誇大吃西瓜聲音與時間，提升趣味性。"
+      }
+    ],
+    tips: [],
+    reflectionQuestions: []
+  },
+  {
+    id: "notion-act-39",
+    title: "物品聯想",
+    summary: "跳脫框架重新賦予物品新意義",
+    category: "暖身",
+    groupSize: "5人以上",
+    nature: ["動態"],
+    intensity: "中強度",
+    depth: "較淺",
+    abilities: ["創意", "反應力", "肢體"],
+    duration: "10-15 分鐘",
+    materials: ["日常物件（原子筆、水瓶、椅子等）或特定形狀物"],
+    coverImage: "/assets/activities/activity-39.jpg",
+    gameplay: `1、全體圍圓圈5~10人一組為佳。
+2、準備一個隨手可得的日常物件（如原子筆、水瓶、椅子），或直接使用特定形狀如紙製棒狀、球狀、盒狀物。
+3、第一位成員拿著物品，賦予它「非原本用途」的新身份（例如把筆當成「牙刷」）。
+4、玩家必須用動作和聲音表現出這個新身份，然後傳給下一位。
+5、下一位接過物品，必須立刻改變它的用途與身份（例如從牙刷變成「麥克風」或「指揮棒」），不能重複。`,
+    notes: ``,
+    steps: [
+      {
+        stepNumber: 1,
+        title: "準備物品與圍圈",
+        description: "5~10人圍圓圈，準備隨手可得的日常物件（筆、水瓶、椅子或特定形狀物）。"
+      },
+      {
+        stepNumber: 2,
+        title: "賦予非原本用途新身份",
+        description: "首位成員拿著物品賦予它非原本用途之新身份，以動作和聲音表現出來傳給下一位。"
+      },
+      {
+        stepNumber: 3,
+        title: "輪流傳遞不可重複",
+        description: "接過物品者需立刻改變用途與身份，持續輪替且不可重複。"
+      }
+    ],
+    tips: [],
+    reflectionQuestions: []
+  },
+  {
+    id: "notion-act-40",
+    title: "迴轉台詞",
+    summary: "透過同樣的語句展示不同情境與情緒",
+    category: "暖身",
+    groupSize: "5人以上",
+    nature: ["表達性"],
+    intensity: "低強度",
+    depth: "較淺",
+    abilities: ["創意", "反應力", "溝通"],
+    duration: "15-20 分鐘",
+    materials: ["圍圈坐姿，無特殊道具"],
+    coverImage: "/assets/activities/activity-40.jpg",
+    gameplay: `1、團體圍圈。
+2、依據活動主題設定兩句台詞如:「給你/我不要」、「拜託/不可以」。
+3、固定向左以及向右的台詞，如向左只能說給你、向右只能說我不要。
+4、成員自由向左右說出台詞，可自由帶入不同的語調、情境、動作表演。
+
+延伸提問
+1、領導者可打斷活動，詢問成員認為該情境可能是什麼。
+2、詢問成員最常在什麼情況說出這句話、聽到這句話。`,
+    notes: ``,
+    steps: [
+      {
+        stepNumber: 1,
+        title: "設定左右台詞",
+        description: "團體圍圈，依活動主題設定兩句台詞（如向左只能說「給你」、向右只能說「我不要」）。"
+      },
+      {
+        stepNumber: 2,
+        title: "自由投遞表演",
+        description: "成員自由向左右說出台詞，自由帶入不同語調、情境與動作表演。"
+      },
+      {
+        stepNumber: 3,
+        title: "適時打斷延伸提問",
+        description: "領導者可打斷活動，詢問成員情境猜想與生活經歷。"
+      }
+    ],
+    tips: [],
+    reflectionQuestions: [
+      "領導者可打斷活動，詢問成員認為該情境可能是什麼。",
+      "詢問成員最常在什麼情況說出這句話、聽到這句話。"
+    ]
+  },
+  {
+    id: "notion-act-41",
+    title: "情境演繹",
+    summary: "隨機抽取元素即興表演",
+    category: "合作",
+    groupSize: "5人以上",
+    nature: ["動態", "表達性"],
+    intensity: "中強度",
+    depth: "較淺",
+    abilities: ["創意", "合作", "肢體"],
+    duration: "20-30 分鐘",
+    materials: ["人物/關係、地點、事件元素紙條"],
+    coverImage: "/assets/activities/activity-41.jpg",
+    gameplay: `1、3~5人一組。
+2、由領導者設定/製作元素，包含人物(關係)、地點、事件。
+3、成員抽取紙條，紙條設定盡可能荒誕、搞笑，如「情侶在手術室考試」
+4、小組成員共同演繹一段短劇呈現該畫面。限制每人只能說一句台詞或不能說話，加強演繹佔比。`,
+    notes: ``,
+    steps: [
+      {
+        stepNumber: 1,
+        title: "分組與準備元素紙條",
+        description: "3~5人一組，領導者設定製作包含人物關係、地點、事件之元素紙條。"
+      },
+      {
+        stepNumber: 2,
+        title: "抽取荒誕題目紙條",
+        description: "成員抽取紙條，設定盡可能荒誕搞笑（如「情侶在手術室考試」）。"
+      },
+      {
+        stepNumber: 3,
+        title: "限制台詞演繹短劇",
+        description: "小組共同演繹短劇呈現畫面，限制每人只能說一句台詞或不能說話，加強肢體演繹。"
+      }
+    ],
+    tips: [],
+    reflectionQuestions: []
+  },
+  {
+    id: "notion-act-42",
+    title: "氣球不落地",
+    summary: "合作讓氣球持續飄在空中",
+    category: "合作",
+    groupSize: "2~5人",
+    nature: ["動態", "合作性"],
+    intensity: "中強度",
+    depth: "較淺",
+    abilities: ["反應力", "合作", "專注"],
+    duration: "10-15 分鐘",
+    materials: ["大小各異的氣球數顆"],
+    coverImage: "/assets/activities/activity-42.jpg",
+    gameplay: `1、準備大小各異的氣球。
+2、活動開始將氣球丟至空中，小組成員透過拍打使氣球維持在空中不落地。禁止直接抓住氣球。
+3、隨著活動進行持續放入氣球增加難度。`,
+    notes: ``,
+    steps: [
+      {
+        stepNumber: 1,
+        title: "準備氣球與說明拍打規則",
+        description: "準備大小各異氣球，活動開始丟至空中，透過拍打維持不落地，禁止直接抓住氣球。"
+      },
+      {
+        stepNumber: 2,
+        title: "拍打合作維持飄浮",
+        description: "小組成員走位補位共同拍打，保持氣球持續漂浮在空中。"
+      },
+      {
+        stepNumber: 3,
+        title: "持續加球提高難度",
+        description: "隨著活動進行陸續放入更多氣球增加難度。"
+      }
+    ],
+    tips: [],
+    reflectionQuestions: []
+  },
+  {
+    id: "notion-act-43",
+    title: "報紙不會裂",
+    summary: "所有組員合作站在有限的區域內",
+    category: "合作",
+    groupSize: "2~5人",
+    nature: ["動態", "合作性", "復原力"],
+    intensity: "中強度",
+    depth: "較淺",
+    abilities: ["創意", "合作", "溝通"],
+    duration: "15-20 分鐘",
+    materials: ["不同大小的報紙數張"],
+    coverImage: "/assets/activities/activity-43.jpg",
+    gameplay: `1、準備不同大小的報紙。
+2、小組成員需所有人都站在報紙範圍內。
+3、隨著遊戲輪次報紙不斷縮小。成員需更靠近彼此、或透過背、抱等方式使所有人在範圍內。
+
+備注:需特別注意身體界線以及成員安全，避免性平事件風險。`,
+    notes: `需特別注意身體界線以及成員安全，避免性平事件風險。`,
+    steps: [
+      {
+        stepNumber: 1,
+        title: "全員站在報紙範圍內",
+        description: "準備報紙，小組所有組員需全員站在報紙範圍內。"
+      },
+      {
+        stepNumber: 2,
+        title: "對摺縮小與親近支撐",
+        description: "隨遊戲輪次報紙不斷縮小，成員需更靠近彼此或透過背、抱等方式使所有人都在範圍內。"
+      },
+      {
+        stepNumber: 3,
+        title: "注意身體界線與安全防護",
+        description: "需特別注意身體界線以及成員安全，避免性平事件風險。"
+      }
+    ],
+    tips: [],
+    reflectionQuestions: []
+  },
+  {
+    id: "notion-act-44",
+    title: "動作接力",
+    summary: "根據拉邦動作分析覺察肢體",
+    category: "暖身",
+    groupSize: "2~5人",
+    nature: ["動態", "復原力", "表達性"],
+    intensity: "中強度",
+    depth: "適中",
+    abilities: ["創意", "專注", "肢體", "自我覺察"],
+    duration: "15-25 分鐘",
+    materials: ["平整開闊的活動空間"],
+    coverImage: "/assets/activities/activity-44.jpg",
+    gameplay: `拉邦動作分析大致分為四項:流動、空間、勁力、速度。透過四個面向，覺察自己的動作是瞬間/流動；空間如何變化；力量大小；快或慢。
+
+類似活動誇大縮小的進行方式，加入更多覺察。
+
+1、決定一個單一重複性的動作。可透過指導語如「在家最常做的動作」
+2、以四個項目分析動作，覺察該動作的「下一步」
+3、可個人也可以團體進行。
+4、延伸該動作，重複並順著力量的方向延伸到下一個動作。
+5、強調沒有對錯，跟著身體感受流動。`,
+    notes: ``,
+    steps: [
+      {
+        stepNumber: 1,
+        title: "決定重複性動作",
+        description: "透過指導語如「在家最常做的動作」決定一個單一重複性動作。"
+      },
+      {
+        stepNumber: 2,
+        title: "拉邦四面向分析動作",
+        description: "以流動、空間、勁力、速度分析動作，覺察該動作的「下一步」，可個人或團體進行。"
+      },
+      {
+        stepNumber: 3,
+        title: "順應力量方向延伸流動",
+        description: "延伸該動作，重複並順著力量方向延伸到下一個動作，強調沒有對錯跟著感受流動。"
       }
     ],
     tips: [],

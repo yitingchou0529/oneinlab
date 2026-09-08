@@ -13,7 +13,6 @@ import {
   Share2,
   Flame,
   Layers,
-  GraduationCap,
   Activity as ActivityIcon
 } from 'lucide-react';
 import { Activity } from '../types';
@@ -424,7 +423,7 @@ export const ActivityDetailModal: React.FC<ActivityDetailModalProps> = ({
           </div>
 
           {/* Notion 屬性表格檢視 (Properties Panel) */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 rounded-2xl bg-white border border-[#EAE6DF] shadow-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-2xl bg-white border border-[#EAE6DF] shadow-xs">
             <div className="space-y-1">
               <span className="text-[11px] text-[#8A847A] flex items-center gap-1 font-medium">
                 <Clock className="w-3.5 h-3.5 text-[#E07A5F]" />
@@ -447,16 +446,6 @@ export const ActivityDetailModal: React.FC<ActivityDetailModalProps> = ({
                 活動強度與深度
               </span>
               <p className="text-xs sm:text-sm font-semibold text-[#1F2421]">{activity.intensity} / {activity.depth}</p>
-            </div>
-
-            <div className="space-y-1">
-              <span className="text-[11px] text-[#8A847A] flex items-center gap-1 font-medium">
-                <GraduationCap className="w-3.5 h-3.5 text-[#817291]" />
-                適用對象
-              </span>
-              <p className="text-xs sm:text-sm font-semibold text-[#1F2421]">
-                {activity.targetAudience.join('、')}
-              </p>
             </div>
           </div>
 
@@ -481,11 +470,11 @@ export const ActivityDetailModal: React.FC<ActivityDetailModalProps> = ({
             ))}
           </div>
 
-          {/* 必備道具與媒材 (Materials) */}
+          {/* 建議道具與媒材 (Materials) */}
           <div className="space-y-2.5">
             <h3 className="font-serif font-bold text-base text-[#1F2421] flex items-center gap-2">
               <Box className="w-4 h-4 text-[#D4A373]" />
-              <span>必備材料與道具</span>
+              <span>建議材料與道具</span>
             </h3>
             <div className="flex flex-wrap gap-2">
               {activity.materials.map((mat, idx) => (

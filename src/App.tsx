@@ -241,7 +241,6 @@ export default function App() {
   const [filters, setFilters] = useState<FilterState>({
     searchQuery: '',
     selectedCategory: '全部',
-    selectedAudience: 'all',
     selectedGroupSize: 'all',
     selectedIntensity: 'all',
     selectedDepth: 'all',
@@ -276,11 +275,6 @@ export default function App() {
         if (!matchesDepth) {
           return false;
         }
-      }
-
-      // 團體對象族群篩選 (兒童, 青少年, 成人)
-      if (filters.selectedAudience !== 'all' && !act.targetAudience.includes(filters.selectedAudience)) {
-        return false;
       }
 
       // 能力標籤篩選
@@ -353,7 +347,6 @@ export default function App() {
     setFilters({
       searchQuery: '',
       selectedCategory: '全部',
-      selectedAudience: 'all',
       selectedGroupSize: 'all',
       selectedIntensity: 'all',
       selectedDepth: 'all',
@@ -514,7 +507,7 @@ export default function App() {
                         活動檢索與教案型錄
                       </h2>
                       <p className="text-xs sm:text-sm text-[#5C554B] leading-relaxed font-normal">
-                        支援分類標籤、人數、強度、深度與對象族群篩選。點擊任意活動卡片即可查看完整內容。
+                        支援分類標籤、人數、強度與深度篩選。點擊任意活動卡片即可查看完整內容。
                         <br />
                         分類僅用於迅速統整，不代表該活動唯一性質。
                       </p>

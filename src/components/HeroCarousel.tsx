@@ -137,7 +137,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
     }
 
     // 其餘依序涵蓋不同類別的代表教案
-    const preferredCategories: CategoryType[] = ['破冰', '合作', '藝術', '模擬體驗', '競賽'];
+    const preferredCategories: CategoryType[] = ['破冰', '暖身', '合作', '藝術', '模擬體驗'];
     preferredCategories.forEach((cat) => {
       if (chosenActivities.length < 5) {
         const item = activities.find((a) => a.category === cat && !chosenActivities.some((c) => c.id === a.id));

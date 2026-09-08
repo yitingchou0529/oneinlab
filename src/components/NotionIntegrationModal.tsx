@@ -148,7 +148,7 @@ export async function fetchActivitiesFromNotion() {
                 Notion Database 整合架構與 API 介面
               </h3>
               <p className="text-xs text-[#7A7368]">
-                已完整對齊你的 Notion 教案庫 30 個活動、分類、強度、深度與能力屬性
+                已完整對齊你的 Notion 教案庫 44 個活動、分類、強度、深度與能力屬性
               </p>
             </div>
           </div>
@@ -203,7 +203,7 @@ export async function fetchActivitiesFromNotion() {
               <div className="p-3.5 bg-[#EEF3EF] border border-[#D1E0D5] rounded-xl text-xs text-[#3E5C46] flex items-start gap-2">
                 <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" />
                 <p>
-                  已為你精準對照 Notion 匯出之 <code>活動資料庫.csv</code> 欄位。本前端展示網站已直接載入你所設計的 30 個活動！
+                  已為你精準對照 Notion 匯出之 <code>活動資料庫.csv</code> 欄位。本前端展示網站已直接載入你所設計的 44 個活動！
                 </p>
               </div>
 
@@ -234,7 +234,7 @@ export async function fetchActivitiesFromNotion() {
                       <td className="py-2.5 px-4 font-bold text-[#1F2421]">分類</td>
                       <td className="py-2.5 px-4 font-mono text-[#C85A3E]">category</td>
                       <td className="py-2.5 px-4 text-[#7A7368]">Select</td>
-                      <td className="py-2.5 px-4 font-medium text-[#4D6A56]">破冰、暖身、合作、藝術、競賽、模擬體驗</td>
+                      <td className="py-2.5 px-4 font-medium text-[#4D6A56]">破冰、暖身、合作、藝術、模擬體驗</td>
                     </tr>
                     <tr>
                       <td className="py-2.5 px-4 font-bold text-[#1F2421]">已帶領過團體性質</td>
@@ -305,7 +305,7 @@ export async function fetchActivitiesFromNotion() {
             <div className="space-y-5">
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="font-serif font-bold text-sm text-[#1F2421]">當前 30 項活動完整 JSON 資料</h4>
+                  <h4 className="font-serif font-bold text-sm text-[#1F2421]">當前 44 項活動完整 JSON 資料</h4>
                   <p className="text-xs text-[#7A7368]">可直接下載或複製，用於備份或遷移至其他系統</p>
                 </div>
                 <div className="flex items-center gap-2">

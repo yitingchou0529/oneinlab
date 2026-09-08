@@ -21,7 +21,6 @@ export type CategoryType =
   | '暖身'
   | '合作'
   | '藝術'
-  | '競賽'
   | '模擬體驗';
 
 export type TargetAudience = 'all' | '兒童' | '青少年' | '成人';
@@ -48,8 +47,8 @@ export interface Activity {
   summary: string;
   /** 活動分類 (Notion: 分類) */
   category: Exclude<CategoryType, '全部'>;
-  /** 已帶領過團體性質 (Notion: 已帶領過團體性質，如 兒童, 青少年, 成人) */
-  targetAudience: string[];
+  /** 已帶領過團體性質 (Notion: 已帶領過團體性質，選填) */
+  targetAudience?: string[];
   /** 建議人數文字 (Notion: 建議人數，如 個人, 2~5人, 5人以上) */
   groupSize: string;
   /** 性質類型 (Notion: 性質，如 動態, 談話性, 表達性, 合作性, 支持性, 復原力) */
@@ -81,7 +80,7 @@ export interface Activity {
 export interface FilterState {
   searchQuery: string;
   selectedCategory: CategoryType;
-  selectedAudience: TargetAudience;
+  selectedAudience?: TargetAudience;
   selectedGroupSize: GroupSizeOption;
   selectedIntensity: IntensityLevel;
   selectedDepth: DepthLevel;

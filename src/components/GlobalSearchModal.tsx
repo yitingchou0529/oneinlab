@@ -210,7 +210,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
               <Sparkles className="w-6 h-6 mx-auto text-[#D4A373]" />
               <p className="text-sm font-medium text-[#1F2421]">全站快速檢索</p>
               <p className="text-xs max-w-sm mx-auto text-[#736E65]">
-                可輸入任意關鍵字，即時比對 30 項活動教案、三大學派引導問句與常用藝術媒材指南。
+                可輸入任意關鍵字，即時比對 44 項活動教案、三大學派引導問句與常用藝術媒材指南。
               </p>
             </div>
           )}
