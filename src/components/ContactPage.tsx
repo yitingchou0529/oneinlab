@@ -58,7 +58,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({
     setErrorMessage('');
 
     try {
-      const response = await fetch(`https://formsubmit.co/ajax/${recipientEmail}`, {
+      // 使用 FormSubmit 為您信箱配對的專屬安全金鑰代碼 (避免暴露明碼 Email 且更安全)
+      const formEndpoint = 'https://formsubmit.co/ajax/7bbcd8ffab84fe13d533d4bc15a9d4f4';
+      
+      const response = await fetch(formEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -66,6 +69,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
         },
         body: JSON.stringify({
           _subject: `【玩藝所聯絡表單】${subject} - ${name}`,
+          _captcha: 'false',
           姓名或稱呼: name,
           回信電子郵件: email,
           主題分類: subject,
