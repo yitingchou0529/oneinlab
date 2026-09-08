@@ -4,5 +4,23 @@ dist/
 coverage/
 .DS_Store
 *.log
+
+# Environment variables & secrets
 .env*
 !.env.example
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Credentials, keys, and tokens
+*.pem
+*.key
+*.cert
+*.crt
+credentials.json
+service-account*.json
+firebase-applet-config.json
+secret*
+*.secret
+
