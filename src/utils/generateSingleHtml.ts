@@ -580,6 +580,27 @@ export function generateSingleFileHtml(activities: Activity[]): string {
 
           grid.appendChild(card);
         });
+
+        // 網格最末端：Coming Soon 卡片
+        const comingSoonCard = document.createElement('div');
+        comingSoonCard.className = 'relative flex flex-col justify-center items-center bg-[#FAF8F5] rounded-xl sm:rounded-2xl border-2 border-dashed border-[#D5CFC5] p-6 text-center gap-3 min-h-[260px] select-none';
+        comingSoonCard.innerHTML = \`
+          <div class="w-12 h-12 rounded-2xl bg-white border border-[#E2DDD5] flex items-center justify-center shadow-2xs text-xl">
+            ✨
+          </div>
+          <div class="space-y-1">
+            <span class="inline-block text-xs font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-[#FDF0ED] text-[#C85A3E] border border-[#F4D0C7]">
+              COMING SOON
+            </span>
+            <h4 class="font-serif font-bold text-base text-[#1F2421] pt-1">
+              更多教案研發中
+            </h4>
+            <p class="text-xs text-[#8A847A] leading-relaxed max-w-[190px] mx-auto">
+              新主題活動與帶領教案陸續整理上架，敬請期待！
+            </p>
+          </div>
+        \`;
+        grid.appendChild(comingSoonCard);
       }
     }
 

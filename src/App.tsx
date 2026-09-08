@@ -533,18 +533,59 @@ export default function App() {
                   {/* 卡片展示網格 (手機端雙欄並排，提高視野密度) */}
                   <section>
                     {filteredActivities.length > 0 ? (
-                      <div
-                        id="activities-grid"
-                        className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-5"
-                      >
-                        {filteredActivities.map((act) => (
-                          <ActivityCard
-                            key={act.id}
-                            activity={act}
-                            onSelect={(item) => openActivityModal(item)}
-                          />
-                        ))}
-                      </div>
+                      <>
+                        <div
+                          id="activities-grid"
+                          className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-5"
+                        >
+                          {filteredActivities.map((act) => (
+                            <ActivityCard
+                              key={act.id}
+                              activity={act}
+                              onSelect={(item) => openActivityModal(item)}
+                            />
+                          ))}
+
+                          {/* 網格最末端：Coming Soon 卡片提示 */}
+                          <div 
+                            id="card-coming-soon"
+                            className="relative flex flex-col justify-center items-center bg-[#FAF8F5]/90 hover:bg-[#F3EFEA] transition-all rounded-xl sm:rounded-2xl border-2 border-dashed border-[#D5CFC5] p-4 sm:p-6 text-center gap-2.5 sm:gap-3 min-h-[240px] sm:min-h-[280px] select-none group"
+                          >
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-white border border-[#E2DDD5] flex items-center justify-center shadow-2xs text-[#D4A373] group-hover:scale-105 transition-transform">
+                              <Sparkles className="w-5 h-5 text-[#E07A5F]" />
+                            </div>
+                            <div className="space-y-1">
+                              <span className="inline-block text-[10px] sm:text-xs font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-[#FDF0ED] text-[#C85A3E] border border-[#F4D0C7]">
+                                COMING SOON
+                              </span>
+                              <h4 className="font-serif font-bold text-sm sm:text-base text-[#1F2421] pt-1">
+                                更多教案研發中
+                              </h4>
+                              <p className="text-[11px] sm:text-xs text-[#8A847A] leading-relaxed max-w-[190px] mx-auto">
+                                新主題活動與帶領教案陸續整理上架，敬請期待！
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* 活動教案庫最後：Coming Soon 溫馨橫幅提示 */}
+                        <div className="mt-8 sm:mt-10 p-4 sm:p-5 rounded-2xl bg-[#FAF8F5] border border-[#EAE6DF] flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+                          <div className="flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3">
+                            <span className="px-2.5 py-1 rounded-full text-xs font-bold tracking-wider bg-[#FDF0ED] text-[#C85A3E] border border-[#F4D0C7] shrink-0">
+                              COMING SOON
+                            </span>
+                            <span className="text-xs sm:text-sm text-[#5C554B]">
+                              目前已收錄 <strong>{activities.length}</strong> 篇精選教案，更多實務活動與問句提案持續研發整理中！
+                            </span>
+                          </div>
+                          <button
+                            onClick={() => navigateTo('contact')}
+                            className="inline-flex items-center gap-1.5 text-xs font-medium text-[#C85A3E] hover:text-[#9A3412] transition-colors underline underline-offset-4 cursor-pointer"
+                          >
+                            <span>有推薦的教案點子？聯絡我們 →</span>
+                          </button>
+                        </div>
+                      </>
                     ) : (
                       <div className="py-16 sm:py-20 px-4 text-center bg-white rounded-2xl border border-[#EAE6DF] shadow-xs space-y-4 max-w-lg mx-auto">
                         <div className="w-14 h-14 rounded-2xl bg-[#F3EFEA] text-[#8A847A] mx-auto flex items-center justify-center text-2xl">
