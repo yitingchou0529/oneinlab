@@ -34,3 +34,4 @@ export function getAssetUrl(path?: string): string {
   return base.endsWith('/') ? `${base}${cleanPath}` : `${base}/${cleanPath}`;
 }
 
+
